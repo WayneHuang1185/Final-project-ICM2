@@ -210,18 +210,19 @@ Game::game_update() {
 	// If the game is not paused, we should progress update.
 	if(state != STATE::PAUSE) {
 		// DC->player->update();
-		SC->update();
-		ui->update();
-
-		DC->hero->update();
-
-		DC->platforms->update();
 
 		if(state != STATE::START) {
 			// DC->level->update();
 			OC->update();
 		}
 	}
+
+	SC->update();
+	ui->update();
+
+	DC->hero->update();
+
+	DC->platforms->update();
 	// game_update is finished. The states of current frame will be previous states of the next frame.
 	memcpy(DC->prev_key_state, DC->key_state, sizeof(DC->key_state));
 	memcpy(DC->prev_mouse_state, DC->mouse_state, sizeof(DC->mouse_state));
