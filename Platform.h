@@ -10,10 +10,10 @@ class Platform : public Object{
     public:
         Platform();
 
-        void loadmap(const std::string& map, int window_width, int window_height);
-        void init() ;
-        void update() ;
-        void draw() override;
+        virtual void loadmap(const std::string& map, int window_width, int window_height);
+        virtual void init() ;
+        virtual void update() ;
+        virtual void draw() override;
 
         const std::vector<Rectangle>& get_platforms() const;
     private:
