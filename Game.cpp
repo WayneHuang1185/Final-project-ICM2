@@ -17,6 +17,7 @@
 
 #include "Hero.h"
 #include "Hero2.h"
+#include "Platform.h"
 
 // fixed settings
 constexpr char game_icon_img_path[] = "./assets/image/game_icon.png";
@@ -138,6 +139,8 @@ Game::game_init() {
 	DC->hero->init();
 	DC->hero2->init();
 
+	DC->platforms->init();
+
 	// game start
 	background = IC->get(background_img_path);
 	debug_log("Game state: change to START\n");
@@ -214,6 +217,8 @@ Game::game_update() {
 		DC->hero->update();
 		DC->hero2->update();
 
+		DC->platforms->update();
+
 		if(state != STATE::START) {
 			DC->level->update();
 			OC->update();
@@ -255,6 +260,8 @@ Game::game_draw() {
 
 			DC->hero->draw();
 			DC->hero2->draw();
+
+			DC->platforms->draw();
 
 			ui->draw();
 			OC->draw();

@@ -6,6 +6,7 @@
 #include <allegro5/keycodes.h>
 #include <allegro5/mouse.h>
 #include "../shapes/Point.h"
+#include "../Platform.h"
 
 class Player;
 class Level;
@@ -15,6 +16,8 @@ class Bullet;
 
 class Hero;
 class Hero2;
+
+class Platform;
 
 /**
  * @brief Stores generic global data and relatively small data structures.
@@ -98,6 +101,8 @@ public:
 
 	Hero *hero;
 	Hero2 *hero2;
+
+	Platform *platforms;
 	
 private:
 	DataCenter();
