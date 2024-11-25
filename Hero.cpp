@@ -4,6 +4,7 @@
 #include "algif5/algif.h"
 #include <allegro5/allegro_primitives.h>
 #include "shapes/Rectangle.h"
+#include "Platform.h"
 
 namespace HeroSetting {
 	static constexpr char gif_root_path[50] = "./assets/gif/Hero";
@@ -33,23 +34,54 @@ void Hero::init(){
     );
 }
 
-void Hero::update(){
-    DataCenter *DC = DataCenter::get_instance();
-    if(DC->key_state[ALLEGRO_KEY_W]){
-        shape->update_center_y(shape->center_y() - speed);
-        state = HeroState::BACK;
+void Hero::update() {
+    DataCenter* DC = DataCenter::get_instance();
+    Platform* platforms = DC->platforms;
+
+    Rectangle* rect = dynamic_cast<Rectangle*>(shape.get());
+    if (!rect) return;
+
+    // 跳跃逻辑
+    if (DC->key_state[ALLEGRO_KEY_W] && !is_jumping) {
+        v_speed = jump_speed;
+        is_jumping = true;
     }
-    else if(DC->key_state[ALLEGRO_KEY_A]){
-        shape->update_center_x(shape->center_x() - speed);
+
+    // 水平移动
+    if (DC->key_state[ALLEGRO_KEY_A]) {
+        rect->update_center_x(rect->center_x() - speed);
         state = HeroState::LEFT;
-    }
-    else if(DC->key_state[ALLEGRO_KEY_S]){
-        shape->update_center_y(shape->center_y() + speed);
-        state = HeroState::FRONT;
-    }
-    else if(DC->key_state[ALLEGRO_KEY_D]){
-        shape->update_center_x(shape->center_x() + speed);
+    } else if (DC->key_state[ALLEGRO_KEY_D]) {
+        rect->update_center_x(rect->center_x() + speed);
         state = HeroState::RIGHT;
+    }
+
+    // 应用重力
+    rect->update_center_y(rect->center_y() + v_speed);
+    v_speed += gravity;
+
+    // 碰撞检测：检查是否站在平台上
+    bool on_platform = false;
+    for (const auto& platform : platforms->get_platforms()) {
+        if (rect->y2 >= platform.y1 && rect->y1 < platform.y1 && // 确保从上方接触平台
+            rect->x2 > platform.x1 && rect->x1 < platform.x2 &&  // 确保水平范围重叠
+            v_speed >= 0) { // 仅检测向下移动
+            rect->update_center_y(platform.y1 - (rect->y2 - rect->y1) / 2); // 调整到平台顶部
+            v_speed = 0;  // 停止垂直移动
+            is_jumping = false;  // 停止跳跃状态
+            on_platform = true;
+            break;
+        }
+    }
+
+    // 如果不在平台上，则继续下落
+    if (!on_platform && rect->y2 < DC->window_height) {
+        is_jumping = true; // 开始自由落体
+    } else if (rect->y2 >= DC->window_height) {
+        // 限制角色在窗口底部
+        rect->update_center_y(DC->window_height - (rect->y2 - rect->y1) / 2);
+        v_speed = 0;
+        is_jumping = false;
     }
 }
 
