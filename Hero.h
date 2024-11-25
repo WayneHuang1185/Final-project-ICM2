@@ -20,8 +20,8 @@ class Hero : public Object{
         double speed = 5;
         std::map<HeroState, std::string> gifpath;
         double v_speed = 0.0;
-        const double gravity = 0.5;
-        const double jump_speed = -12.0;
+        const double gravity = 0.6;
+        const double jump_speed = -13.5;
         bool is_jumping = false;
 };
 
