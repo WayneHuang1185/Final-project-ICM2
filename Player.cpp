@@ -9,16 +9,16 @@ namespace PlayerSetting {
 };
 
 Player::Player() : HP(PlayerSetting::init_HP), coin(PlayerSetting::init_coin) {
-	this->coin_freq = PlayerSetting::coin_freq;
-	this->coin_increase = PlayerSetting::coin_increase;
-	coin_counter = PlayerSetting::coin_freq;
+	// this->coin_freq = PlayerSetting::coin_freq;
+	// this->coin_increase = PlayerSetting::coin_increase;
+	// coin_counter = PlayerSetting::coin_freq;
 }
 
 void
 Player::update() {
-	if(coin_counter) --coin_counter;
-	else {
-		coin += coin_increase;
-		coin_counter = coin_freq;
-	}
+	// if(coin_counter) --coin_counter;
+	// else {
+	// 	coin += coin_increase;
+	// 	coin_counter = coin_freq;
+	// }
 }

@@ -134,7 +134,7 @@ Game::game_init() {
 	ui = new UI();
 	ui->init();
 
-	DC->level->init();
+	// DC->level->init();
 
 	DC->hero->init();
 	DC->hero2->init();
@@ -167,7 +167,7 @@ Game::game_update() {
 			static ALLEGRO_SAMPLE_INSTANCE *instance = nullptr;
 			if(!is_played) {
 				instance = SC->play(game_start_sound_path, ALLEGRO_PLAYMODE_ONCE);
-				DC->level->load_level(1);
+				// DC->level->load_level(1);
 				is_played = true;
 			}
 
@@ -188,14 +188,14 @@ Game::game_update() {
 				debug_log("<Game> state: change to PAUSE\n");
 				state = STATE::PAUSE;
 			}
-			if(DC->level->remain_monsters() == 0 && DC->monsters.size() == 0) {
-				debug_log("<Game> state: change to END\n");
-				state = STATE::END;
-			}
-			if(DC->player->HP == 0) {
-				debug_log("<Game> state: change to END\n");
-				state = STATE::END;
-			}
+			// if(DC->level->remain_monsters() == 0 && DC->monsters.size() == 0) {
+			// 	debug_log("<Game> state: change to END\n");
+			// 	state = STATE::END;
+			// }
+			// if(DC->player->HP == 0) {
+			// 	debug_log("<Game> state: change to END\n");
+			// 	state = STATE::END;
+			// }
 			break;
 		} case STATE::PAUSE: {
 			if(DC->key_state[ALLEGRO_KEY_P] && !DC->prev_key_state[ALLEGRO_KEY_P]) {
@@ -210,7 +210,7 @@ Game::game_update() {
 	}
 	// If the game is not paused, we should progress update.
 	if(state != STATE::PAUSE) {
-		DC->player->update();
+		// DC->player->update();
 		SC->update();
 		ui->update();
 
@@ -220,7 +220,7 @@ Game::game_update() {
 		DC->platforms->update();
 
 		if(state != STATE::START) {
-			DC->level->update();
+			// DC->level->update();
 			OC->update();
 		}
 	}
@@ -256,7 +256,7 @@ Game::game_draw() {
 				al_map_rgb(100, 100, 100));
 		// user interface
 		if(state != STATE::START) {
-			DC->level->draw();
+			// DC->level->draw();
 
 			DC->hero->draw();
 			DC->hero2->draw();

@@ -30,8 +30,8 @@ DataCenter::DataCenter() {
 	mouse = Point(0, 0);
 	memset(mouse_state, false, sizeof(mouse_state));
 	memset(prev_mouse_state, false, sizeof(prev_mouse_state));
-	player = new Player();
-	level = new Level();
+	// player = new Player();
+	// level = new Level();
 
 	hero = new Hero();
 	hero2 = new Hero2();
@@ -42,17 +42,17 @@ DataCenter::DataCenter() {
 }
 
 DataCenter::~DataCenter() {
-	delete player;
-	delete level;
-	for(Monster *&m : monsters) {
-		delete m;
-	}
-	for(Tower *&t : towers) {
-		delete t;
-	}
-	for(Bullet *&b : towerBullets) {
-		delete b;
-	}
+	// delete player;
+	// delete level;
+	// for(Monster *&m : monsters) {
+	// 	delete m;
+	// }
+	// for(Tower *&t : towers) {
+	// 	delete t;
+	// }
+	// for(Bullet *&b : towerBullets) {
+	// 	delete b;
+	// }
 	delete hero;
 	delete hero2;
 

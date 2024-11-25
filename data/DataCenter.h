@@ -77,27 +77,27 @@ public:
 	 * @details For a tower-defense game, coin and health point is enough to represent a player.
 	 * @see Player
 	 */
-	Player *player;
-	/**
-	 * @brief Loads and stores the information of a level.
-	 * @see Level
-	 */
-	Level *level;
-	/**
-	 * @brief Raw list of Monster objects.
-	 * @see Monster
-	 */
-	std::vector<Monster*> monsters;
-	/**
-	 * @brief Raw list of Tower objects.
-	 * @see Tower
-	 */
-	std::vector<Tower*> towers;
-	/**
-	 * @brief Raw list of Bullet objects.
-	 * @see Bullet
-	 */
-	std::vector<Bullet*> towerBullets;
+	// Player *player;
+	// /**
+	//  * @brief Loads and stores the information of a level.
+	//  * @see Level
+	//  */
+	// Level *level;
+	// /**
+	//  * @brief Raw list of Monster objects.
+	//  * @see Monster
+	//  */
+	// std::vector<Monster*> monsters;
+	// /**
+	//  * @brief Raw list of Tower objects.
+	//  * @see Tower
+	//  */
+	// std::vector<Tower*> towers;
+	// /**
+	//  * @brief Raw list of Bullet objects.
+	//  * @see Bullet
+	//  */
+	// std::vector<Bullet*> towerBullets;
 
 	Hero *hero;
 	Hero2 *hero2;
