@@ -10,6 +10,10 @@ class Circle : public Shape
 {
 public:
 	bool overlap(const Shape &s) const;
+	double get_x1() const {return x;}
+	double get_y1() const {return y;}
+	double get_x2() const {return x;}
+	double get_y2() const {return y;}
 	double center_x() const { return x; }
 	double center_y() const { return y; }
 	void update_center_x(const double &x) { this->x = x; }

@@ -10,6 +10,10 @@ class Rectangle : public Shape
 {
 public:
 	bool overlap(const Shape &s) const;
+	double get_x1() const {return x1;}
+	double get_x2() const {return x2;}
+	double get_y1() const {return y1;}
+	double get_y2() const {return y2;}
 	double center_x() const { return (x1 + x2) / 2; }
 	double center_y() const { return (y1 + y2) / 2; }
 	void update_center_x(const double &x) {

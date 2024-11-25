@@ -23,6 +23,7 @@ class Hero : public Object{
         const double gravity = 0.6;
         const double jump_speed = -13.5;
         bool is_jumping = false;
+        int jump_count = 0;
 };
 
 #endif

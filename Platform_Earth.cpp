@@ -3,8 +3,6 @@
 #include <iostream>
 #include <allegro5/allegro_primitives.h>
 
-Platform::Platform() : block_size(50.0) {}
-
 void Platform::loadmap(const std::string& map, int window_width, int window_height){
     double block_width = window_width / 10.0;
     double block_height = window_height / 18.0;    

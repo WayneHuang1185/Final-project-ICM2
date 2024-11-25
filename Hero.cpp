@@ -5,6 +5,7 @@
 #include <allegro5/allegro_primitives.h>
 #include "shapes/Rectangle.h"
 #include "Platform.h"
+#include <iostream>
 
 namespace HeroSetting {
 	static constexpr char gif_root_path[50] = "./assets/gif/Hero";
@@ -24,12 +25,16 @@ void Hero::init(){
     GIFCenter *GIFC = GIFCenter::get_instance();
     ALGIF_ANIMATION *gif = GIFC->get(gifpath[state]);
     DataCenter *DC = DataCenter::get_instance();
+
+    double x_offset = -600;
+    double y_offset = -30;
+
     shape.reset(
         new Rectangle(
-            DC->window_width/2,
-            DC->window_height/2,
-            DC->window_width/2 + gif->width,
-            DC->window_height/2 + gif->height
+            DC->window_width / 2 - gif->width / 2 + x_offset,
+            DC->window_height / 2 - gif->height / 2 + y_offset,
+            DC->window_width / 2 + gif->width / 2 + x_offset,
+            DC->window_height / 2 + gif->height / 2 + y_offset
         )
     );
 }
@@ -41,13 +46,12 @@ void Hero::update() {
     Rectangle* rect = dynamic_cast<Rectangle*>(shape.get());
     if (!rect) return;
 
-    // 跳跃逻辑
-    if (DC->key_state[ALLEGRO_KEY_W] && !is_jumping) {
+    if (DC->key_state[ALLEGRO_KEY_W] && !DC->prev_key_state[ALLEGRO_KEY_W] && jump_count < 2) {
         v_speed = jump_speed;
         is_jumping = true;
+        jump_count++;
     }
 
-    // 水平移动
     if (DC->key_state[ALLEGRO_KEY_A]) {
         rect->update_center_x(rect->center_x() - speed);
         state = HeroState::LEFT;
@@ -68,6 +72,7 @@ void Hero::update() {
             v_speed = 0;  
             is_jumping = false;  
             on_platform = true;
+            jump_count = 0;
             break;
         }
     }
@@ -78,13 +83,16 @@ void Hero::update() {
         rect->update_center_y(DC->window_height - (rect->y2 - rect->y1) / 2);
         v_speed = 0;
         is_jumping = false;
+        jump_count = 0;
     }
 }
 
 void Hero::draw(){
     GIFCenter *GIFC = GIFCenter::get_instance();
     ALGIF_ANIMATION *gif = GIFC->get(gifpath[state]);
-    algif_draw_gif(gif, shape->center_x() - gif->width/2, shape->center_y() - gif->height/2, 0);    
+    DataCenter* DC = DataCenter::get_instance(); 
+
+    algif_draw_gif(gif, shape->center_x() - gif->width/2, shape->center_y()-gif->height/2, 0);    
     
     Rectangle* rect = dynamic_cast<Rectangle*>(shape.get()); 
     if (rect) {

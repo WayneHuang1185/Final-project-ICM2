@@ -18,6 +18,10 @@ class Shape
 {
 public:
 	virtual bool overlap(const Shape &s) const = 0;
+	virtual double get_x1() const = 0;
+	virtual double get_y1() const = 0;
+	virtual double get_x2() const = 0;
+	virtual double get_y2() const = 0;
 	virtual double center_x() const = 0;
 	virtual double center_y() const = 0;
 	virtual void update_center_x(const double &x) = 0;

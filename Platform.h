@@ -8,7 +8,6 @@
 
 class Platform : public Object{
     public:
-        Platform();
 
         virtual void loadmap(const std::string& map, int window_width, int window_height);
         virtual void init() ;
