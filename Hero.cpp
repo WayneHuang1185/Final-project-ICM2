@@ -2,6 +2,7 @@
 #include "data/DataCenter.h"
 #include "data/GIFCenter.h"
 #include "algif5/algif.h"
+#include <allegro5/allegro_primitives.h>
 #include "shapes/Rectangle.h"
 
 namespace HeroSetting {
@@ -56,4 +57,13 @@ void Hero::draw(){
     GIFCenter *GIFC = GIFCenter::get_instance();
     ALGIF_ANIMATION *gif = GIFC->get(gifpath[state]);
     algif_draw_gif(gif, shape->center_x() - gif->width/2, shape->center_y() - gif->height/2, 0);    
+    
+    Rectangle* rect = dynamic_cast<Rectangle*>(shape.get()); 
+    if (rect) {
+        al_draw_rectangle(
+            rect->x1, rect->y1, rect->x2, rect->y2,
+            al_map_rgb(255, 0, 0), 
+            2.0 
+        );
+    }
 }
