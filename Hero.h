@@ -17,7 +17,7 @@ class Hero : public Object{
 
     protected:
         HeroState state  = HeroState::FRONT;
-        double speed = 5;
+        double speed = 6;
         std::map<HeroState, std::string> gifpath;
         double v_speed = 0.0;
         const double gravity = 0.6;
