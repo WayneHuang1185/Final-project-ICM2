@@ -24,6 +24,7 @@ class Hero : public Object{
         const double jump_speed = -13.5;
         bool is_jumping = false;
         int jump_count = 0;
+        int max_jump_limit = 2;
 };
 
 #endif

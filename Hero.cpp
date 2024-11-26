@@ -26,7 +26,7 @@ void Hero::init(){
     ALGIF_ANIMATION *gif = GIFC->get(gifpath[state]);
     DataCenter *DC = DataCenter::get_instance();
 
-    double x_offset = -600;
+    double x_offset = -650;
     double y_offset = -30;
 
     shape.reset(
@@ -46,7 +46,7 @@ void Hero::update() {
     Rectangle* rect = dynamic_cast<Rectangle*>(shape.get());
     if (!rect) return;
 
-    if (DC->key_state[ALLEGRO_KEY_W] && !DC->prev_key_state[ALLEGRO_KEY_W] && jump_count < 2) {
+    if (DC->key_state[ALLEGRO_KEY_W] && !DC->prev_key_state[ALLEGRO_KEY_W] && jump_count < max_jump_limit) {
         v_speed = jump_speed;
         is_jumping = true;
         jump_count++;
