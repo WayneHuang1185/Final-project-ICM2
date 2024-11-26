@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <climits>
 #include "Object.h"
 
 enum class HeroState{

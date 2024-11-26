@@ -26,7 +26,7 @@ void Hero::init(){
     ALGIF_ANIMATION *gif = GIFC->get(gifpath[state]);
     DataCenter *DC = DataCenter::get_instance();
 
-    double x_offset = -650;
+    double x_offset = -700;
     double y_offset = -30;
 
     shape.reset(

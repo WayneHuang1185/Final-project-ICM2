@@ -4,7 +4,7 @@
 #include <allegro5/allegro_primitives.h>
 
 void Platform::loadmap(const std::string& map, int window_width, int window_height){
-    double block_width = window_width / 10.0;
+    double block_width = window_width / 20.0;
     double block_height = window_height / 18.0;    
     
     std::ifstream file("./assets/map_earth.txt");

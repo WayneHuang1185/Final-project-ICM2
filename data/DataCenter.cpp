@@ -34,10 +34,9 @@ DataCenter::DataCenter() {
 	// level = new Level();
 
 	hero = new Hero();
-	hero2 = new Hero2();
+	// hero2 = new Hero2();
 
 	platforms = new Platform();
-
 	platforms->loadmap("./assets/map.txt", window_width, window_height);
 }
 
