@@ -3,13 +3,18 @@
 #include "Window.h"
 #include <iostream>
 
+Menu *menu = nullptr;
+Game *game = nullptr;
+
 int main(int argc, char **argv) {
-	Game *game = new Game();	
-	game->execute();
 	switch(current_window){
 		case Window::menu:
+			menu = new Menu();
+			menu->execute();
 			break;
 		case Window::earth:
+			game = new Game();
+			game->execute();
 			break;
 		case Window::exit:
 			break;
@@ -18,6 +23,6 @@ int main(int argc, char **argv) {
 		case Window::ending:
 			break;
 	}
-	delete game;
+	delete menu;
 	return 0;
 }

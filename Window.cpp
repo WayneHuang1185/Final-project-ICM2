@@ -1,3 +1,3 @@
 #include "Window.h"
 
-Window current_window = Window::menu;
+Window current_window = Window::earth;
