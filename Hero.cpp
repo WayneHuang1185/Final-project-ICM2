@@ -65,6 +65,8 @@ void Hero::update() {
 
     bool on_platform = false;
     for (const auto& platform : platforms->get_platforms()) {
+
+        //top check
         if (rect->y2 >= platform.y1 && rect->y1 < platform.y1 && 
             rect->x2 > platform.x1 && rect->x1 < platform.x2 &&  
             v_speed >= 0) { 
@@ -75,11 +77,38 @@ void Hero::update() {
             jump_count = 0;
             break;
         }
+
+        // buttom check
+        // if (rect->y1 <= platform.y2 && rect->y2 > platform.y2 && 
+        //     rect->x2 > platform.x1 && rect->x1 < platform.x2 && 
+        //     v_speed < 0) {
+        //     rect->update_center_y(platform.y2 + (rect->y2 - rect->y1) / 2);
+        //     v_speed = 0;
+        //     break;
+        // }
+
+        // //left ckeck
+        // if (rect->x2 >= platform.x1 && rect->x1 < platform.x1 && 
+        //     rect->y2 > platform.y1 && rect->y1 < platform.y2) {
+        //     rect->update_center_x(platform.x1 - (rect->x2 - rect->x1) / 2);
+        //     break;
+        // }
+
+        // // right check
+        // if (rect->x1 <= platform.x2 && rect->x2 > platform.x2 && 
+        //     rect->y2 > platform.y1 && rect->y1 < platform.y2) {
+        //     rect->update_center_x(platform.x2 + (rect->x2 - rect->x1) / 2);
+        //     break;
+        // }
     }
 
-    if (!on_platform && rect->y2 < DC->window_height) {
-        is_jumping = true; 
-    } else if (rect->y2 >= DC->window_height) {
+    if (!on_platform && rect->y2 >= DC->window_height) {
+        is_jumping = false;
+        v_speed = 0;
+        jump_count = 0;
+    } 
+    
+    else if (rect->y2 >= DC->window_height) {
         rect->update_center_y(DC->window_height - (rect->y2 - rect->y1) / 2);
         v_speed = 0;
         is_jumping = false;
