@@ -39,8 +39,8 @@ void Hero::init(){
     max_jump_height=PLT->get_block_height()*3;//static_cast<double>(gif->height*3);
     max_jump_speed=-std::sqrt(2 * up_gravity * max_jump_height);
     jump_cooldown=static_cast<int>(DC->FPS/(max_jump_limit+1));
-    double x_offset = -650;
-    double y_offset = -30;
+    double x_offset =0;
+    double y_offset =0;
     shape.reset(
         new Rectangle(
             DC->window_width / 2 - gif->width / 2 + x_offset,
@@ -49,22 +49,28 @@ void Hero::init(){
             DC->window_height / 2 + gif->height / 2 + y_offset
         )
     );
-    MV=new Rectangle(
-            DC->window_width / 2 - gif->width / 2 + x_offset,
-            DC->window_height / 2 - gif->height / 2+PLT->get_block_height()/10+y_offset,
-            DC->window_width / 2 + gif->width / 2 + x_offset,
-            DC->window_height / 2 + gif->height / 2-PLT->get_block_height()/9+y_offset
-        );
+}
+CollisionType Hero::detectCollision(const Rectangle& platform){
+    Rectangle rect=*dynamic_cast<Rectangle*>(shape.get());
+    if (rect.y2 >=platform.y1 && rect.y1 < platform.y1 && 
+        rect.x2 > platform.x1 && rect.x1 < platform.x2 && y_speed >=0) {
+        return CollisionType::Top; // 地面碰撞
+    } 
+    if (rect.y1 < platform.y2 && rect.y2 > platform.y2 &&
+        rect.x2 > platform.x1 && rect.x1 < platform.x2 && y_speed <=0) {
+        return CollisionType::Bottom; // 头顶碰撞
+    }
+    if (rect.x2 > platform.x1 && rect.x1 < platform.x1 && 
+        rect.y2 > platform.y1 && rect.y1 < platform.y2 && x_speed >= 0) {
+        return CollisionType::Left; // 左侧碰撞
+    }
+    if (rect.x1 < platform.x2 && rect.x2 > platform.x2 && 
+        rect.y2 > platform.y1 && rect.y1 < platform.y2 && x_speed <=0) {
+        return CollisionType::Right; // 右侧碰撞
+    }
+    return CollisionType::None;
 }
 
-bool Hero::IsOnGround(const Platform *plt,const Rectangle *rect){
-    for (const auto& platform : plt->get_platforms()) {
-        if (rect->y2 >= platform.y1 && rect->y1 < platform.y1 && 
-            rect->x2 > platform.x1 && rect->x1 < platform.x2 &&  
-            y_speed >= 0) return true; 
-    }
-    return false;
-}
 
 void Hero::update(){
     DataCenter* DC = DataCenter::get_instance();
@@ -104,7 +110,7 @@ void Hero::update(){
         }
         state_change=false;
     }*/
-   double jump_speed=std::max(max_jump_speed,max_jump_speed/2+abs(x_speed)*max_jump_speed/2/InTheAir::MAX_SPEED);
+    double jump_speed=std::max(max_jump_speed,max_jump_speed/2+abs(x_speed)*max_jump_speed/2/InTheAir::MAX_SPEED);
     if (jump_redy && DC->key_state[ALLEGRO_KEY_W] && !DC->prev_key_state[ALLEGRO_KEY_W] && jump_count < max_jump_limit) {
         y_speed=jump_speed;
         jump_redy=false;
@@ -173,56 +179,63 @@ void Hero::update(){
             }
         }
     }
-    if(rect->x2+x_speed>DC->window_width){
+    if(rect->x2+x_speed>DC->window_width)
         rect->update_center_x(DC->window_width - (rect->x2 - rect->x1) / 2);
-        MV->update_center_x(DC->window_width - (rect->x2 - rect->x1) / 2);
-    }
-    else if(rect->x1+x_speed<0){
+    else if(rect->x1+x_speed<0)
         rect->update_center_x((rect->x2 - rect->x1)/2);
-        MV->update_center_x((rect->x2 - rect->x1)/2);
-    }
-    else{
+    else
         rect->update_center_x(rect->center_x() + x_speed);
-        MV->update_center_x(rect->center_x() + x_speed);
+    if(rect->y1+y_speed<0){
+        rect->update_center_y((rect->y2 - rect->y1)/2);
+        y_speed=0;
     }
-    rect->update_center_y(rect->center_y() + y_speed);
-    MV->update_center_y(rect->center_y() + y_speed);
+    else
+        rect->update_center_y(rect->center_y() + y_speed);
     if(y_speed<0)
         y_speed+=up_gravity;
     else
         y_speed+=down_gravity;
     bool on_platform = false;
-
     double x_buffer=platforms->get_block_width()/10;
     double y_buffer=platforms->get_block_height()/10;
     for (const auto& platform : platforms->get_platforms()) {
-        if (MV->y2 >= platform.y1 && rect->y1 < platform.y1 && 
-            rect->x2 > platform.x1 && rect->x1 < platform.x2 &&  
-            y_speed >= 0) { 
-            rect->update_center_y(platform.y1 - (rect->y2 - rect->y1) / 2); 
-            MV->update_center_y(platform.y1 - (rect->y2 - rect->y1) / 2); 
-            y_speed = 0;    
-            on_platform = true;
-            jump_count = 0;
-            break;
+        if(platform.overlap(*rect)){
+            CollisionType col=detectCollision(platform);
+            //std::cout<<"collip\n";
+            switch(col){
+                case CollisionType::Top:
+                    rect->update_center_y(platform.y1 - (rect->y2 - rect->y1) / 2); 
+                    y_speed = 0;    
+                    on_platform = true;
+                    jump_count = 0;
+                    std::cout<<"TOP\n";
+                    break;
+                case CollisionType::Bottom:
+                    rect->update_center_y(platform.y2 + (rect->y2 - rect->y1) / 2); 
+                    y_speed =-max_jump_speed/10;    
+                    std::cout<<"BOTTOM\n";
+                    break;
+                case CollisionType::Left:
+                    x_speed=-x_speed/2;
+                    y_speed=0;
+                    rect->update_center_x(platform.x1-(rect->x2-rect->x1)/2);
+                    std::cout<<"LEFT\n";
+                    break;
+                case CollisionType::Right:
+                    x_speed=-x_speed/2;
+                    y_speed=0;
+                    rect->update_center_x(platform.x2+(rect->x2-rect->x1)/2);
+                    std::cout<<"RIGHT\n";
+                    break;
+                default:
+                    break;
+            }
         }
-        else if (rect->y2 >= platform.y1 && MV->y1 < platform.y1 && 
-            rect->x2 > platform.x1 && rect->x1 < platform.x2 &&  
-            y_speed <= 0) { 
-            rect->update_center_y(platform.y2 + (rect->y2 - rect->y1) / 2); 
-            MV->update_center_y(platform.y2 + (rect->y2 - rect->y1) / 2); 
-            y_speed =-max_jump_speed/10;    
-            on_platform = false;
-            break;
-        }
-        
     }
     if (!on_platform && rect->y2 < DC->window_height) {
         state=HeroState::JUMP; 
-        
     } else if (rect->y1 >= DC->window_height) {
         rect->update_center_y(DC->window_height - (rect->y2 - rect->y1) / 2);
-        MV->update_center_y(DC->window_height - (rect->y2 - rect->y1) / 2);
         y_speed = 0;
         jump_count = 0;
     }
@@ -234,6 +247,10 @@ void Hero::update(){
             state=HeroState::RUN;
         }
     }
+    if(DC->mouse_state[2]){
+        rect->update_center_x(DC->mouse.x);
+        rect->update_center_y(DC->mouse.y);
+    }
 }
 void Hero::draw(){
     GIFCenter *GIFC = GIFCenter::get_instance();
@@ -241,15 +258,10 @@ void Hero::draw(){
     DataCenter* DC = DataCenter::get_instance(); 
     algif_draw_gif(gif, shape->center_x() - gif->width/2, shape->center_y()-gif->height/2, 0);    
     Rectangle* rect = dynamic_cast<Rectangle*>(shape.get()); 
-    if (rect){
+    if (debug && rect){
         al_draw_rectangle(
             rect->x1, rect->y1, rect->x2, rect->y2,
             al_map_rgb(255, 0, 0), 
-            2.0 
-        );
-        al_draw_rectangle(
-            MV->x1, MV->y1, MV->x2, MV->y2,
-            al_map_rgb(0, 255, 0), 
             2.0 
         );
     }

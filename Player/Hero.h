@@ -9,6 +9,9 @@ enum class HeroState{
 enum class HeroDir{
     LEFT,RIGHT,MAX_DIR,UP,DOWN
 };
+enum class CollisionType{ 
+    None, Top, Bottom, Left, Right 
+};
 namespace OnTheGround{
     constexpr double MAX_SPEED=10;
     constexpr double ACC_DURATION=0.516;
@@ -33,11 +36,10 @@ public:
     void init();
     void update();
     void draw();
-    bool IsOnGround(const Platform *plt,const Rectangle *rect);
+    CollisionType detectCollision(const Rectangle& platform);
 private:
 	double x_speed,y_speed;
     HeroState state;
-    
     HeroDir dir; 
     double max_jump_height;
     double max_jump_speed;
@@ -48,7 +50,7 @@ private:
     const double up_gravity=0.3;
     int jump_count = 0;
     int max_jump_limit = 2;
-    Rectangle *MV;
+    bool debug=true;
     std::map<std::pair<HeroState,HeroDir>,std::string>gifpath;
 };
 
