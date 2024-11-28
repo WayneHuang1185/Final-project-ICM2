@@ -1,4 +1,7 @@
 #include "Game.h"
+#include "Menu.h"
+#include "Window.h"
+
 #include <iostream>
 
 int main(int argc, char **argv) {

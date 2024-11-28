@@ -1,10 +1,22 @@
 #ifndef WINDOW_H_INCLUDED
 #define WINDOW_H_INCLUDED
+#include <allegro5/allegro.h>
+#include <string>
 
-enum class Window{
-    menu, game_earth, ending, fail
-};
+// class Game{
+//     public:
+//         Game(const std::string& title);
 
-extern Window window;
+//         ~Game();
+
+//         void execute();
+//         void game_init();
+//         bool game_update();
+//         void game_draw();
+//         void game_destroy();
+//     private:
+//         std::string title;
+//         ALLEGRO_DISPLAY* display;  
+// };
 
 #endif

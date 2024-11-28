@@ -14,6 +14,7 @@
 #include <allegro5/allegro_acodec.h>
 #include <vector>
 #include <cstring>
+#include <iostream>
 
 #include "Player/Hero.h"
 #include "Platform.h"
@@ -37,6 +38,7 @@ Game::execute() {
 	while(run) {
 		// process all events here
 		al_wait_for_event(event_queue, &event);
+		std::cout << "in game execute" << std::endl;
 		switch(event.type) {
 			case ALLEGRO_EVENT_TIMER: {
 				run &= game_update();
@@ -72,6 +74,7 @@ Game::execute() {
  */
 Game::Game() {
 	DataCenter *DC = DataCenter::get_instance();
+
 	GAME_ASSERT(al_init(), "failed to initialize allegro.");
 
 	// initialize allegro addons
@@ -110,6 +113,7 @@ Game::Game() {
  */
 void
 Game::game_init() {
+	std::cout << "in game init" << std::endl;
 	DataCenter *DC = DataCenter::get_instance();
 	SoundCenter *SC = SoundCenter::get_instance();
 	ImageCenter *IC = ImageCenter::get_instance();
@@ -119,10 +123,12 @@ Game::game_init() {
 	al_set_display_icon(display, game_icon);
 
 	// register events to event_queue
+	std::cout << "event queue" << std::endl;
     al_register_event_source(event_queue, al_get_display_event_source(display));
     al_register_event_source(event_queue, al_get_keyboard_event_source());
     al_register_event_source(event_queue, al_get_mouse_event_source());
     al_register_event_source(event_queue, al_get_timer_event_source(timer));
+	std::cout << "event queue finish" << std::endl;
 
 	// init sound setting
 	SC->init();
