@@ -38,7 +38,7 @@ void Hero::init(){
     jump_timer=0;
     max_jump_height=PLT->get_block_height()*3;//static_cast<double>(gif->height*3);
     max_jump_speed=-std::sqrt(2 * up_gravity * max_jump_height);
-    jump_cooldown=static_cast<int>(DC->FPS/(max_jump_limit+1));
+    jump_cooldown=0; //static_cast<int>(DC->FPS/(max_jump_limit+1));
     double x_offset =0;
     double y_offset =0;
     shape.reset(
