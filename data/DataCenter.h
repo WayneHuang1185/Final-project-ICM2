@@ -7,16 +7,19 @@
 #include <allegro5/mouse.h>
 #include "../shapes/Point.h"
 #include "../Platform.h"
-
+namespace DataSetting {
+	constexpr double FPS = 60;
+	constexpr int window_width = 1440;
+	constexpr int window_height = 900;
+	constexpr int game_field_length = 1000;
+}
+#include "../Player/Hero.h"
 class Player;
 class Level;
 class Monster;
 class Tower;
 class Bullet;
-
 class Hero;
-class Hero2;
-
 class Platform;
 
 /**
@@ -100,7 +103,6 @@ public:
 	// std::vector<Bullet*> towerBullets;
 
 	Hero *hero;
-	Hero2 *hero2;
 
 	Platform *platforms;
 	

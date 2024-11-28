@@ -8,17 +8,8 @@
 #include "../towers/Tower.h"
 #include "../towers/Bullet.h"
 
-#include "../Hero.h"
-#include "../Hero2.h"
-#include "../Platform.h"
-
 // fixed settings
-namespace DataSetting {
-	constexpr double FPS = 60;
-	constexpr int window_width = 1440;
-	constexpr int window_height = 900;
-	constexpr int game_field_length = 1000;
-}
+
 
 DataCenter::DataCenter() {
 	this->FPS = DataSetting::FPS;
@@ -34,8 +25,6 @@ DataCenter::DataCenter() {
 	// level = new Level();
 
 	hero = new Hero();
-	hero2 = new Hero2();
-
 	platforms = new Platform();
 
 	platforms->loadmap("./assets/map.txt", window_width, window_height);
@@ -54,7 +43,5 @@ DataCenter::~DataCenter() {
 	// 	delete b;
 	// }
 	delete hero;
-	delete hero2;
-
 	delete platforms;
 }

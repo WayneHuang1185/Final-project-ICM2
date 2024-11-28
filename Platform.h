@@ -14,11 +14,17 @@ class Platform : public Object{
         void init() ;
         void update() ;
         void draw() override;
-
+        double get_block_width(){
+            return block_width;
+        }
+        double get_block_height(){
+            return block_height;
+        }
         const std::vector<Rectangle>& get_platforms() const;
     private:
         std::vector<Rectangle> rectangles;
-        double block_size;
+        double block_height;
+        double block_width;
 };
 
 #endif

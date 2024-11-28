@@ -15,8 +15,7 @@
 #include <vector>
 #include <cstring>
 
-#include "Hero.h"
-#include "Hero2.h"
+#include "Player/Hero.h"
 #include "Platform.h"
 
 // fixed settings
@@ -137,8 +136,6 @@ Game::game_init() {
 	// DC->level->init();
 
 	DC->hero->init();
-	DC->hero2->init();
-
 	DC->platforms->init();
 
 	// game start
@@ -215,7 +212,6 @@ Game::game_update() {
 		ui->update();
 
 		DC->hero->update();
-		DC->hero2->update();
 
 		DC->platforms->update();
 
@@ -259,7 +255,6 @@ Game::game_draw() {
 			// DC->level->draw();
 
 			DC->hero->draw();
-			DC->hero2->draw();
 
 			DC->platforms->draw();
 
