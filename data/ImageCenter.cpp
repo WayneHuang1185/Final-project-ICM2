@@ -1,6 +1,9 @@
 #include "ImageCenter.h"
+#include <allegro5/allegro.h> 
 #include <allegro5/bitmap_io.h>
 #include "../Utils.h"
+
+#include <iostream>
 
 ImageCenter::~ImageCenter() {
 	for(auto &[path, bitmap] : bitmaps) {
@@ -18,7 +21,14 @@ ALLEGRO_BITMAP*
 ImageCenter::get(const std::string &path) {
 	std::map<std::string, ALLEGRO_BITMAP*>::iterator it = bitmaps.find(path);
 	if(it == bitmaps.end()) {
-		ALLEGRO_BITMAP *bitmap = al_load_bitmap(path.c_str());
+		ALLEGRO_BITMAP* bitmap = al_load_bitmap(path.c_str());
+		if (!bitmap) {
+			std::cerr << "Failed to load image: " << path << std::endl;
+			std::cerr << "Current working directory: " << al_get_current_directory() << std::endl;
+		} else {
+			std::cout << "Image loaded successfully: " << path << std::endl;
+		}
+
 		GAME_ASSERT(bitmap != nullptr, "cannot find image: %s.", path.c_str());
 		bitmaps[path] = bitmap;
 		return bitmap;

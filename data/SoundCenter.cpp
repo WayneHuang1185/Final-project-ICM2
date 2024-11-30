@@ -127,3 +127,7 @@ SoundCenter::toggle_playing(ALLEGRO_SAMPLE_INSTANCE *inst) {
 		al_set_sample_instance_position(inst, pos);
 	} else al_play_sample_instance(inst);
 }
+
+void SoundCenter::stop_playing(ALLEGRO_SAMPLE_INSTANCE *inst){
+	if(inst) al_stop_sample_instance(inst);
+}

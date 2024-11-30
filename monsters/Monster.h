@@ -1,7 +1,7 @@
 #ifndef MONSTER_H_INCLUDED
 #define MONSTER_H_INCLUDED
 
-#include "../Object.h"
+#include "../element/Object.h"
 #include "../shapes/Rectangle.h"
 #include "../shapes/Point.h"
 #include <vector>

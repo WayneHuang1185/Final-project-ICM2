@@ -1,7 +1,7 @@
 #ifndef TOWER_H_INCLUDED
 #define TOWER_H_INCLUDED
 
-#include "../Object.h"
+#include "../element/Object.h"
 #include "../shapes/Rectangle.h"
 #include <allegro5/bitmap.h>
 #include <string>

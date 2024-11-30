@@ -6,14 +6,14 @@
 #include <allegro5/keycodes.h>
 #include <allegro5/mouse.h>
 #include "../shapes/Point.h"
-#include "../Platform.h"
+#include "../element/Platform.h"
 namespace DataSetting {
 	constexpr double FPS = 60;
 	constexpr int window_width = 1440;
 	constexpr int window_height = 900;
 	constexpr int game_field_length = 1000;
 }
-#include "../Player/Hero.h"
+#include "../element/Hero.h"
 class Player;
 class Level;
 class Monster;

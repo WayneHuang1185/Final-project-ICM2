@@ -1,6 +1,4 @@
-#include "Game.h"
-#include "Menu.h"
-#include "Window.h"
+#include "GameWindow.h"
 
 #include <iostream>
 
