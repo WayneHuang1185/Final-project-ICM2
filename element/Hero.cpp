@@ -262,6 +262,7 @@ void Hero::update(){
                         x_speed=0;
                         y_speed=0;
                         rect->update_center_x(platform.x2+(rect->x2-rect->x1)/2);
+                        hold_timer--;
                     }
                     else if(hold){
                         rect->update_center_x(platform.x2+(rect->x2-rect->x1));
