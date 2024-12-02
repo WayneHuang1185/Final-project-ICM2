@@ -130,12 +130,12 @@ void Hero::update(){
         }
         state_change=false;
     }*/
-    if(DC->key_state[ALLEGRO_KEY_F])
+    if(hold_count<max_hold_limit && DC->key_state[ALLEGRO_KEY_F]){
         hold=true;
-    else 
-        hold=false;
+        hold_count++;
+    }
     double jump_speed=std::max(max_jump_speed,max_jump_speed/2+abs(x_speed)*max_jump_speed/2/InTheAir::MAX_SPEED);
-    if (jump_redy && DC->key_state[ALLEGRO_KEY_W] && !DC->prev_key_state[ALLEGRO_KEY_W] && jump_count < max_jump_limit) {
+    if (jump_redy && DC->key_state[ALLEGRO_KEY_C] && !DC->prev_key_state[ALLEGRO_KEY_C] && jump_count < max_jump_limit) {
         y_speed=jump_speed;
         jump_redy=false;
         jump_count++;
@@ -219,7 +219,7 @@ void Hero::update(){
         y_speed+=up_gravity;
     else 
         y_speed+=down_gravity;
-    bool on_platform = false;
+    on_platform = false;
     double x_buffer=platforms->get_block_width()/10;
     double y_buffer=platforms->get_block_height()/10;
     for (const auto& platform : platforms->get_platforms()) {
@@ -232,6 +232,7 @@ void Hero::update(){
                     y_speed = 0;    
                     on_platform = true;
                     jump_count = 0;
+                    hold_count=0;
                     std::cout<<"TOP\n";
                     break;
                 case CollisionType::Bottom:

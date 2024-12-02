@@ -5,7 +5,7 @@
 #include "Platform.h"
 
 enum class HeroState{
-    RUN,STOP,JUMP,MAX_STATE
+    RUN,STOP,JUMP,MAX_STATE,DASH
 };
 enum class HeroDir{
     LEFT,RIGHT,MAX_DIR,UP,DOWN
@@ -48,12 +48,15 @@ private:
     double hold_timer;
     bool jump_redy;
     bool hold;
+    bool on_platform;
     int jump_timer;
     int jump_cooldown;
     const double down_gravity=0.6;
     const double up_gravity=0.3;
     int jump_count = 0;
+    int hold_count=0;
     int max_jump_limit = 2;
+    int max_hold_limit=1;
     bool debug=true;
     std::map<std::pair<HeroState,HeroDir>,std::string>gifpath; //exclude jump
     std::map<std::pair<HeroDir,std::string>,std::string>gifjump;
