@@ -26,6 +26,12 @@ void Hero::init(){
                         HeroSetting::gif_dir[static_cast<int>(d_type)]
                 );
                 gifpath[{static_cast<HeroState>(s_type),static_cast<HeroDir>(d_type)}]=std::string{buffer};
+                sprintf(buffer,"%s_dash_%s_%s.gif",
+                        HeroSetting::gif_root_path,
+                        HeroSetting::gif_state[static_cast<int>(s_type)],
+                        HeroSetting::gif_dir[static_cast<int>(d_type)]
+                );
+                gif_dashpath[{static_cast<HeroState>(s_type),static_cast<HeroDir>(d_type)}]=std::string{buffer};
             if(std::strcmp(HeroSetting::gif_state[static_cast<int>(s_type)], "jump") == 0){
                 sprintf(buffer,"%s_%s_%s_up.gif",
                         HeroSetting::gif_root_path,
@@ -39,9 +45,33 @@ void Hero::init(){
                         HeroSetting::gif_dir[static_cast<int>(d_type)]
                     );
                 gifjump[{static_cast<HeroDir>(d_type),"down"}]=std::string{buffer};
+                sprintf(buffer,"%s_dash_%s_%s_down.gif",
+                        HeroSetting::gif_root_path,
+                        HeroSetting::gif_state[static_cast<int>(s_type)],
+                        HeroSetting::gif_dir[static_cast<int>(d_type)]
+                    );
+                gif_dashjump[{static_cast<HeroDir>(d_type),"down"}]=std::string{buffer};
+                sprintf(buffer,"%s_dash_%s_%s_up.gif",
+                        HeroSetting::gif_root_path,
+                        HeroSetting::gif_state[static_cast<int>(s_type)],
+                        HeroSetting::gif_dir[static_cast<int>(d_type)]
+                    );
+                gif_dashjump[{static_cast<HeroDir>(d_type),"up"}]=std::string{buffer};
             }
         }
     }  
+    sprintf(buffer,"%s_%s_%s.gif",
+            HeroSetting::gif_root_path,
+            "stop",
+            "up"
+            );
+    gifpath[{HeroState::STOP,HeroDir::UP}]=std::string{buffer};
+    sprintf(buffer,"%s_dash_%s_%s.gif",
+            HeroSetting::gif_root_path,
+            "stop",
+            "up"
+            );
+    gif_dashpath[{HeroState::STOP,HeroDir::UP}]=std::string{buffer};
     dir=HeroDir::RIGHT;
     state=HeroState::STOP;
     x_speed=0;
@@ -50,14 +80,25 @@ void Hero::init(){
     ALGIF_ANIMATION *gif = GIFC->get(gifpath[{state,dir}]);
     DataCenter *DC = DataCenter::get_instance();
     Platform *PLT=DC->platforms;
-    max_hold_time=3*DC->FPS;
+    max_hold_time=DC->FPS;
     hold_timer=max_hold_time;
+   
     jump_redy=true;
+    dash_redy=true;
     hold=false;
+    
     jump_timer=0;
     max_jump_height=PLT->get_block_height()*2;//static_cast<double>(gif->height*3);
     max_jump_speed=-std::sqrt(2 * up_gravity * max_jump_height);
     jump_cooldown=0; //static_cast<int>(DC->FPS/(max_jump_limit+1));
+
+
+    dash_length=PLT->get_block_height()*3;
+    dash_duration=0.15*DataSetting::FPS;
+    dash_speed=dash_length/dash_duration;
+    dash_timer=0;
+
+
     double x_offset =0;
     double y_offset =0;
     shape.reset(
@@ -97,6 +138,7 @@ void Hero::update(){
     Rectangle* rect = dynamic_cast<Rectangle*>(shape.get());
     GIFCenter *GIFC = GIFCenter::get_instance();
     ALGIF_ANIMATION *gif = GIFC->get(gifpath[{state,dir}]);
+    //dir=HeroDir::LEFT;
     std::cout<<x_speed<<std::endl;
     switch(state){
         case HeroState::JUMP:
@@ -108,98 +150,86 @@ void Hero::update(){
     }
     //std::cout<<"ok:"<<gifjump[{HeroDir::LEFT,"up"}]<<'\n';
     if (!rect) return;
-    /*
-    if(rect->y1-rect->y2 == MV->y1-MV->y2)
-        std::cout<<"100"<<'\n';
-    else
-        std::cout<<"000"<<'\n';
-    if(state_change){
-        double center_x=rect->center_x();
-        double center_y=rect->center_y();
-        if(state == HeroState::STOP){
-            shape.reset(ST);
-            rect=dynamic_cast<Rectangle*>(shape.get());
-            rect->update_center_x(center_x);
-            rect->update_center_y(center_y);
+    if(dash_redy && DC->key_state[ALLEGRO_KEY_SPACE]){
+        dash_timer=0;
+        switch(dir){
+            case HeroDir::UP:
+                y_speed=-dash_speed;
+                dir=HeroDir::RIGHT;
+                break;
+            case HeroDir::LEFT:
+                x_speed=-dash_speed;
+                break;
+            case HeroDir::RIGHT:
+                x_speed=dash_speed;
+                break;
         }
-        else{
-            shape.reset(MV);
-            rect=dynamic_cast<Rectangle*>(shape.get());
-            rect->update_center_x(center_x);
-            rect->update_center_y(center_y);
-        }
-        state_change=false;
-    }*/
-    if(hold_count<max_hold_limit && DC->key_state[ALLEGRO_KEY_F]){
-        hold=true;
-        hold_count++;
+        dash_redy=false;
     }
-    double jump_speed=std::max(max_jump_speed,max_jump_speed/2+abs(x_speed)*max_jump_speed/2/InTheAir::MAX_SPEED);
-    if (jump_redy && DC->key_state[ALLEGRO_KEY_C] && !DC->prev_key_state[ALLEGRO_KEY_C] && jump_count < max_jump_limit) {
-        y_speed=jump_speed;
-        jump_redy=false;
-        jump_count++;
-    }
-    if(!jump_redy){
-        jump_timer++;
-        if(jump_timer>=jump_cooldown){
-            jump_timer=0;
-            jump_redy=true;
-        }
-    }
-    if(DC->key_state[ALLEGRO_KEY_D]){
-        dir=HeroDir::RIGHT;
-        if(state == HeroState::JUMP){
-            if(x_speed>=0){
-                x_speed=std::min(x_speed+InTheAir::ACCELERATION,InTheAir::MAX_SPEED);
-            }
-            else{
-                x_speed=std::min(x_speed+InTheAir::TURN_ACCELERATION,InTheAir::MAX_SPEED);
-            }
-        }
-        else{
-            if(x_speed>=0)
-                x_speed=std::min(x_speed+OnTheGround::ACCELERATION,OnTheGround::MAX_SPEED);
-            else
-                x_speed=std::min(x_speed+OnTheGround::TURN_ACCELERATION,OnTheGround::MAX_SPEED);
-        }
-    }
-    else if(DC->key_state[ALLEGRO_KEY_A]){
-        dir=HeroDir::LEFT;
-        if(state == HeroState::JUMP){
-            if(x_speed>0)
-                x_speed=std::max(x_speed-InTheAir::TURN_ACCELERATION,-InTheAir::MAX_SPEED);
-            else
-                x_speed=std::max(x_speed-InTheAir::ACCELERATION,-InTheAir::MAX_SPEED);
-        }
-        else{
-            if(x_speed>0)
-                x_speed=std::max(x_speed-OnTheGround::TURN_ACCELERATION,-OnTheGround::MAX_SPEED);  
-            else
-                x_speed=std::max(x_speed-OnTheGround::ACCELERATION,-OnTheGround::MAX_SPEED);
+    else if(!dash_redy){
+        dash_timer++;
+        if(dash_timer>=dash_duration*2){
+            dash_redy=true;
+            x_speed=0;
+            y_speed=0;
         }
     }
     else{
-        if(state == HeroState::JUMP){
-            if(x_speed>0){
-                x_speed=std::max(x_speed-InTheAir::DECELERATION,0.0);
-                dir=HeroDir::RIGHT;
-            }
-            else if(x_speed<0){
-                x_speed=std::min(x_speed+InTheAir::DECELERATION,0.0);
-                dir=HeroDir::LEFT;
-            }
-            
-
+        if(hold_count<max_hold_limit && DC->key_state[ALLEGRO_KEY_F]){
+            hold=true;
+            hold_count++;
         }
-        else{
-            if(x_speed>0){
-                x_speed=std::max(x_speed-OnTheGround::DECELERATION,0.0);
-                dir=HeroDir::RIGHT;  
+        double jump_speed=std::max(max_jump_speed,max_jump_speed/2+abs(x_speed)*max_jump_speed/2/InTheAir::MAX_SPEED);
+        if (jump_redy && DC->key_state[ALLEGRO_KEY_C] && !DC->prev_key_state[ALLEGRO_KEY_C] && jump_count < max_jump_limit) {
+            if(dir == HeroDir::UP)
+                dir=HeroDir::RIGHT;
+            y_speed=jump_speed;
+            jump_redy=false;
+            jump_count++;
+        }
+        if(!jump_redy){
+            jump_timer++;
+            if(jump_timer>=jump_cooldown){
+                jump_timer=0;
+                jump_redy=true;
             }
-            else if(x_speed<0){
-                x_speed=std::min(x_speed+OnTheGround::DECELERATION,0.0);
-                dir=HeroDir::LEFT;
+        }
+        if (DC->key_state[ALLEGRO_KEY_D]) {
+            dir = HeroDir::RIGHT;
+            if (state == HeroState::JUMP) {
+                x_speed = (x_speed >= 0) ? std::min(x_speed + InTheAir::ACCELERATION, InTheAir::MAX_SPEED)
+                                        : std::min(x_speed + InTheAir::TURN_ACCELERATION, InTheAir::MAX_SPEED);
+            } else {
+                x_speed = (x_speed >= 0) ? std::min(x_speed + OnTheGround::ACCELERATION, OnTheGround::MAX_SPEED)
+                                        : std::min(x_speed + OnTheGround::TURN_ACCELERATION, OnTheGround::MAX_SPEED);
+            }
+        } else if (DC->key_state[ALLEGRO_KEY_A]) {
+            dir = HeroDir::LEFT;
+            if (state == HeroState::JUMP) {
+                x_speed = (x_speed > 0) ? std::max(x_speed - InTheAir::TURN_ACCELERATION, -InTheAir::MAX_SPEED)
+                                        : std::max(x_speed - InTheAir::ACCELERATION, -InTheAir::MAX_SPEED);
+            } else {
+                x_speed = (x_speed > 0) ? std::max(x_speed - OnTheGround::TURN_ACCELERATION, -OnTheGround::MAX_SPEED)
+                                        : std::max(x_speed - OnTheGround::ACCELERATION, -OnTheGround::MAX_SPEED);
+            }
+        } else {
+            // Decelerate if no key is pressed
+            if (state == HeroState::JUMP) {
+                if (x_speed > 0) {
+                    x_speed = std::max(x_speed - InTheAir::DECELERATION, 0.0);
+                    dir = HeroDir::RIGHT;
+                } else if (x_speed < 0) {
+                    x_speed = std::min(x_speed + InTheAir::DECELERATION, 0.0);
+                    dir = HeroDir::LEFT;
+                }
+            } else {
+                if (x_speed > 0) {
+                    x_speed = std::max(x_speed - OnTheGround::DECELERATION, 0.0);
+                    dir = HeroDir::RIGHT;
+                } else if (x_speed < 0) {
+                    x_speed = std::min(x_speed + OnTheGround::DECELERATION, 0.0);
+                    dir = HeroDir::LEFT;
+                }
             }
         }
     }
@@ -290,6 +320,8 @@ void Hero::update(){
     }
     else if(on_platform){
         if(x_speed == 0){
+            if(DC->key_state[ALLEGRO_KEY_W])
+                dir=HeroDir::UP;
             state=HeroState::STOP; 
         }
         else{
@@ -304,13 +336,24 @@ void Hero::update(){
 void Hero::draw(){
     GIFCenter *GIFC = GIFCenter::get_instance();
     ALGIF_ANIMATION *gif;
-    if(state == HeroState::RUN || state == HeroState::STOP){
-        gif = GIFC->get(gifpath[{state,dir}]);
+    if(dash_redy){
+        if(state == HeroState::RUN || state == HeroState::STOP){
+            gif = GIFC->get(gifpath[{state,dir}]);
+        }
+        else if(state == HeroState::JUMP && y_speed<0)
+            gif = GIFC->get(gifjump[{dir,"up"}]);
+        else 
+            gif = GIFC->get(gifjump[{dir,"down"}]);
     }
-    else if(y_speed<0)
-        gif = GIFC->get(gifjump[{dir,"up"}]);
-    else 
-        gif = GIFC->get(gifjump[{dir,"down"}]);
+    else{
+        if(state == HeroState::RUN || state == HeroState::STOP){
+            gif = GIFC->get(gif_dashpath[{state,dir}]);
+        }
+        else if(state == HeroState::JUMP && y_speed<0)
+            gif = GIFC->get(gif_dashjump[{dir,"up"}]);
+        else 
+            gif = GIFC->get(gif_dashjump[{dir,"down"}]);
+    }
     DataCenter* DC = DataCenter::get_instance(); 
     algif_draw_gif(gif, shape->center_x() - gif->width/2, shape->center_y()-gif->height/2, 0);    
     Rectangle* rect = dynamic_cast<Rectangle*>(shape.get()); 

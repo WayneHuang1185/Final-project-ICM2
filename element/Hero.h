@@ -5,7 +5,7 @@
 #include "Platform.h"
 
 enum class HeroState{
-    RUN,STOP,JUMP,MAX_STATE,DASH
+    RUN,STOP,JUMP,MAX_STATE
 };
 enum class HeroDir{
     LEFT,RIGHT,MAX_DIR,UP,DOWN
@@ -39,16 +39,22 @@ public:
     void draw();
     CollisionType detectCollision(const Rectangle& platform);
 private:
+    double dash_duration;
+    bool jump_redy;
+    bool hold;
+    bool on_platform;
+    bool dash_redy;
+    double dash_length;
+    double dash_speed;
 	double x_speed,y_speed;
     HeroState state;
     HeroDir dir; 
     double max_jump_height;
     double max_jump_speed;
     double max_hold_time;
-    double hold_timer;
-    bool jump_redy;
-    bool hold;
-    bool on_platform;
+    int hold_timer;
+    int dash_timer;
+ 
     int jump_timer;
     int jump_cooldown;
     const double down_gravity=0.6;
@@ -57,9 +63,12 @@ private:
     int hold_count=0;
     int max_jump_limit = 2;
     int max_hold_limit=1;
+    int max_dash_limit=1;
     bool debug=true;
     std::map<std::pair<HeroState,HeroDir>,std::string>gifpath; //exclude jump
-    std::map<std::pair<HeroDir,std::string>,std::string>gifjump;
+    std::map<std::pair<HeroDir,std::string>,std::string>gifjump; // jump
+    std::map<std::pair<HeroState,HeroDir>,std::string>gif_dashpath;
+    std::map<std::pair<HeroDir,std::string>,std::string>gif_dashjump; // jump
 };
 
 #endif
