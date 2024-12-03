@@ -9,7 +9,7 @@ Platform::Platform(){
 }
 void Platform::loadmap(const std::string& map, int window_width, int window_height){
     block_width = window_width / 20.0;
-    block_height = window_height / 9.0;    
+    block_height = window_height / 12.0;    
     
     std::ifstream file(map);
 
