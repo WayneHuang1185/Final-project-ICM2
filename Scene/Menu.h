@@ -16,10 +16,14 @@ class Menu : public Scene{
 	    void draw() override;
         void destroy() override;
     private:
-        double button_x, button_y, button_width, button_height;
+        double play_button_x, play_button_y, play_button_width, play_button_height;
+        double setting_button_x, setting_button_y, setting_button_width, setting_button_height;
+        double introduction_button_x, introduction_button_y, introduction_button_width, introduction_button_height;
+        double exit_button_x, exit_button_y, exit_button_width, exit_button_height;
+
         ALLEGRO_COLOR button_color;
         ALLEGRO_COLOR button_hover_color;
-        ALLEGRO_COLOR button_current_color;
+        ALLEGRO_COLOR play_button_current_color, setting_button_current_color, introduction_button_current_color, exit_button_current_color;
 };
 
 #endif

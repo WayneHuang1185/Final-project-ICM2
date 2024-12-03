@@ -94,7 +94,7 @@ void Hero::init(){
 
 
     dash_length=PLT->get_block_height()*3;
-    dash_duration=0.30*DataSetting::FPS;
+    dash_duration=0.15*DataSetting::FPS;
     dash_speed=dash_length/dash_duration;
     dash_timer=0;
 
@@ -170,6 +170,8 @@ void Hero::update(){
         dash_timer++;
         if(dash_timer>=dash_duration*2){
             dash_redy=true;
+            x_speed=0;
+            y_speed=0;
         }
     }
     else{
