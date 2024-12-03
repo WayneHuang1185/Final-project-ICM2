@@ -88,7 +88,7 @@ void Hero::init(){
     hold=false;
     
     jump_timer=0;
-    max_jump_height=PLT->get_block_height()*2;//static_cast<double>(gif->height*3);
+    max_jump_height=PLT->get_block_height()*5;//static_cast<double>(gif->height*3);
     max_jump_speed=-std::sqrt(2 * up_gravity * max_jump_height);
     jump_cooldown=0; //static_cast<int>(DC->FPS/(max_jump_limit+1));
 
@@ -110,26 +110,35 @@ void Hero::init(){
         )
     );
 }
-CollisionType Hero::detectCollision(const Rectangle& platform){
-    Rectangle rect=*dynamic_cast<Rectangle*>(shape.get());
-    if (rect.y2 >=platform.y1 && rect.y1 < platform.y1 && 
-        rect.x2 > platform.x1 && rect.x1 < platform.x2 && y_speed >=0) {
-        return CollisionType::Top; // 地面碰撞
-    } 
-    if (rect.y1 < platform.y2 && rect.y2 > platform.y2 &&
-        rect.x2 > platform.x1 && rect.x1 < platform.x2 && y_speed <=0) {
-        return CollisionType::Bottom; // 头顶碰撞
+CollisionType Hero::detectCollision(const Rectangle& platform,double collision_buffer) {
+    Rectangle rect = *dynamic_cast<Rectangle*>(shape.get());
+    // Top collision (Hero's feet touching platform top)
+    if (rect.y2 + collision_buffer >= platform.y1 && rect.y1 < platform.y1 &&
+        rect.x2 > platform.x1 && rect.x1 < platform.x2 && y_speed >= 0) {
+        return CollisionType::Top;
     }
-    if (rect.x2 > platform.x1 && rect.x1 < platform.x1 && 
+
+    // Bottom collision (Hero's head hitting platform bottom)
+    if (rect.y1< platform.y2 && rect.y2 > platform.y2 &&
+        rect.x2-collision_buffer> platform.x1 && rect.x1+collision_buffer< platform.x2 && y_speed <= 0) {
+        return CollisionType::Bottom;
+    }
+
+    // Left collision (Hero's right side hitting platform left side)
+    if (rect.x2 + collision_buffer >= platform.x1 && rect.x1 < platform.x1 &&
         rect.y2 > platform.y1 && rect.y1 < platform.y2 && x_speed >= 0) {
-        return CollisionType::Left; // 左侧碰撞
+        return CollisionType::Left;
     }
-    if (rect.x1 < platform.x2 && rect.x2 > platform.x2 && 
-        rect.y2 > platform.y1 && rect.y1 < platform.y2 && x_speed <=0) {
-        return CollisionType::Right; // 右侧碰撞
+
+    // Right collision (Hero's left side hitting platform right side)
+    if (rect.x1 - collision_buffer <= platform.x2 && rect.x2 > platform.x2 &&
+        rect.y2 > platform.y1 && rect.y1 < platform.y2 && x_speed <= 0) {
+        return CollisionType::Right;
     }
+
     return CollisionType::None;
 }
+
 
 
 void Hero::update(){
@@ -254,7 +263,7 @@ void Hero::update(){
     double y_buffer=platforms->get_block_height()/10;
     for (const auto& platform : platforms->get_platforms()) {
         if(platform.overlap(*rect)){
-            CollisionType col=detectCollision(platform);
+            CollisionType col=detectCollision(platform,platforms->get_block_width()/5);
             //std::cout<<"collip\n";
             switch(col){
                 case CollisionType::Top:

@@ -37,7 +37,7 @@ public:
     void init();
     void update();
     void draw();
-    CollisionType detectCollision(const Rectangle& platform);
+    CollisionType detectCollision(const Rectangle& platform,double collision_buffer);
 private:
     double dash_duration;
     bool jump_redy;
