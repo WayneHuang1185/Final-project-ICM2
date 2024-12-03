@@ -67,7 +67,7 @@ void Introduction::draw(){
 
     al_draw_text(FC->caviar_dreams[24], al_map_rgb(0, 0, 0),
                  back_button_x + back_button_width / 2, back_button_y + back_button_height / 2 - 12,
-                 ALLEGRO_ALIGN_CENTER, "Back");
+                 ALLEGRO_ALIGN_CENTER, "BACK");
 }
 
 void Introduction::destroy(){

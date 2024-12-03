@@ -26,6 +26,7 @@
 #include <allegro5/allegro_acodec.h>
 #include <vector>
 #include <cstring>  
+#include <fstream>
 #include <iostream>
 
 #include "../element/Hero.h"

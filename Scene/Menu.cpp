@@ -122,16 +122,16 @@ void Menu::draw() {
 
     al_draw_text(FC->caviar_dreams[24], al_map_rgb(0, 0, 0),
                  play_button_x + play_button_width / 2, play_button_y + play_button_height / 2 - 12,
-                 ALLEGRO_ALIGN_CENTER, "Start Game");
+                 ALLEGRO_ALIGN_CENTER, "START");
     al_draw_text(FC->caviar_dreams[24], al_map_rgb(0, 0, 0),
                  setting_button_x + setting_button_width / 2, setting_button_y + setting_button_height / 2 - 12,
-                 ALLEGRO_ALIGN_CENTER, "Setting");
+                 ALLEGRO_ALIGN_CENTER, "SETTING");
     al_draw_text(FC->caviar_dreams[24], al_map_rgb(0, 0, 0),
                  introduction_button_x + introduction_button_width / 2, introduction_button_y + introduction_button_height / 2 - 12,
-                 ALLEGRO_ALIGN_CENTER, "Introduction");
+                 ALLEGRO_ALIGN_CENTER, "INTRODUCTION");
     al_draw_text(FC->caviar_dreams[24], al_map_rgb(0, 0, 0),
                  exit_button_x + exit_button_width / 2, exit_button_y + exit_button_height / 2 - 12,
-                 ALLEGRO_ALIGN_CENTER, "Exit");
+                 ALLEGRO_ALIGN_CENTER, "EXIT");
 }
 
 void Menu::destroy() {

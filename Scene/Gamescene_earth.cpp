@@ -19,6 +19,8 @@ void Gamescene_earth::init() {
     //Load the background
     background_img = IC->get(Resource::background_img_path);
 
+	DC->platforms->loadmap(Resource::map_earth, DC->window_width, DC->window_height);
+
 	SC->init();
 	FC->init();
 
@@ -60,12 +62,14 @@ bool Gamescene_earth::update() {
 		return false;
 	}
 
-	DC->hero->update();
+	if(state != STATE::PAUSE){
+		DC->hero->update();
 
-	DC->platforms->update();
+		DC->platforms->update();
 
-	OC->update();
-	// game_update is finished. The states of current frame will be previous states of the next frame.
+		OC->update();
+		// game_update is finished. The states of current frame will be previous states of the next frame.
+	}
 
 	memcpy(DC->prev_key_state, DC->key_state, sizeof(DC->key_state));
 	memcpy(DC->prev_mouse_state, DC->mouse_state, sizeof(DC->mouse_state));

@@ -1,14 +1,17 @@
 #include "Platform.h"
+#include "../Resource.h"
 #include <fstream>
 #include <iostream>
 #include <allegro5/allegro_primitives.h>
 
-Platform::Platform(){}
+Platform::Platform(){
+
+}
 void Platform::loadmap(const std::string& map, int window_width, int window_height){
     block_width = window_width / 20.0;
     block_height = window_height / 9.0;    
     
-    std::ifstream file("./assets/map.txt");
+    std::ifstream file(map);
 
     if (!file.is_open()) {
         std::cerr << "Failed to open map file: " << map << std::endl;

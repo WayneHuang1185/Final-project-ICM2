@@ -26,8 +26,6 @@ DataCenter::DataCenter() {
 
 	hero = new Hero();
 	platforms = new Platform();
-
-	platforms->loadmap("./assets/map.txt", window_width, window_height);
 }
 
 DataCenter::~DataCenter() {
