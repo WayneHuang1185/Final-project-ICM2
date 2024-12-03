@@ -93,7 +93,7 @@ void Hero::init(){
     jump_cooldown=0; //static_cast<int>(DC->FPS/(max_jump_limit+1));
 
 
-    dash_length=PLT->get_block_height()*3;
+    dash_length=PLT->get_block_height()*2;
     dash_duration=0.15*DataSetting::FPS;
     dash_speed=dash_length/dash_duration;
     dash_timer=0;
@@ -148,14 +148,17 @@ void Hero::update(){
     GIFCenter *GIFC = GIFCenter::get_instance();
     ALGIF_ANIMATION *gif = GIFC->get(gifpath[{state,dir}]);
     //dir=HeroDir::LEFT;
-    std::cout<<x_speed<<std::endl;
+    std::cout<<x_speed<<" "<<y_speed<<" "<<on_platform<<std::endl;
     switch(state){
         case HeroState::JUMP:
             std::cout<<"JUMP\n";
+            break;
         case HeroState::RUN:
             std::cout<<"RUN\n";
+            break;
         case HeroState::STOP:
             std::cout<<"STOP\n";
+            break;
     }
     //std::cout<<"ok:"<<gifjump[{HeroDir::LEFT,"up"}]<<'\n';
     if (!rect) return;
@@ -254,15 +257,10 @@ void Hero::update(){
     }
     else
         rect->update_center_y(rect->center_y() + y_speed);
-    if(y_speed<0)
-        y_speed+=up_gravity;
-    else 
-        y_speed+=down_gravity;
     on_platform = false;
     double x_buffer=platforms->get_block_width()/10;
     double y_buffer=platforms->get_block_height()/10;
     for (const auto& platform : platforms->get_platforms()) {
-        if(platform.overlap(*rect)){
             CollisionType col=detectCollision(platform,platforms->get_block_width()/5);
             //std::cout<<"collip\n";
             switch(col){
@@ -292,7 +290,7 @@ void Hero::update(){
                         hold=false;
                     }
                     else{
-                        x_speed=-x_speed/2;
+                        x_speed=-x_speed/10;
                         rect->update_center_x(platform.x1-(rect->x2-rect->x1)/2);
                     }
                     std::cout<<"LEFT\n";
@@ -310,7 +308,7 @@ void Hero::update(){
                         hold=false;
                     }
                     else{
-                        x_speed=-x_speed/2;
+                        x_speed=-x_speed/10;
                         rect->update_center_x(platform.x2+(rect->x2-rect->x1)/2);
                     }
                     std::cout<<"RIGHT\n";
@@ -318,7 +316,13 @@ void Hero::update(){
                 default:
                     break;
             }
-        }
+    }
+    if(!on_platform){
+        if(y_speed<0)
+            y_speed+=up_gravity;
+        else
+            y_speed+=down_gravity;
+        std::cout<<y_speed<<std::endl;
     }
     if (!on_platform && rect->y2 < DC->window_height) {
         state=HeroState::JUMP; 
@@ -328,7 +332,7 @@ void Hero::update(){
         jump_count = 0;
     }
     else if(on_platform){
-        if(x_speed == 0){
+        if(x_speed <= 0.5){
             if(DC->key_state[ALLEGRO_KEY_W])
                 dir=HeroDir::UP;
             state=HeroState::STOP; 
