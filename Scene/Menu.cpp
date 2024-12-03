@@ -24,16 +24,25 @@ void Menu::init() {
     ImageCenter *IC = ImageCenter::get_instance();
 	FontCenter *FC = FontCenter::get_instance();
     
-    button_width = 200;
-    button_height = 50;
+    play_button_width = setting_button_width = introduction_button_width = exit_button_width = 200;
+    play_button_height = setting_button_height = introduction_button_height = exit_button_height = 100;
 
 
-    button_x = (DC->window_width - button_width) / 2;
-    button_y = (DC->window_height - button_height) / 2;
+    play_button_x = (DC->window_width - play_button_width) / 5 * 2;
+    play_button_y = (DC->window_height - play_button_height) / 6 * 4;
+
+    setting_button_x = (DC->window_width - setting_button_width) / 5 * 3;
+    setting_button_y = (DC->window_height - play_button_height) / 6 * 4;
+
+    introduction_button_x = (DC->window_width - play_button_width) / 5 * 2;
+    introduction_button_y = (DC->window_height - play_button_height) / 6 * 5;
+
+    exit_button_x = (DC->window_width - setting_button_width) / 5 * 3;
+    exit_button_y = (DC->window_height - play_button_height) / 6 * 5;
 
     button_color = al_map_rgb(100, 200, 100);         
     button_hover_color = al_map_rgb(150, 250, 150);  
-    button_current_color = button_color;             
+    play_button_current_color = setting_button_current_color = introduction_button_current_color = exit_button_current_color = button_color;             
 
     SC->init();
 	FC->init();
@@ -46,35 +55,83 @@ bool Menu::update() {
 
     // std::cout << "in menu update" << std::endl;
 
-    if (DC->mouse.x >= button_x && DC->mouse.x <= button_x + button_width &&
-        DC->mouse.y >= button_y && DC->mouse.y <= button_y + button_height) {
-        button_current_color = button_hover_color; 
-
-        if (DC->mouse_state[1]) { 
-            std::cout << "Button clicked! Switching to Gamescene_earth." << std::endl;
-            window = 1;  
-            return false;  
+    if (DC->mouse.x >= play_button_x && DC->mouse.x <= play_button_x + play_button_width &&
+        DC->mouse.y >= play_button_y && DC->mouse.y <= play_button_y + play_button_height) {
+            play_button_current_color = button_hover_color; 
+            if (DC->mouse_state[1]) { 
+                std::cout << "Button clicked! Switching to Gamescene_earth." << std::endl;
+                window = 1;  
+                return false;  
+            }
         }
-    } else {
-        button_current_color = button_color; 
-    }
+    else play_button_current_color = button_color;
+
+    if(DC->mouse.x >= setting_button_x && DC->mouse.x <= setting_button_x + setting_button_width &&
+            DC->mouse.y >= setting_button_y && DC->mouse.y <= setting_button_y + setting_button_height){
+                setting_button_current_color = button_hover_color;
+                if(DC->mouse_state[1]){
+                    std::cout << "button clicked! switching to setting." << std::endl;
+                    window = 2;
+                    return false;
+                }
+            }
+    else setting_button_current_color = button_color;
+
+    if(DC->mouse.x >= introduction_button_x && DC->mouse.x <= introduction_button_x + introduction_button_width &&
+            DC->mouse.y >= introduction_button_y && DC->mouse.y <= introduction_button_y + introduction_button_height){
+                introduction_button_current_color = button_hover_color;
+                if(DC->mouse_state[1]){
+                    std::cout << "button clicked! switching to introduction." << std::endl;
+                    window = 3;
+                    return false;
+                }
+            }
+    else introduction_button_current_color = button_color;
+
+    if(DC->mouse.x >= exit_button_x && DC->mouse.x <= exit_button_x + exit_button_width &&
+            DC->mouse.y >= exit_button_y && DC->mouse.y <= exit_button_y + exit_button_height){
+                exit_button_current_color = button_hover_color;
+                if(DC->mouse_state[1]){
+                    std::cout << "button clicked! game terminate." << std::endl;
+                    window = -1;
+                    return false;
+                }
+            }
+        
+    else exit_button_current_color = button_color; 
 
     return true;
 }
 
 void Menu::draw() {
     DataCenter *DC = DataCenter::get_instance();
+    FontCenter* FC = FontCenter::get_instance();
     // std::cout << "in menu draw" << std::endl;
 
     al_clear_to_color(al_map_rgb(100, 100, 100));
 
-    al_draw_filled_rectangle(button_x, button_y, button_x + button_width, button_y + button_height, button_current_color);
-    al_draw_rectangle(button_x, button_y, button_x + button_width, button_y + button_height, al_map_rgb(0, 0, 0), 2);
+    al_draw_filled_rectangle(play_button_x, play_button_y, play_button_x + play_button_width, play_button_y + play_button_height, play_button_current_color);
+    al_draw_filled_rectangle(setting_button_x, setting_button_y, setting_button_x+setting_button_width, setting_button_y+setting_button_height, setting_button_current_color);
+    al_draw_filled_rectangle(introduction_button_x, introduction_button_y, introduction_button_x+introduction_button_width, introduction_button_y+introduction_button_height, introduction_button_current_color);
+    al_draw_filled_rectangle(exit_button_x, exit_button_y, exit_button_x+exit_button_width, exit_button_y+exit_button_height, exit_button_current_color);
 
-    FontCenter* FC = FontCenter::get_instance();
+    al_draw_rectangle(play_button_x, play_button_y, play_button_x + play_button_width, play_button_y + play_button_height, al_map_rgb(0, 0, 0), 2);
+    al_draw_rectangle(setting_button_x, setting_button_y, setting_button_x+setting_button_width, setting_button_y+setting_button_height, al_map_rgb(0, 0, 0), 2);
+    al_draw_rectangle(introduction_button_x, introduction_button_y, introduction_button_x+introduction_button_width, introduction_button_y+introduction_button_height, al_map_rgb(0, 0, 0), 2);
+    al_draw_rectangle(exit_button_x, exit_button_y, exit_button_x+exit_button_width, exit_button_y+exit_button_height, al_map_rgb(0, 0, 0), 2);
+
     al_draw_text(FC->caviar_dreams[24], al_map_rgb(0, 0, 0),
-                 button_x + button_width / 2, button_y + button_height / 2 - 12,
+                 play_button_x + play_button_width / 2, play_button_y + play_button_height / 2 - 12,
                  ALLEGRO_ALIGN_CENTER, "Start Game");
+    al_draw_text(FC->caviar_dreams[24], al_map_rgb(0, 0, 0),
+                 setting_button_x + setting_button_width / 2, setting_button_y + setting_button_height / 2 - 12,
+                 ALLEGRO_ALIGN_CENTER, "Setting");
+    al_draw_text(FC->caviar_dreams[24], al_map_rgb(0, 0, 0),
+                 introduction_button_x + introduction_button_width / 2, introduction_button_y + introduction_button_height / 2 - 12,
+                 ALLEGRO_ALIGN_CENTER, "Introduction");
+    al_draw_text(FC->caviar_dreams[24], al_map_rgb(0, 0, 0),
+                 exit_button_x + exit_button_width / 2, exit_button_y + exit_button_height / 2 - 12,
+                 ALLEGRO_ALIGN_CENTER, "Exit");
 }
 
 void Menu::destroy() {

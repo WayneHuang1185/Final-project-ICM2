@@ -161,6 +161,8 @@ bool Game::game_update() {
         return false;  
     }
 
+	if(window == -1) game_destroy();
+
     return true;  
 }
 
