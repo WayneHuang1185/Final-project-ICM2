@@ -82,18 +82,18 @@ void Hero::init(){
     Platform *PLT=DC->platforms;
     max_hold_time=DC->FPS;
     hold_timer=max_hold_time;
-   
     jump_redy=true;
     dash_redy=true;
+    dash_control=false;
     hold=false;
     
     jump_timer=0;
-    max_jump_height=PLT->get_block_height()*5;//static_cast<double>(gif->height*3);
+    max_jump_height=PLT->get_block_height()*4;//static_cast<double>(gif->height*3);
     max_jump_speed=-std::sqrt(2 * up_gravity * max_jump_height);
     jump_cooldown=0; //static_cast<int>(DC->FPS/(max_jump_limit+1));
 
 
-    dash_length=PLT->get_block_height()*2;
+    dash_length=PLT->get_block_height()*4;
     dash_duration=0.15*DataSetting::FPS;
     dash_speed=dash_length/dash_duration;
     dash_timer=0;
@@ -125,13 +125,13 @@ CollisionType Hero::detectCollision(const Rectangle& platform,double collision_b
     }
 
     // Left collision (Hero's right side hitting platform left side)
-    if (rect.x2 + collision_buffer >= platform.x1 && rect.x1 < platform.x1 &&
+    if (rect.x2 >= platform.x1 && rect.x1 < platform.x1 &&
         rect.y2 > platform.y1 && rect.y1 < platform.y2 && x_speed >= 0) {
         return CollisionType::Left;
     }
 
     // Right collision (Hero's left side hitting platform right side)
-    if (rect.x1 - collision_buffer <= platform.x2 && rect.x2 > platform.x2 &&
+    if (rect.x1 <= platform.x2 && rect.x2 > platform.x2 &&
         rect.y2 > platform.y1 && rect.y1 < platform.y2 && x_speed <= 0) {
         return CollisionType::Right;
     }
@@ -163,6 +163,8 @@ void Hero::update(){
     //std::cout<<"ok:"<<gifjump[{HeroDir::LEFT,"up"}]<<'\n';
     if (!rect) return;
     if(dash_redy && DC->key_state[ALLEGRO_KEY_SPACE]){
+        if(DC->key_state[ALLEGRO_KEY_W])
+            dir=HeroDir::UP;
         dash_timer=0;
         switch(dir){
             case HeroDir::UP:
@@ -176,23 +178,28 @@ void Hero::update(){
                 x_speed=dash_speed;
                 break;
         }
+        dash_control=true;
         dash_redy=false;
     }
     else if(!dash_redy){
         dash_timer++;
-        if(dash_timer>=dash_duration*2){
+        if(dash_control && dash_timer>=dash_duration){
+            dash_control=false;
+            x_speed =0;
+            y_speed =0;
+        }
+        if(dash_timer>=dash_duration*4){
             dash_redy=true;
-            x_speed=0;
-            y_speed=0;
         }
     }
-    else{
-        if(hold_count<max_hold_limit && DC->key_state[ALLEGRO_KEY_F]){
+    if(!dash_control){
+        std::cout<<"test\n";
+        if(hold_count<max_hold_limit && DC->key_state[ALLEGRO_KEY_K]){
             hold=true;
             hold_count++;
         }
         double jump_speed=std::max(max_jump_speed,max_jump_speed/2+abs(x_speed)*max_jump_speed/2/InTheAir::MAX_SPEED);
-        if (jump_redy && DC->key_state[ALLEGRO_KEY_C] && !DC->prev_key_state[ALLEGRO_KEY_C] && jump_count < max_jump_limit) {
+        if (jump_redy && DC->key_state[ALLEGRO_KEY_J] && !DC->prev_key_state[ALLEGRO_KEY_J] && jump_count < max_jump_limit) {
             if(dir == HeroDir::UP)
                 dir=HeroDir::RIGHT;
             y_speed=jump_speed;
@@ -218,10 +225,10 @@ void Hero::update(){
         } else if (DC->key_state[ALLEGRO_KEY_A]) {
             dir = HeroDir::LEFT;
             if (state == HeroState::JUMP) {
-                x_speed = (x_speed > 0) ? std::max(x_speed - InTheAir::TURN_ACCELERATION, -InTheAir::MAX_SPEED)
+                x_speed = (x_speed >=0) ? std::max(x_speed - InTheAir::TURN_ACCELERATION, -InTheAir::MAX_SPEED)
                                         : std::max(x_speed - InTheAir::ACCELERATION, -InTheAir::MAX_SPEED);
             } else {
-                x_speed = (x_speed > 0) ? std::max(x_speed - OnTheGround::TURN_ACCELERATION, -OnTheGround::MAX_SPEED)
+                x_speed = (x_speed >=0) ? std::max(x_speed - OnTheGround::TURN_ACCELERATION, -OnTheGround::MAX_SPEED)
                                         : std::max(x_speed - OnTheGround::ACCELERATION, -OnTheGround::MAX_SPEED);
             }
         } else {

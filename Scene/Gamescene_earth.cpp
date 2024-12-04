@@ -87,11 +87,8 @@ void Gamescene_earth::draw(){
     al_draw_bitmap(background_img, 0, 0, 0);
 
 	DC->hero->draw();
-
-	DC->platforms->draw();
-	
 	OC->draw();
-
+	DC->platforms->draw();
 	switch(state) {
 		case STATE::PLAYING:{
 			break;

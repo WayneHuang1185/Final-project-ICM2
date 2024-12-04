@@ -8,7 +8,7 @@ enum class HeroState{
     RUN,STOP,JUMP,MAX_STATE
 };
 enum class HeroDir{
-    LEFT,RIGHT,MAX_DIR,UP,DOWN
+    LEFT,RIGHT,MAX_DIR,UP,RIGHT_UP,LEFT_UP
 };
 enum class CollisionType{ 
     None, Top, Bottom, Left, Right 
@@ -37,13 +37,14 @@ public:
     void init();
     void update();
     void draw();
-    CollisionType detectCollision(const Rectangle& platform,double collision_buffer);
+    CollisionType detectCollision(const Rectangle& platform,double collistion_buffer);
 private:
     double dash_duration;
     bool jump_redy;
     bool hold;
     bool on_platform;
     bool dash_redy;
+    bool dash_control;
     double dash_length;
     double dash_speed;
 	double x_speed,y_speed;
