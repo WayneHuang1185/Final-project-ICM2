@@ -103,10 +103,11 @@ void Hero::init(){
     double y_offset =0;
     shape.reset(
         new Rectangle(
-            DC->window_width / 2 - gif->width / 2 + x_offset,
-            DC->window_height / 2 - gif->height / 2 + y_offset,
-            DC->window_width / 2 + gif->width / 2 + x_offset,
-            DC->window_height / 2 + gif->height / 2 + y_offset
+            DC->window_width / 20 - gif->width / 2 + x_offset,
+            (DC->window_height / 10)*9 - gif->height / 2 + y_offset,
+            DC->window_width / 20 + gif->width / 2 + x_offset,
+            (DC->window_height / 10)*9 + gif->height / 2 + y_offset,
+            0
         )
     );
 }

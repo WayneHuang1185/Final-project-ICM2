@@ -55,6 +55,7 @@ class Gamescene_earth : public Scene{
         ALLEGRO_EVENT event;
         ALLEGRO_BITMAP *game_icon;
         ALLEGRO_BITMAP *background_img;
+        ALLEGRO_BITMAP *earth_wall;
         static ALLEGRO_SAMPLE_INSTANCE *background_music;
 
         bool BGM_played;

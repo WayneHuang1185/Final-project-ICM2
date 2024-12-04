@@ -18,8 +18,10 @@ void Gamescene_earth::init() {
 
     //Load the background
     background_img = IC->get(Resource::background_img_path);
+	earth_wall = IC->get(Resource::earth_wall);
 
 	DC->platforms->loadmap(Resource::map_earth, DC->window_width, DC->window_height);
+	DC->platforms->textures[2] = earth_wall;
 
 	SC->init();
 	FC->init();

@@ -5,6 +5,12 @@
 #include "../shapes/Rectangle.h"
 #include <string>
 #include <vector>
+#include <map>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_acodec.h>
 
 class Platform : public Object{
     public:
@@ -21,6 +27,8 @@ class Platform : public Object{
             return block_height;
         }
         const std::vector<Rectangle>& get_platforms() const;
+
+        std::map<int, ALLEGRO_BITMAP*> textures;
     private:
         std::vector<Rectangle> rectangles;
         double block_height;

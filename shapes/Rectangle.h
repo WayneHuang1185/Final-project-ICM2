@@ -22,14 +22,16 @@ public:
 	}
 	const ShapeType getType() const { return ShapeType::RECTANGLE; }
 public:
-	Rectangle() {}
-	Rectangle(double x1, double y1, double x2, double y2) : x1{x1}, y1{y1}, x2{x2}, y2{y2} {}
-	Rectangle(int x1, int y1, int x2, int y2) :
+	Rectangle() : type(0) {}
+	Rectangle(double x1, double y1, double x2, double y2, int type) : x1{x1}, y1{y1}, x2{x2}, y2{y2}, type{type} {}
+	Rectangle(int x1, int y1, int x2, int y2, int type) :
 		x1{static_cast<double>(x1)},
 		y1{static_cast<double>(y1)},
 		x2{static_cast<double>(x2)},
-		y2{static_cast<double>(y2)} {}
+		y2{static_cast<double>(y2)}, 
+		type{type} {}
 	double x1, y1, x2, y2;
+	int type;
 };
 
 #endif

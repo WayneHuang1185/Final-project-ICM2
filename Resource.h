@@ -8,7 +8,12 @@ namespace Resource {
     constexpr char background_music[] = "assets/sound/BackgroundMusic.ogg";
 
     constexpr char map_earth[] = "assets/map_earth.txt";
+    constexpr char earth_wall[] = "assets/image/earth_wall.jpg";
+
     constexpr char map_moon[] = "assets/map_moon.txt";
+
+
+    constexpr char map_mars[] = "assets/map_mars.txt";
 }
 
 #endif
