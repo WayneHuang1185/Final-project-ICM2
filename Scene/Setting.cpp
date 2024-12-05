@@ -26,8 +26,8 @@ void Setting::init(){
     back_button_width = 200;
     back_button_height = 100;
 
-    back_button_x = (DC->window_width - back_button_width) / 10 * 1;
-    back_button_y = (DC->window_height - back_button_height) / 10 * 1;
+    back_button_x = (DC->window_width - back_button_width) / 20 * 1;
+    back_button_y = (DC->window_height - back_button_height) / 20 * 1;
 
     button_color = al_map_rgb(100, 200, 100);         
     button_hover_color = al_map_rgb(150, 250, 150);  
