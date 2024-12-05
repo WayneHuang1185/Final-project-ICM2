@@ -84,7 +84,7 @@ void Hero::init(){
     dash_redy=true;
     dash_control=false;
     hold=false;
-    
+    jump_add_timer=0;
     jump_timer=0;
     max_jump_height=PLT->get_block_height()*4;//static_cast<double>(gif->height*3);
     max_jump_speed=-std::sqrt(2 * up_gravity * max_jump_height);
@@ -159,6 +159,7 @@ void Hero::update(){
             std::cout<<"STOP\n";
             break;
     }
+    std::cout<<jump_count<<std::endl;
     //std::cout<<"ok:"<<gifjump[{HeroDir::LEFT,"up"}]<<'\n';
     if (!rect) return;
     if(dash_redy && DC->key_state[ALLEGRO_KEY_SPACE]){
@@ -172,9 +173,11 @@ void Hero::update(){
                 break;
             case HeroDir::LEFT:
                 x_speed=-dash_speed;
+                y_speed=0;
                 break;
             case HeroDir::RIGHT:
                 x_speed=dash_speed;
+                y_speed=0;
                 break;
         }
         dash_control=true;
@@ -207,6 +210,7 @@ void Hero::update(){
                 jump_redy=true;
             }
         }
+            
         if (DC->key_state[ALLEGRO_KEY_D]) {
             dir = HeroDir::RIGHT;
             if (state == HeroState::JUMP) {
@@ -283,6 +287,7 @@ void Hero::update(){
                         rect->update_center_x(platform.x1-(rect->x2-rect->x1)/2);
                         x_speed=0;
                         hold=true;
+                        jump_count=std::min(jump_count+1,max_jump_limit);
                     }
                     else{
                         x_speed=-x_speed/10;
@@ -297,6 +302,7 @@ void Hero::update(){
                         rect->update_center_x(platform.x2+(rect->x2-rect->x1)/2);
                         x_speed=0;
                         hold=true;
+                        jump_count=std::min(jump_count+1,max_jump_limit);
                     }
                     else{
                         x_speed=-x_speed/10;
@@ -330,7 +336,7 @@ void Hero::update(){
         jump_count = 0;
     }
     else if(on_platform){
-        if(x_speed <= 0.5){
+        if(std::abs(x_speed) <= 0.5){
             if(DC->key_state[ALLEGRO_KEY_W])
                 dir=HeroDir::UP;
             state=HeroState::STOP; 

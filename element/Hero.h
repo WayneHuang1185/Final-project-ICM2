@@ -53,7 +53,7 @@ private:
     double max_jump_height;
     double max_jump_speed;
     int dash_timer;
- 
+    int jump_add_timer;
     int jump_timer;
     int jump_cooldown;
     const double down_gravity=0.6;
