@@ -131,7 +131,7 @@ Game::game_init() {
 	SC->init();
 	FC->init();
 
-	background = IC->get(Resource::background_img_path);
+	background = IC->get(Resource::earth_background_img_path);
 
 	std::cout << "icon success" << std::endl;
 

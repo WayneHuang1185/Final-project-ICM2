@@ -17,7 +17,7 @@ void Gamescene_earth::init() {
 	FontCenter *FC = FontCenter::get_instance();
 
     //Load the background
-    background_img = IC->get(Resource::background_img_path);
+    background_img = IC->get(Resource::earth_background_img_path);
 	earth_wall = IC->get(Resource::earth_wall);
 
 	DC->platforms->loadmap(Resource::map_earth, DC->window_width, DC->window_height);
@@ -42,7 +42,7 @@ bool Gamescene_earth::update() {
 	SoundCenter *SC = SoundCenter::get_instance();
 
 	if(BGM_played){
-		background_music = SC->play(Resource::background_music, ALLEGRO_PLAYMODE_LOOP);
+		background_music = SC->play(Resource::earth_background_music, ALLEGRO_PLAYMODE_LOOP);
 		BGM_played = false;
 	}
 
