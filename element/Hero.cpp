@@ -282,7 +282,15 @@ void Hero::update(){
                     std::cout<<"BOTTOM\n";
                     break;
                 case CollisionType::Left:
-                    if(DC->key_state[ALLEGRO_KEY_D]){
+                    if(DC->key_state[ALLEGRO_KEY_K]){
+                        dir=HeroDir::LEFT;
+                        x_speed=-InTheAir::MAX_SPEED;
+                        hold=false;
+                        y_speed=max_jump_speed/2;
+                    }
+                    else if(DC->key_state[ALLEGRO_KEY_D]){
+                        if(!DC->prev_key_state[ALLEGRO_KEY_D])
+                            y_speed=0;
                         state=HeroState::HOLD;
                         rect->update_center_x(platform.x1-(rect->x2-rect->x1)/2);
                         x_speed=0;
@@ -294,10 +302,20 @@ void Hero::update(){
                         rect->update_center_x(platform.x1-(rect->x2-rect->x1)/2);
                         hold=false;
                     }
+                    
+                    
                     std::cout<<"LEFT\n";
                     break;
                 case CollisionType::Right:
-                    if(DC->key_state[ALLEGRO_KEY_A]){
+                    if(DC->key_state[ALLEGRO_KEY_K]){
+                        dir=HeroDir::RIGHT;
+                        x_speed=InTheAir::MAX_SPEED;
+                        hold=false;
+                        y_speed=max_jump_speed/2;
+                    }
+                    else if(DC->key_state[ALLEGRO_KEY_A]){
+                        if(!DC->prev_key_state[ALLEGRO_KEY_A])
+                            y_speed=0;
                         state=HeroState::HOLD;
                         rect->update_center_x(platform.x2+(rect->x2-rect->x1)/2);
                         x_speed=0;
@@ -309,6 +327,7 @@ void Hero::update(){
                         rect->update_center_x(platform.x2+(rect->x2-rect->x1)/2);
                         hold=false;
                     }
+                  
                     std::cout<<"RIGHT\n";
                     break;
                 default:
