@@ -226,7 +226,7 @@ void Hero::update(){
                 x_speed = (x_speed >=0) ? std::max(x_speed - InTheAir::TURN_ACCELERATION, -InTheAir::MAX_SPEED)
                                         : std::max(x_speed - InTheAir::ACCELERATION, -InTheAir::MAX_SPEED);
             } else {
-                x_speed = (x_speed >=0) ? std::max(x_speed - OnTheGround::TURN_ACCELERATION, -OnTheGround::MAX_SPEED)
+                x_speed = (x_speed > 0) ? std::max(x_speed - OnTheGround::TURN_ACCELERATION, -OnTheGround::MAX_SPEED)
                                         : std::max(x_speed - OnTheGround::ACCELERATION, -OnTheGround::MAX_SPEED);
             }
         } else {
