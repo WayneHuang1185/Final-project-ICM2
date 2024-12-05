@@ -9,7 +9,7 @@
 namespace HeroSetting {
 	static constexpr char gif_root_path[50] = "./assets/gif/Hero/hero";
 	static constexpr char gif_state[][10] = {
-		"run","stop","jump"
+		"run","stop","jump","hold"
 	};
     static constexpr char gif_dir[][8]={
         "left","right","up","down"
@@ -80,8 +80,6 @@ void Hero::init(){
     ALGIF_ANIMATION *gif = GIFC->get(gifpath[{state,dir}]);
     DataCenter *DC = DataCenter::get_instance();
     Platform *PLT=DC->platforms;
-    max_hold_time=DC->FPS;
-    hold_timer=max_hold_time;
     jump_redy=true;
     dash_redy=true;
     dash_control=false;
@@ -194,11 +192,6 @@ void Hero::update(){
         }
     }
     if(!dash_control){
-        std::cout<<"test\n";
-        if(hold_count<max_hold_limit && DC->key_state[ALLEGRO_KEY_K]){
-            hold=true;
-            hold_count++;
-        }
         double jump_speed=std::max(max_jump_speed,max_jump_speed/2+abs(x_speed)*max_jump_speed/2/InTheAir::MAX_SPEED);
         if (jump_redy && DC->key_state[ALLEGRO_KEY_J] && !DC->prev_key_state[ALLEGRO_KEY_J] && jump_count < max_jump_limit) {
             if(dir == HeroDir::UP)
@@ -277,7 +270,6 @@ void Hero::update(){
                     y_speed = 0;    
                     on_platform = true;
                     jump_count = 0;
-                    hold_count=0;
                     std::cout<<"TOP\n";
                     break;
                 case CollisionType::Bottom:
@@ -286,38 +278,30 @@ void Hero::update(){
                     std::cout<<"BOTTOM\n";
                     break;
                 case CollisionType::Left:
-                    if(hold && hold_timer>0){
-                        x_speed=0;
-                        y_speed=0;
+                    if(DC->key_state[ALLEGRO_KEY_D]){
+                        state=HeroState::HOLD;
                         rect->update_center_x(platform.x1-(rect->x2-rect->x1)/2);
-                        hold_timer--;
-                    }
-                    else if(hold){
-                        rect->update_center_x(platform.x1-(rect->x2-rect->x1));
-                        hold_timer=max_hold_time;
-                        hold=false;
+                        x_speed=0;
+                        hold=true;
                     }
                     else{
                         x_speed=-x_speed/10;
                         rect->update_center_x(platform.x1-(rect->x2-rect->x1)/2);
+                        hold=false;
                     }
                     std::cout<<"LEFT\n";
                     break;
                 case CollisionType::Right:
-                    if(hold && hold_timer>0){
-                        x_speed=0;
-                        y_speed=0;
+                    if(DC->key_state[ALLEGRO_KEY_A]){
+                        state=HeroState::HOLD;
                         rect->update_center_x(platform.x2+(rect->x2-rect->x1)/2);
-                        hold_timer--;
-                    }
-                    else if(hold){
-                        rect->update_center_x(platform.x2+(rect->x2-rect->x1));
-                        hold_timer=max_hold_time;
-                        hold=false;
+                        x_speed=0;
+                        hold=true;
                     }
                     else{
                         x_speed=-x_speed/10;
                         rect->update_center_x(platform.x2+(rect->x2-rect->x1)/2);
+                        hold=false;
                     }
                     std::cout<<"RIGHT\n";
                     break;
@@ -325,14 +309,20 @@ void Hero::update(){
                     break;
             }
     }
-    if(!on_platform){
+    if(state == HeroState::HOLD){
+        if(y_speed<0)
+            y_speed+=down_gravity;
+        else
+            y_speed+=up_gravity/3;
+    }
+    else if(!on_platform){
         if(y_speed<0)
             y_speed+=up_gravity;
         else
             y_speed+=down_gravity;
         std::cout<<y_speed<<std::endl;
     }
-    if (!on_platform && rect->y2 < DC->window_height) {
+    if (!hold && !on_platform && rect->y2 < DC->window_height) {
         state=HeroState::JUMP; 
     } else if (!on_platform && rect->y1 >= DC->window_height) {
         rect->update_center_y(DC->window_height - (rect->y2 - rect->y1) / 2);
@@ -358,7 +348,7 @@ void Hero::draw(){
     GIFCenter *GIFC = GIFCenter::get_instance();
     ALGIF_ANIMATION *gif;
     if(dash_redy){
-        if(state == HeroState::RUN || state == HeroState::STOP){
+        if(state == HeroState::RUN || state == HeroState::STOP || state == HeroState::HOLD){
             gif = GIFC->get(gifpath[{state,dir}]);
         }
         else if(state == HeroState::JUMP && y_speed<0)
@@ -367,7 +357,7 @@ void Hero::draw(){
             gif = GIFC->get(gifjump[{dir,"down"}]);
     }
     else{
-        if(state == HeroState::RUN || state == HeroState::STOP){
+        if(state == HeroState::RUN || state == HeroState::STOP || state == HeroState::HOLD){
             gif = GIFC->get(gif_dashpath[{state,dir}]);
         }
         else if(state == HeroState::JUMP && y_speed<0)

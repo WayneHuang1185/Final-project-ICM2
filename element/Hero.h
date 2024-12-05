@@ -5,10 +5,10 @@
 #include "Platform.h"
 
 enum class HeroState{
-    RUN,STOP,JUMP,MAX_STATE
+    RUN,STOP,JUMP,HOLD,MAX_STATE
 };
 enum class HeroDir{
-    LEFT,RIGHT,MAX_DIR,UP,RIGHT_UP,LEFT_UP
+    LEFT,RIGHT,MAX_DIR,UP
 };
 enum class CollisionType{ 
     None, Top, Bottom, Left, Right 
@@ -52,8 +52,6 @@ private:
     HeroDir dir; 
     double max_jump_height;
     double max_jump_speed;
-    double max_hold_time;
-    int hold_timer;
     int dash_timer;
  
     int jump_timer;
