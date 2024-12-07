@@ -55,23 +55,12 @@ bool Menu::update() {
 
     // std::cout << "in menu update" << std::endl;
 
-    if (DC->mouse.x >= play_button_x && DC->mouse.x <= play_button_x + play_button_width &&
-        DC->mouse.y >= play_button_y && DC->mouse.y <= play_button_y + play_button_height) {
-            play_button_current_color = button_hover_color; 
-            if (DC->mouse_state[1]) { 
-                std::cout << "Button clicked! Switching to Gamescene_earth." << std::endl;
-                window = 1;  
-                return false;  
-            }
-        }
-    else play_button_current_color = button_color;
-
     if(DC->mouse.x >= setting_button_x && DC->mouse.x <= setting_button_x + setting_button_width &&
             DC->mouse.y >= setting_button_y && DC->mouse.y <= setting_button_y + setting_button_height){
                 setting_button_current_color = button_hover_color;
                 if(DC->mouse_state[1]){
                     std::cout << "button clicked! switching to setting." << std::endl;
-                    window = 2;
+                    window = 1;
                     return false;
                 }
             }
@@ -82,11 +71,22 @@ bool Menu::update() {
                 introduction_button_current_color = button_hover_color;
                 if(DC->mouse_state[1]){
                     std::cout << "button clicked! switching to introduction." << std::endl;
-                    window = 3;
+                    window = 2;
                     return false;
                 }
             }
     else introduction_button_current_color = button_color;
+
+    if (DC->mouse.x >= play_button_x && DC->mouse.x <= play_button_x + play_button_width &&
+        DC->mouse.y >= play_button_y && DC->mouse.y <= play_button_y + play_button_height) {
+            play_button_current_color = button_hover_color; 
+            if (DC->mouse_state[1]) { 
+                std::cout << "Button clicked! Switching to Gamescene_earth." << std::endl;
+                window = 3;  
+                return false;  
+            }
+        }
+    else play_button_current_color = button_color;
 
     if(DC->mouse.x >= exit_button_x && DC->mouse.x <= exit_button_x + exit_button_width &&
             DC->mouse.y >= exit_button_y && DC->mouse.y <= exit_button_y + exit_button_height){

@@ -105,6 +105,9 @@ void Hero::init(){
             (DC->window_height / 10)*9 - gif->height / 2 + y_offset,
             DC->window_width / 20 + gif->width / 2 + x_offset,
             (DC->window_height / 10)*9 + gif->height / 2 + y_offset,
+            0,
+            false,
+            0,
             0
         )
     );
@@ -274,6 +277,8 @@ void Hero::update(){
                     y_speed = 0;    
                     on_platform = true;
                     jump_count = 0;
+                    if(platform.can_move) current_platform = &platform;
+                    else current_platform = nullptr;
                     std::cout<<"TOP\n";
                     break;
                 case CollisionType::Bottom:
@@ -368,6 +373,8 @@ void Hero::update(){
         rect->update_center_x(DC->mouse.x);
         rect->update_center_y(DC->mouse.y);
     }
+
+    if (current_platform) rect->update_center_x(rect->center_x() + current_platform->dx + x_speed);
 }
 void Hero::draw(){
     GIFCenter *GIFC = GIFCenter::get_instance();

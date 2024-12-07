@@ -64,6 +64,7 @@ private:
     int max_hold_limit=1;
     int max_dash_limit=1;
     bool debug=true;
+    const Rectangle *current_platform = nullptr;
     std::map<std::pair<HeroState,HeroDir>,std::string>gifpath; //exclude jump
     std::map<std::pair<HeroDir,std::string>,std::string>gifjump; // jump
     std::map<std::pair<HeroState,HeroDir>,std::string>gif_dashpath;

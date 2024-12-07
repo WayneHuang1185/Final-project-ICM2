@@ -4,6 +4,7 @@
 #include <allegro5/allegro.h>
 #define GAME_TERMINATE -1
 #include "shapes/Point.h"
+#include "Scene/Scenemanager.h"
 
 #define MAX_ELEMENT 100
 

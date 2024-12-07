@@ -1,16 +1,16 @@
-#include "Gamescene_earth.h"
+#include "Gamescene_earth_2.h"
 
-ALLEGRO_SAMPLE_INSTANCE *Gamescene_earth::background_music = nullptr;
+ALLEGRO_SAMPLE_INSTANCE *Gamescene_earth2::background_music = nullptr;
 
-Gamescene_earth::Gamescene_earth(){
+Gamescene_earth2::Gamescene_earth2(){
     init();
 }
 
-Gamescene_earth::~Gamescene_earth() {
+Gamescene_earth2::~Gamescene_earth2() {
     destroy();
 }
 
-void Gamescene_earth::init() {
+void Gamescene_earth2::init() {
     DataCenter *DC = DataCenter::get_instance();
     SoundCenter *SC = SoundCenter::get_instance();
     ImageCenter *IC = ImageCenter::get_instance();
@@ -22,11 +22,10 @@ void Gamescene_earth::init() {
 	earth_land = IC->get(Resource::earth_land);
 	earth_mud = IC->get(Resource::earth_mud);
 
-	DC->platforms->loadmap(Resource::map_earth, DC->window_width, DC->window_height);
+	DC->platforms->loadmap(Resource::map_earth_2, DC->window_width, DC->window_height);
 	DC->platforms->textures[1] = earth_land;
 	DC->platforms->textures[2] = earth_mud;
 	DC->platforms->textures[3] = earth_wall;
-	DC->platforms->textures[4] = earth_mud;
 
 	SC->init();
 	FC->init();
@@ -37,11 +36,11 @@ void Gamescene_earth::init() {
 
 	state = STATE::PLAYING;
 
-	Gamescene_earth::BGM_played = true;
+	Gamescene_earth2::BGM_played = true;
 }
 
 
-bool Gamescene_earth::update() {
+bool Gamescene_earth2::update() {
 	DataCenter *DC = DataCenter::get_instance();
 	OperationCenter *OC = OperationCenter::get_instance();
 	SoundCenter *SC = SoundCenter::get_instance();
@@ -84,7 +83,7 @@ bool Gamescene_earth::update() {
 	return true;
 }
 
-void Gamescene_earth::draw(){
+void Gamescene_earth2::draw(){
 	DataCenter *DC = DataCenter::get_instance();
 	OperationCenter *OC = OperationCenter::get_instance();
 	FontCenter *FC = FontCenter::get_instance();
@@ -115,9 +114,9 @@ void Gamescene_earth::draw(){
 	}
 }
 
-void Gamescene_earth::destroy() {
+void Gamescene_earth2::destroy() {
 	if(background_img) background_img = nullptr;
 	if(background_music) background_music = nullptr;
 	
-    std::cout << "gamescene_earth destroy" << std::endl;
+    std::cout << "Gamescene_earth2 destroy" << std::endl;
 }

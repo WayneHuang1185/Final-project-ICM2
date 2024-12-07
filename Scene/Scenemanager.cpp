@@ -1,6 +1,7 @@
 #include "Scenemanager.h"
 #include "Menu.h"
 #include "Gamescene_earth.h"
+#include "Gamescene_earth_2.h"
 #include "Setting.h"
 #include "Introduction.h"
 
@@ -19,17 +20,21 @@ void Scenemanager::Create_Scene(Scenetype type) {
             currentScene = new Menu();
             std::cout << "Create_Scene menu" << std::endl;
             break;
-        case Scenetype::Game_earth:  // 1
-            currentScene = new Gamescene_earth();
-            std::cout << "Create_Scene gamescene_earth" << std::endl;
-            break;
-        case Scenetype::Setting: // 2
+        case Scenetype::Setting: // 1
             currentScene = new Setting();
             std::cout << "Create_Scene Setting" << std::endl;
             break;
-        case Scenetype::Introduction:
+        case Scenetype::Introduction: // 2
             currentScene = new Introduction();
             std::cout << "Create_Scene Introduction" << std::endl;
+            break;
+        case Scenetype::Game_earth:  // 3
+            currentScene = new Gamescene_earth();
+            std::cout << "Create_Scene gamescene_earth" << std::endl;
+            break;
+        case Scenetype::Game_earth_2:
+            currentScene = new Gamescene_earth2();
+            std::cout << "Create_Scene gamescene_earth_2" << std::endl;
             break;
         case Scenetype::Fail:
             break;

@@ -6,9 +6,10 @@
 
 enum class Scenetype{
     Menu, 
-    Game_earth, 
     Setting,
     Introduction,
+    Game_earth, 
+    Game_earth_2,
     Ending, 
     Fail
 };

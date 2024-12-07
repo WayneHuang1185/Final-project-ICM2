@@ -12,6 +12,12 @@
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_acodec.h>
 
+#include "../data/DataCenter.h"
+#include "../data/OperationCenter.h"
+#include "../data/SoundCenter.h"
+#include "../data/ImageCenter.h"
+#include "../data/FontCenter.h"
+
 class Platform : public Object{
     public:
         Platform();

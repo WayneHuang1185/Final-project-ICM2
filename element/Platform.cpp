@@ -29,7 +29,9 @@ void Platform::loadmap(const std::string& map, int window_width, int window_heig
                 double y1 = row * block_height;
                 double x2 = x1 + block_width;
                 double y2 = y1 + block_height;
-                rectangles.emplace_back(x1, y1, x2, y2, type);
+
+                if(type == 4) rectangles.emplace_back(x1, y1, x2, y2, type, true, 1.0, 0.0);
+                else rectangles.emplace_back(x1, y1, x2, y2, type);
             }
         }
         ++row; 
@@ -42,9 +44,24 @@ void Platform::init(){
 
 }
 
-void Platform::update(){
+void Platform::update() {
+    DataCenter *DC = DataCenter::get_instance();
+    for (auto& rect : rectangles) {
+        if (rect.can_move) {
 
+            rect.x1 += rect.dx;
+            rect.x2 += rect.dx;
+            rect.y1 += rect.dy;
+            rect.y2 += rect.dy;
+
+
+            if (rect.x1 < DC->window_width / 20 * 10  || rect.x2 > DC->window_width / 20 * 16) {
+                rect.dx = -rect.dx; 
+            }
+        }
+    }
 }
+
 
 void Platform::draw() {
     for (const auto& rect : rectangles) {

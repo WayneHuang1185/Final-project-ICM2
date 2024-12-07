@@ -1,5 +1,5 @@
-#ifndef GAMESCENE_EARTH_H_INCLUDED
-#define GAMESCENE_EARTH_H_INCLUDED
+#ifndef GAMESCENE_2_EARTH_H_INCLUDED
+#define GAMESCENE_2_EARTH_H_INCLUDED
 
 #include "../GameWindow.h"
 #include "../Utils.h"
@@ -32,10 +32,10 @@
 #include "../element/Hero.h"
 #include "../element/Platform.h"
 
-class Gamescene_earth : public Scene{
+class Gamescene_earth2 : public Scene{
     public:
-        Gamescene_earth();
-        ~Gamescene_earth();
+        Gamescene_earth2();
+        ~Gamescene_earth2();
 
         void init() override;
         bool update() override;
