@@ -150,7 +150,7 @@ void Hero::update(){
     GIFCenter *GIFC = GIFCenter::get_instance();
     ALGIF_ANIMATION *gif = GIFC->get(gifpath[{state,dir}]);
     //dir=HeroDir::LEFT;
-    std::cout<<x_speed<<" "<<y_speed<<" "<<on_platform<<std::endl;
+    std::cout<< "x_speed = " <<x_speed<<" "<< "y_speed = " << y_speed<<" "<< "on_platform = " <<on_platform<<std::endl;
     switch(state){
         case HeroState::JUMP:
             std::cout<<"JUMP\n";
@@ -298,7 +298,7 @@ void Hero::update(){
                             y_speed=0;
                         state=HeroState::HOLD;
                         rect->update_center_x(platform.x1-(rect->x2-rect->x1)/2);
-                        x_speed=0;
+                        x_speed=std::max(0.0, x_speed);
                         hold=true;
                         jump_count=std::min(jump_count+1,max_jump_limit);
                     }
@@ -323,7 +323,7 @@ void Hero::update(){
                             y_speed=0;
                         state=HeroState::HOLD;
                         rect->update_center_x(platform.x2+(rect->x2-rect->x1)/2);
-                        x_speed=0;
+                        x_speed=std::max(0.0, x_speed);
                         hold=true;
                         jump_count=std::min(jump_count+1,max_jump_limit);
                     }
@@ -361,14 +361,14 @@ void Hero::update(){
     }
     else if(on_platform){
         if(std::abs(x_speed) <= 0.5){
-            if(DC->key_state[ALLEGRO_KEY_W])
-                dir=HeroDir::UP;
-            state=HeroState::STOP; 
+            if(DC->key_state[ALLEGRO_KEY_W]) dir=HeroDir::UP;
+            else state=HeroState::STOP; 
         }
         else{
             state=HeroState::RUN;
         }
     }
+
     if(DC->mouse_state[2]){
         rect->update_center_x(DC->mouse.x);
         rect->update_center_y(DC->mouse.y);
