@@ -42,6 +42,7 @@ public:
     friend class Gamescene_earth;
     friend class Gamescene_earth2;
 private:
+    int hp=3;
     double dash_duration;
     bool jump_redy;
     bool hold;
@@ -73,6 +74,7 @@ private:
     std::map<std::pair<HeroDir,std::string>,std::string>gifjump; // jump
     std::map<std::pair<HeroState,HeroDir>,std::string>gif_dashpath;
     std::map<std::pair<HeroDir,std::string>,std::string>gif_dashjump; // jump
+    std::string heart_path="./assets/gif/Hero/hero_heart.gif";
 };
 
 #endif

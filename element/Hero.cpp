@@ -19,7 +19,6 @@ void Hero::init(){
     char buffer[60];
     for(size_t s_type=0;s_type < static_cast<size_t>(HeroState::MAX_STATE);s_type++){
         for(size_t d_type=0;d_type<static_cast<size_t>(HeroDir::MAX_DIR);d_type++){
-          
                 sprintf(buffer,"%s_%s_%s.gif",
                         HeroSetting::gif_root_path,
                         HeroSetting::gif_state[static_cast<int>(s_type)],
@@ -150,19 +149,7 @@ void Hero::update(){
     GIFCenter *GIFC = GIFCenter::get_instance();
     ALGIF_ANIMATION *gif = GIFC->get(gifpath[{state,dir}]);
     //dir=HeroDir::LEFT;
-    std::cout<< "x_speed = " <<x_speed<<" "<< "y_speed = " << y_speed<<" "<< "on_platform = " <<on_platform<<std::endl;
-    switch(state){
-        case HeroState::JUMP:
-            std::cout<<"JUMP\n";
-            break;
-        case HeroState::RUN:
-            std::cout<<"RUN\n";
-            break;
-        case HeroState::STOP:
-            std::cout<<"STOP\n";
-            break;
-    }
-    std::cout<<jump_count<<std::endl;
+    
     //std::cout<<"ok:"<<gifjump[{HeroDir::LEFT,"up"}]<<'\n';
     if (!rect) return;
     if(dash_redy && DC->key_state[ALLEGRO_KEY_SPACE]){
@@ -352,9 +339,19 @@ void Hero::update(){
     if (!hold && !on_platform && rect->y2 < DC->window_height) {
         state=HeroState::JUMP; 
     } else if (!on_platform && rect->y1 >= DC->window_height) {
+        if(hp>1){
+            hp--;
+            init();
+        }
+        else{
+            /*這邊需要你幫我寫死亡切到的視窗*/
+
+        }
+        /*
         rect->update_center_y(DC->window_height - (rect->y2 - rect->y1) / 2);
         y_speed = 0;
         jump_count = 0;
+        */
     }
     if(on_platform){
         if(std::abs(x_speed) <= 0.5){
@@ -376,29 +373,10 @@ void Hero::update(){
 void Hero::draw(){
     GIFCenter *GIFC = GIFCenter::get_instance();
     ALGIF_ANIMATION *gif;
-    switch(state){
-        case HeroState::JUMP:
-            std::cout<<"JUMP\n";
-            break;
-        case HeroState::RUN:
-            std::cout<<"RUN\n";
-            break;
-        case HeroState::STOP:
-            std::cout<<"STOP\n";
-            break;
+    gif=GIFC->get(heart_path);
+    for(int i=0;i<hp;i++){
+        algif_draw_gif(gif,i*gif->width+gif->width/2,gif->height/2,0);
     }
-    switch(dir){
-        case HeroDir::LEFT:
-            std::cout<<"LEFT\n";
-            break;
-        case HeroDir::RIGHT:
-            std::cout<<"RIGHT\n";
-            break;
-        case HeroDir::UP:
-            std::cout<<"UP\n";
-            break;
-    }
-    std::cout<<(dash_redy)?1:0<<'\n';
     if(dash_redy){
         if(state == HeroState::RUN || state == HeroState::STOP || state == HeroState::HOLD){
             gif = GIFC->get(gifpath[{state,dir}]);
@@ -426,6 +404,30 @@ void Hero::draw(){
             al_map_rgb(255, 0, 0), 
             2.0 
         );
+        switch(state){
+        case HeroState::JUMP:
+            std::cout<<"JUMP\n";
+            break;
+        case HeroState::RUN:
+            std::cout<<"RUN\n";
+            break;
+        case HeroState::STOP:
+            std::cout<<"STOP\n";
+            break;
+        }
+        switch(dir){
+            case HeroDir::LEFT:
+                std::cout<<"LEFT\n";
+                break;
+            case HeroDir::RIGHT:
+                std::cout<<"RIGHT\n";
+                break;
+            case HeroDir::UP:
+                std::cout<<"UP\n";
+                break;
+        }
+        std::cout<<"dash_redy:"<<(dash_redy)?1:0<<'\n';
+        std::cout<< "x_speed = " <<x_speed<<" "<< "y_speed = " << y_speed<<" "<< "on_platform = " <<on_platform<<std::endl;
     }
 
 
