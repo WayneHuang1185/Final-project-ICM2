@@ -8,6 +8,8 @@ Platform::Platform(){
 
 }
 void Platform::loadmap(const std::string& map, int window_width, int window_height){
+    rectangles.clear();
+    
     block_width = window_width / 20.0;
     block_height = window_height / 12.0;    
     
@@ -30,7 +32,7 @@ void Platform::loadmap(const std::string& map, int window_width, int window_heig
                 double x2 = x1 + block_width;
                 double y2 = y1 + block_height;
 
-                if(type == 4) rectangles.emplace_back(x1, y1, x2, y2, type, true, 1.0, 0.0);
+                if(type == 9) rectangles.emplace_back(x1, y1, x2, y2, type, true, 1.0, 0.0);
                 else rectangles.emplace_back(x1, y1, x2, y2, type);
             }
         }

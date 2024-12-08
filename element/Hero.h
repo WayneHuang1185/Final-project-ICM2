@@ -3,6 +3,7 @@
 #include "Object.h"
 #include "../data/DataCenter.h"
 #include "Platform.h"
+#include "../Scene/Gamescene_earth.h"
 
 enum class HeroState{
     RUN,STOP,JUMP,HOLD,MAX_STATE
@@ -38,6 +39,8 @@ public:
     void update();
     void draw();
     CollisionType detectCollision(const Rectangle& platform,double collistion_buffer);
+    friend class Gamescene_earth;
+    friend class Gamescene_earth2;
 private:
     double dash_duration;
     bool jump_redy;
@@ -63,6 +66,7 @@ private:
     int max_jump_limit = 2;
     int max_hold_limit=1;
     int max_dash_limit=1;
+    double climb_speed;
     bool debug=true;
     const Rectangle *current_platform = nullptr;
     std::map<std::pair<HeroState,HeroDir>,std::string>gifpath; //exclude jump

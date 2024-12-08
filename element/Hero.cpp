@@ -291,7 +291,7 @@ void Hero::update(){
                         dir=HeroDir::LEFT;
                         x_speed=-InTheAir::MAX_SPEED;
                         hold=false;
-                        y_speed=max_jump_speed/2;
+                        y_speed=climb_speed;
                     }
                     else if(DC->key_state[ALLEGRO_KEY_D]){
                         if(!DC->prev_key_state[ALLEGRO_KEY_D])
@@ -316,7 +316,7 @@ void Hero::update(){
                         dir=HeroDir::RIGHT;
                         x_speed=InTheAir::MAX_SPEED;
                         hold=false;
-                        y_speed=max_jump_speed/2;
+                        y_speed=climb_speed;
                     }
                     else if(DC->key_state[ALLEGRO_KEY_A]){
                         if(!DC->prev_key_state[ALLEGRO_KEY_A])

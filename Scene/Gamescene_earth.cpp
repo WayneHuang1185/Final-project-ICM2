@@ -16,6 +16,11 @@ void Gamescene_earth::init() {
     ImageCenter *IC = ImageCenter::get_instance();
 	FontCenter *FC = FontCenter::get_instance();
 
+	Platform *PLT=DC->platforms;
+
+	SC->init();
+	FC->init();
+
     //Load the background
     background_img = IC->get(Resource::earth_background_img_path);
 	earth_wall = IC->get(Resource::earth_wall);
@@ -26,13 +31,16 @@ void Gamescene_earth::init() {
 	DC->platforms->textures[1] = earth_land;
 	DC->platforms->textures[2] = earth_mud;
 	DC->platforms->textures[3] = earth_wall;
-	DC->platforms->textures[4] = earth_mud;
+	DC->platforms->textures[9] = earth_mud;
+	
+	DC->hero->init();
+	DC->hero->dash_length = PLT->get_block_height();
+	DC->hero->dash_duration = 0.1*DC->FPS;
+	DC->hero->max_jump_height = PLT->get_block_height()*3;
+	DC->hero->max_jump_speed = -std::sqrt(1.5*DC->hero->up_gravity * DC->hero->max_jump_height);
+	DC->hero->climb_speed = DC->hero->max_jump_speed/1.82;
 
-	SC->init();
-	FC->init();
-
-    // Initialize other elements
-    DC->hero->init();
+	// Initialize other elements
     DC->platforms->init();
 
 	state = STATE::PLAYING;
@@ -116,6 +124,7 @@ void Gamescene_earth::draw(){
 }
 
 void Gamescene_earth::destroy() {
+
 	if(background_img) background_img = nullptr;
 	if(background_music) background_music = nullptr;
 	
