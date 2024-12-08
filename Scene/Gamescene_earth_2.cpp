@@ -50,7 +50,7 @@ bool Gamescene_earth2::update() {
 		BGM_played = false;
 	}
 
-	if (DC->key_state[ALLEGRO_KEY_P] && !DC->prev_key_state[ALLEGRO_KEY_P]) {
+	if (DC->key_state[ALLEGRO_KEY_ESCAPE] && !DC->prev_key_state[ALLEGRO_KEY_ESCAPE]) {
         if (state == STATE::PLAYING) {
 			SC->toggle_playing(background_music);
             state = STATE::PAUSE; 
@@ -61,7 +61,7 @@ bool Gamescene_earth2::update() {
         }
     }
 
-	if(DC->key_state[ALLEGRO_KEY_ESCAPE]){
+	if(DC->key_state[ALLEGRO_KEY_B]){
 		std::cout << "switch to menu" << std::endl;
 		SC->stop_playing(background_music);
 		window = 0;

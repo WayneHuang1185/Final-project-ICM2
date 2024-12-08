@@ -41,6 +41,8 @@ class Gamescene_earth : public Scene{
         bool update() override;
         void draw() override;
         void destroy() override;
+
+        void hero_init();
     private:
         /**
          * @brief States of the game process in game_update.

@@ -34,11 +34,7 @@ void Gamescene_earth::init() {
 	DC->platforms->textures[9] = earth_mud;
 	
 	DC->hero->init();
-	DC->hero->dash_length = PLT->get_block_height();
-	DC->hero->dash_duration = 0.1*DC->FPS;
-	DC->hero->max_jump_height = PLT->get_block_height()*3;
-	DC->hero->max_jump_speed = -std::sqrt(1.5*DC->hero->up_gravity * DC->hero->max_jump_height);
-	DC->hero->climb_speed = DC->hero->max_jump_speed/1.82;
+	hero_init();
 
 	// Initialize other elements
     DC->platforms->init();
@@ -59,7 +55,7 @@ bool Gamescene_earth::update() {
 		BGM_played = false;
 	}
 
-	if (DC->key_state[ALLEGRO_KEY_P] && !DC->prev_key_state[ALLEGRO_KEY_P]) {
+	if (DC->key_state[ALLEGRO_KEY_ESCAPE] && !DC->prev_key_state[ALLEGRO_KEY_ESCAPE]) {
         if (state == STATE::PLAYING) {
 			SC->toggle_playing(background_music);
             state = STATE::PAUSE; 
@@ -70,7 +66,7 @@ bool Gamescene_earth::update() {
         }
     }
 
-	if(DC->key_state[ALLEGRO_KEY_ESCAPE]){
+	if(DC->key_state[ALLEGRO_KEY_B]){
 		std::cout << "switch to menu" << std::endl;
 		SC->stop_playing(background_music);
 		window = 0;
@@ -129,4 +125,15 @@ void Gamescene_earth::destroy() {
 	if(background_music) background_music = nullptr;
 	
     std::cout << "gamescene_earth destroy" << std::endl;
+}
+
+void Gamescene_earth::hero_init(){
+	DataCenter *DC = DataCenter::get_instance();
+	Platform *PLT=DC->platforms;
+
+	DC->hero->dash_length = PLT->get_block_height();
+	DC->hero->dash_duration = 0.1*DC->FPS;
+	DC->hero->max_jump_height = PLT->get_block_height()*3;
+	DC->hero->max_jump_speed = -std::sqrt(1.5*DC->hero->up_gravity * DC->hero->max_jump_height);
+	DC->hero->climb_speed = DC->hero->max_jump_speed/1.82;
 }
