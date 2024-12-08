@@ -110,12 +110,14 @@ void Hero::init(){
             0
         )
     );
+
+    hp = 3;
 }
 CollisionType Hero::detectCollision(const Rectangle& platform,double collision_buffer) {
     Rectangle rect = *dynamic_cast<Rectangle*>(shape.get());
     // Top collision (Hero's feet touching platform top)
     if (rect.y2 + collision_buffer >= platform.y1 && rect.y1 < platform.y1 &&
-        rect.x2 > platform.x1 + 5 && rect.x1 < platform.x2 - 5 && y_speed >= 0) {
+        rect.x2 > platform.x1 && rect.x1 < platform.x2 && y_speed >= 0) {
         return CollisionType::Top;
     }
 
