@@ -266,10 +266,12 @@ void Hero::update(){
     else
         rect->update_center_y(rect->center_y() + y_speed);
     on_platform = false;
+    hold=false;
     double x_buffer=platforms->get_block_width()/10;
     double y_buffer=platforms->get_block_height()/10;
     for (const auto& platform : platforms->get_platforms()) {
             CollisionType col=detectCollision(platform,platforms->get_block_width()/5);
+          
             //std::cout<<"collip\n";
             switch(col){
                 case CollisionType::Top:
@@ -290,7 +292,6 @@ void Hero::update(){
                     if(DC->key_state[ALLEGRO_KEY_K]){
                         dir=HeroDir::LEFT;
                         x_speed=-InTheAir::MAX_SPEED;
-                        hold=false;
                         y_speed=climb_speed;
                     }
                     else if(DC->key_state[ALLEGRO_KEY_D]){
@@ -305,7 +306,6 @@ void Hero::update(){
                     else{
                         x_speed=-x_speed/10;
                         rect->update_center_x(platform.x1-(rect->x2-rect->x1)/2);
-                        hold=false;
                     }
                     
                     
@@ -315,7 +315,6 @@ void Hero::update(){
                     if(DC->key_state[ALLEGRO_KEY_K]){
                         dir=HeroDir::RIGHT;
                         x_speed=InTheAir::MAX_SPEED;
-                        hold=false;
                         y_speed=climb_speed;
                     }
                     else if(DC->key_state[ALLEGRO_KEY_A]){
@@ -330,9 +329,7 @@ void Hero::update(){
                     else{
                         x_speed=-x_speed/10;
                         rect->update_center_x(platform.x2+(rect->x2-rect->x1)/2);
-                        hold=false;
                     }
-                  
                     std::cout<<"RIGHT\n";
                     break;
                 default:
@@ -359,10 +356,10 @@ void Hero::update(){
         y_speed = 0;
         jump_count = 0;
     }
-    else if(on_platform){
+    if(on_platform){
         if(std::abs(x_speed) <= 0.5){
             if(DC->key_state[ALLEGRO_KEY_W]) dir=HeroDir::UP;
-            else state=HeroState::STOP; 
+            state=HeroState::STOP; 
         }
         else{
             state=HeroState::RUN;
@@ -379,6 +376,29 @@ void Hero::update(){
 void Hero::draw(){
     GIFCenter *GIFC = GIFCenter::get_instance();
     ALGIF_ANIMATION *gif;
+    switch(state){
+        case HeroState::JUMP:
+            std::cout<<"JUMP\n";
+            break;
+        case HeroState::RUN:
+            std::cout<<"RUN\n";
+            break;
+        case HeroState::STOP:
+            std::cout<<"STOP\n";
+            break;
+    }
+    switch(dir){
+        case HeroDir::LEFT:
+            std::cout<<"LEFT\n";
+            break;
+        case HeroDir::RIGHT:
+            std::cout<<"RIGHT\n";
+            break;
+        case HeroDir::UP:
+            std::cout<<"UP\n";
+            break;
+    }
+    std::cout<<(dash_redy)?1:0<<'\n';
     if(dash_redy){
         if(state == HeroState::RUN || state == HeroState::STOP || state == HeroState::HOLD){
             gif = GIFC->get(gifpath[{state,dir}]);
