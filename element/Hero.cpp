@@ -368,7 +368,7 @@ void Hero::update(){
         rect->update_center_y(DC->mouse.y);
     }
 
-    if (current_platform) rect->update_center_x(rect->center_x() + current_platform->dx + x_speed);
+    if (current_platform) rect->update_center_x(rect->center_x() + current_platform->dx);
 }
 void Hero::draw(){
     GIFCenter *GIFC = GIFCenter::get_instance();
