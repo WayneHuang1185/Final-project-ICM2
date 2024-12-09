@@ -103,6 +103,7 @@ bool Gamescene_earth::update() {
 			std::cout << "switch to menu" << std::endl;
 			SC->stop_playing(background_music);
 			window = 0;  
+			DC->hero->died_count = 0;
 			return false;
 		}
 
