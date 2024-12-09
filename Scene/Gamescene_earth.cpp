@@ -39,6 +39,14 @@ void Gamescene_earth::init() {
 	// Initialize other elements
     DC->platforms->init();
 
+	button_width = 200;
+	button_height = 100;
+	pause_menu_button_x = pause_tryagain_button_x = (DC->window_width - button_width) / 2;
+	pause_tryagain_button_y = DC->window_height / 2;
+	pause_menu_button_y = pause_tryagain_button_y + 150;
+	button_color = al_map_rgb(100, 200, 100);
+	button_hover_color = al_map_rgb(150, 250, 150);  
+
 	state = STATE::PLAYING;
 
 	Gamescene_earth::BGM_played = true;
@@ -66,20 +74,49 @@ bool Gamescene_earth::update() {
         }
     }
 
-	if(DC->key_state[ALLEGRO_KEY_B]){
-		std::cout << "switch to menu" << std::endl;
-		SC->stop_playing(background_music);
-		window = 0;
-		return false;
-	}
-
-	if(state != STATE::PAUSE){
+	if(state == STATE::PLAYING){
 		DC->hero->update();
 
 		DC->platforms->update();
 
 		OC->update();
 		// game_update is finished. The states of current frame will be previous states of the next frame.
+		if(DC->hero->hero_injured){
+			DC->hero->init();
+			hero_init();
+			DC->hero->died_count++;
+			DC->hero->hp = 3-DC->hero->died_count;
+		}
+		else if(DC->hero->hero_died){
+			DC->hero->died_count = 0;
+			std::cout << "Fail" << std::endl;
+			SC->stop_playing(background_music);
+			window = 5;
+			return false;
+		}
+	}
+
+	if(state == STATE::PAUSE){
+		if (DC->mouse_state[1] &&
+			DC->mouse.x >= pause_menu_button_x && DC->mouse.x <= pause_menu_button_x + button_width &&
+			DC->mouse.y >= pause_menu_button_y && DC->mouse.y <= pause_menu_button_y + button_height) {
+			std::cout << "switch to menu" << std::endl;
+			SC->stop_playing(background_music);
+			window = 0;  
+			return false;
+		}
+
+		if (DC->mouse_state[1] &&
+			DC->mouse.x >= pause_tryagain_button_x && DC->mouse.x <= pause_tryagain_button_x + button_width &&
+			DC->mouse.y >= pause_tryagain_button_y && DC->mouse.y <= pause_tryagain_button_y + button_height) {
+			std::cout << "Try Again" << std::endl;
+			DC->hero->init();
+            hero_init();
+            state = STATE::PLAYING;
+			BGM_played = true;
+			DC->hero->died_count = 0;
+            return true;
+		}
 	}
 
 	memcpy(DC->prev_key_state, DC->key_state, sizeof(DC->key_state));
@@ -95,7 +132,7 @@ void Gamescene_earth::draw(){
 	//Flush the screen first.
 	al_clear_to_color(al_map_rgb(100, 100, 100));
 	// background
-    al_draw_bitmap(background_img, 0, 0, 0);
+	al_draw_bitmap(background_img, 0, 0, 0);
 
 	DC->hero->draw();
 	OC->draw();
@@ -105,19 +142,58 @@ void Gamescene_earth::draw(){
 			break;
 		}
 		case STATE::PAUSE: {
-			// game layout cover
+
 			al_draw_filled_rectangle(0, 0, DC->window_width, DC->window_height, al_map_rgba(50, 50, 50, 64));
 			al_draw_text(
 				FC->caviar_dreams[FontSize::LARGE], al_map_rgb(255, 255, 255),
-				DC->window_width/2., DC->window_height/2.,
+				DC->window_width / 2., DC->window_height / 2. - 150,
 				ALLEGRO_ALIGN_CENTRE, "GAME PAUSED");
+
+			ALLEGRO_COLOR menu_color = button_color;
+			if (DC->mouse.x >= pause_menu_button_x && DC->mouse.x <= pause_menu_button_x + button_width &&
+				DC->mouse.y >= pause_menu_button_y && DC->mouse.y <= pause_menu_button_y + button_height) {
+				menu_color = button_hover_color; 
+			}
+			al_draw_filled_rectangle(
+				pause_menu_button_x, pause_menu_button_y,
+				pause_menu_button_x + button_width, pause_menu_button_y + button_height,
+				menu_color);
+			al_draw_rectangle(
+				pause_menu_button_x, pause_menu_button_y,
+				pause_menu_button_x + button_width, pause_menu_button_y + button_height,
+				al_map_rgb(0, 0, 0), 2.0); 
+			al_draw_text(
+				FC->caviar_dreams[FontSize::MEDIUM], al_map_rgb(0, 0, 0),
+				pause_menu_button_x + button_width / 2,
+				pause_menu_button_y + (button_height - al_get_font_line_height(FC->caviar_dreams[FontSize::MEDIUM])) / 2,
+				ALLEGRO_ALIGN_CENTRE, "MENU");
+
+			ALLEGRO_COLOR tryagain_color = button_color;
+			if (DC->mouse.x >= pause_tryagain_button_x && DC->mouse.x <= pause_tryagain_button_x + button_width &&
+				DC->mouse.y >= pause_tryagain_button_y && DC->mouse.y <= pause_tryagain_button_y + button_height) {
+				tryagain_color = button_hover_color; 
+			}
+			al_draw_filled_rectangle(
+				pause_tryagain_button_x, pause_tryagain_button_y,
+				pause_tryagain_button_x + button_width, pause_tryagain_button_y + button_height,
+				tryagain_color);
+			al_draw_rectangle(
+				pause_tryagain_button_x, pause_tryagain_button_y,
+				pause_tryagain_button_x + button_width, pause_tryagain_button_y + button_height,
+				al_map_rgb(0, 0, 0), 2.0);
+			al_draw_text(
+				FC->caviar_dreams[FontSize::MEDIUM], al_map_rgb(0, 0, 0),
+				pause_tryagain_button_x + button_width / 2,
+				pause_tryagain_button_y + (button_height - al_get_font_line_height(FC->caviar_dreams[FontSize::MEDIUM])) / 2,
+				ALLEGRO_ALIGN_CENTRE, "TRY AGAIN");
 			break;
-		} 
+		}
 		case STATE::END:{
 			break;
 		}
 	}
 }
+
 
 void Gamescene_earth::destroy() {
 
@@ -131,6 +207,7 @@ void Gamescene_earth::hero_init(){
 	DataCenter *DC = DataCenter::get_instance();
 	Platform *PLT=DC->platforms;
 
+	DC->hero->hero_died = false;
 	DC->hero->dash_length = PLT->get_block_height();
 	DC->hero->dash_duration = 0.1*DC->FPS;
 	DC->hero->max_jump_height = PLT->get_block_height()*3;

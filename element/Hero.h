@@ -42,7 +42,10 @@ public:
     friend class Gamescene_earth;
     friend class Gamescene_earth2;
 private:
-    int hp=3;
+    int hp;
+    bool hero_injured;
+    bool hero_died;
+    int died_count = 0;
     double dash_duration;
     bool jump_redy;
     bool hold;

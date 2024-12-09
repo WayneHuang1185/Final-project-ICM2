@@ -110,7 +110,8 @@ void Hero::init(){
             0
         )
     );
-
+    hero_died = false;
+    hero_injured = false;
     hp = 3;
 }
 CollisionType Hero::detectCollision(const Rectangle& platform,double collision_buffer) {
@@ -342,13 +343,10 @@ void Hero::update(){
         state=HeroState::JUMP; 
     } else if (!on_platform && rect->y1 >= DC->window_height) {
         if(hp>1){
-            hp--;
-            init();
+            hero_injured = true;
         }
-        else{
+        else hero_died = true;
             /*這邊需要你幫我寫死亡切到的視窗*/
-
-        }
         /*
         rect->update_center_y(DC->window_height - (rect->y2 - rect->y1) / 2);
         y_speed = 0;

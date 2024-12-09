@@ -61,6 +61,12 @@ class Gamescene_earth : public Scene{
         ALLEGRO_BITMAP *earth_land;
         ALLEGRO_BITMAP *earth_mud;
         static ALLEGRO_SAMPLE_INSTANCE *background_music;
+        ALLEGRO_COLOR button_color;
+        ALLEGRO_COLOR button_hover_color;
+
+        double pause_menu_button_x, pause_menu_button_y;
+        double pause_tryagain_button_x, pause_tryagain_button_y;
+        double button_width, button_height;
 
         bool BGM_played;
 };

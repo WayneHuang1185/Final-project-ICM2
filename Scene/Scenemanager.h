@@ -10,8 +10,8 @@ enum class Scenetype{
     Introduction,
     Game_earth, 
     Game_earth_2,
-    Ending, 
-    Fail
+    Fail,
+    Ending
 };
 
 class Scenemanager{
