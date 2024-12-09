@@ -31,7 +31,6 @@
 
 #include "../element/Hero.h"
 #include "../element/Platform.h"
-
 class Gamescene_earth : public Scene{
     public:
         Gamescene_earth();

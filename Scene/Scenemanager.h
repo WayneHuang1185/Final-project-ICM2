@@ -3,23 +3,14 @@
 
 #include "Scene.h"
 #include <memory>
-
-enum class Scenetype{
-    Menu, 
-    Setting,
-    Introduction,
-    Game_earth, 
-    Game_earth_2,
-    Fail,
-    Ending
-};
+#include "../Global.h"
 
 class Scenemanager{
     public:
         Scenemanager();
         ~Scenemanager();
 
-        void Create_Scene(Scenetype);
+        void Create_Scene(Scenetype&);
         bool update_Scene();
         void draw_Scene();
     private:

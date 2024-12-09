@@ -46,7 +46,7 @@ bool Introduction::update(){
             back_button_current_color = button_hover_color; 
             if (DC->mouse_state[1]) { 
                 std::cout << "Button clicked! Switching to Gamescene_earth." << std::endl;
-                window = 0;  
+                window = Scenetype::Menu;  
                 return false;  
             }
         }

@@ -64,7 +64,7 @@ bool Gamescene_earth2::update() {
 	if(DC->key_state[ALLEGRO_KEY_B]){
 		std::cout << "switch to menu" << std::endl;
 		SC->stop_playing(background_music);
-		window = 0;
+		window = Scenetype::Menu;
 		return false;
 	}
 

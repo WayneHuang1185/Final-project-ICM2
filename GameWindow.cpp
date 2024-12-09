@@ -150,10 +150,10 @@ Game::game_init() {
  */
 
 bool Game::game_update() {
-    static int previous_scene = -1;
+    static Scenetype previous_scene = Scenetype::Leave;
 
     if (window != previous_scene) {
-        scenemanager->Create_Scene(static_cast<Scenetype>(window));
+        scenemanager->Create_Scene(window);
         previous_scene = window;
     }
 
@@ -161,7 +161,7 @@ bool Game::game_update() {
         return false;  
     }
 
-	if(window == -1) game_destroy();
+	if(window == Scenetype::Leave) game_destroy();
 
     return true;  
 }

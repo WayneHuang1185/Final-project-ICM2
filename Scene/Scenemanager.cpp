@@ -10,7 +10,7 @@ Scenemanager::Scenemanager() : currentScene(nullptr) {}
 
 Scenemanager::~Scenemanager() {}
 
-void Scenemanager::Create_Scene(Scenetype type) {
+void Scenemanager::Create_Scene(Scenetype &type) {
     if(currentScene){
         delete currentScene;
         currentScene = nullptr;

@@ -12,10 +12,9 @@ namespace Resource {
     constexpr char earth_wall[] = "assets/image/earth_wall.jpg";
     constexpr char earth_land[] = "assets/image/earth_land.jpg";
     constexpr char earth_mud[] = "assets/image/earth_mud.jpg";
-
+    constexpr char tool_glass[]="assets/image/tool_glasses.png";
+    constexpr char tool_treasure[]="assets/image/tool_treasure.png";
     constexpr char map_moon[] = "assets/map_moon.txt";
-
-
     constexpr char map_mars[] = "assets/map_mars.txt";
 }
 

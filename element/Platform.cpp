@@ -31,7 +31,6 @@ void Platform::loadmap(const std::string& map, int window_width, int window_heig
                 double y1 = row * block_height;
                 double x2 = x1 + block_width;
                 double y2 = y1 + block_height;
-
                 if(type == 9) rectangles.emplace_back(x1, y1, x2, y2, type, true, 1.0, 0.0);
                 else rectangles.emplace_back(x1, y1, x2, y2, type);
             }

@@ -26,13 +26,11 @@ void Gamescene_earth::init() {
 	earth_wall = IC->get(Resource::earth_wall);
 	earth_land = IC->get(Resource::earth_land);
 	earth_mud = IC->get(Resource::earth_mud);
-
 	DC->platforms->loadmap(Resource::map_earth, DC->window_width, DC->window_height);
 	DC->platforms->textures[1] = earth_land;
 	DC->platforms->textures[2] = earth_mud;
 	DC->platforms->textures[3] = earth_wall;
 	DC->platforms->textures[9] = earth_mud;
-	
 	DC->hero->init();
 	hero_init();
 
@@ -91,7 +89,7 @@ bool Gamescene_earth::update() {
 			DC->hero->died_count = 0;
 			std::cout << "Fail" << std::endl;
 			SC->stop_playing(background_music);
-			window = 5;
+			window = Scenetype::Fail;
 			return false;
 		}
 	}
@@ -102,7 +100,7 @@ bool Gamescene_earth::update() {
 			DC->mouse.y >= pause_menu_button_y && DC->mouse.y <= pause_menu_button_y + button_height) {
 			std::cout << "switch to menu" << std::endl;
 			SC->stop_playing(background_music);
-			window = 0;  
+			window = Scenetype::Menu;  
 			DC->hero->died_count = 0;
 			return false;
 		}

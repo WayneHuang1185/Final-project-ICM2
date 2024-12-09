@@ -60,7 +60,7 @@ bool Menu::update() {
                 setting_button_current_color = button_hover_color;
                 if(DC->mouse_state[1]){
                     std::cout << "button clicked! switching to setting." << std::endl;
-                    window = 1;
+                    window = Scenetype::Setting;
                     return false;
                 }
             }
@@ -71,7 +71,7 @@ bool Menu::update() {
                 introduction_button_current_color = button_hover_color;
                 if(DC->mouse_state[1]){
                     std::cout << "button clicked! switching to introduction." << std::endl;
-                    window = 2;
+                    window = Scenetype::Introduction;
                     return false;
                 }
             }
@@ -82,7 +82,7 @@ bool Menu::update() {
             play_button_current_color = button_hover_color; 
             if (DC->mouse_state[1]) { 
                 std::cout << "Button clicked! Switching to Gamescene_earth." << std::endl;
-                window = 3;  
+                window = Scenetype::Game_earth;  
                 return false;  
             }
         }
@@ -93,7 +93,7 @@ bool Menu::update() {
                 exit_button_current_color = button_hover_color;
                 if(DC->mouse_state[1]){
                     std::cout << "button clicked! game terminate." << std::endl;
-                    window = -1;
+                    window = Scenetype::Leave;
                     return false;
                 }
             }
