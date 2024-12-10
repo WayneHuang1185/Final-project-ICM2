@@ -1,4 +1,4 @@
-/*
+
 #include "Gamescene_moon.h"
 
 ALLEGRO_SAMPLE_INSTANCE *Gamescene_moon::background_music = nullptr;
@@ -21,18 +21,27 @@ void Gamescene_moon::init() {
 
 	SC->init();
 	FC->init();
-
+	RectangleParams normal_block = {false, true, true, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+	RectangleParams ice_block = {false,true, false, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+	RectangleParams invisible_block = {false, false, true, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+	RectangleParams move_block_x1={true, true, true, 1.0, 0.0, PLT->get_block_width()*5, 0.0, 0.0, 0.0};
+	RectangleParams invisible_move_block_y1={true, false, true, 0.0, 1.0, 0.0, PLT->get_block_height()*3, 0.0, 0.0};
     //Load the background
     background_img = IC->get(Resource::earth_background_music);
 	moon_wall = IC->get(Resource::moon_wall);
 	moon_land = IC->get(Resource::moon_land);
-	moon_ice = IC->get(Resource::moon_ice);
-	DC->platforms->loadmap(Resource::map_moon, DC->window_width, DC->window_height);
+	moon_ice = IC->get(Resource::moon_ice);\
+	mode[3]=ice_block;
+	mode[4]=normal_block;
+	mode[5]=invisible_block;
+	mode[6]=invisible_move_block_y1;
+	mode[7]=move_block_x1;
+	DC->platforms->loadmap(Resource::map_moon, mode,DC->window_width, DC->window_height);
 	DC->platforms->textures[3] = moon_ice;
 	DC->platforms->textures[4] = moon_land;
-	DC->platforms->textures[7] = moon_land;	  // moving block x
  	DC->platforms->textures[5] = moon_wall;   // invisible block
 	DC->platforms->textures[6] = moon_wall;   // invisible moving block y
+	DC->platforms->textures[7] = moon_land;	  // moving block x
 	DC->hero->init();
 	hero_init();
 
@@ -126,7 +135,7 @@ bool Gamescene_moon::update() {
 	return true;
 }
 
-void Gamescene_earth::draw(){
+void Gamescene_moon::draw(){
 	DataCenter *DC = DataCenter::get_instance();
 	OperationCenter *OC = OperationCenter::get_instance();
 	FontCenter *FC = FontCenter::get_instance();
@@ -196,7 +205,7 @@ void Gamescene_earth::draw(){
 }
 
 
-void Gamescene_earth::destroy() {
+void Gamescene_moon::destroy() {
 
 	if(background_img) background_img = nullptr;
 	if(background_music) background_music = nullptr;
@@ -204,10 +213,9 @@ void Gamescene_earth::destroy() {
     std::cout << "gamescene_earth destroy" << std::endl;
 }
 
-void Gamescene_earth::hero_init(){
+void Gamescene_moon::hero_init(){
 	DataCenter *DC = DataCenter::get_instance();
 	Platform *PLT=DC->platforms;
-
 	DC->hero->hero_died = false;
 	DC->hero->dash_length = 2*PLT->get_block_height();
 	DC->hero->dash_duration = 0.1*DC->FPS;
@@ -215,4 +223,3 @@ void Gamescene_earth::hero_init(){
 	DC->hero->max_jump_speed = -std::sqrt(1.5*DC->hero->up_gravity * DC->hero->max_jump_height);
 	DC->hero->climb_speed = 1.5*DC->hero->max_jump_speed/1.82;
 }
-*/

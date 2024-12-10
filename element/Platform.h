@@ -39,6 +39,7 @@ class Platform : public Object{
         std::vector<Rectangle> rectangles;
         double block_height;
         double block_width;
+        bool debug=false;
 };
 
 #endif

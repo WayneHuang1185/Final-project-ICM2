@@ -1,4 +1,4 @@
-/*
+
 #ifndef GAMESCENE_MOON_H_INCLUDED
 #define GAMESCENE_MOON_H_INCLUDED
 
@@ -59,7 +59,7 @@ class Gamescene_moon : public Scene{
         static ALLEGRO_SAMPLE_INSTANCE *background_music;
         ALLEGRO_COLOR button_color;
         ALLEGRO_COLOR button_hover_color;
-
+        std::map<int,RectangleParams>mode;
         double pause_menu_button_x, pause_menu_button_y;
         double pause_tryagain_button_x, pause_tryagain_button_y;
         double button_width, button_height;
@@ -68,4 +68,3 @@ class Gamescene_moon : public Scene{
 };
 
 #endif
-*/

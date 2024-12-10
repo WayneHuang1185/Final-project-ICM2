@@ -72,7 +72,7 @@ void Platform::update() {
 void Platform::draw() {
     for (const auto& rect : rectangles) {
         ALLEGRO_BITMAP* texture = textures[rect.type];
-        if(texture){
+        if(rect.visible && texture){
             std::cout<<rect.type<<std::endl;
             al_draw_scaled_bitmap(
                 texture,
@@ -81,7 +81,7 @@ void Platform::draw() {
                 0
             );
         }
-        else{
+        if(debug){
             al_draw_filled_rectangle(
                 rect.x1, rect.y1, rect.x2, rect.y2,
                 al_map_rgb(100, 100, 255)

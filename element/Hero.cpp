@@ -278,7 +278,7 @@ void Hero::update(){
                     std::cout<<"BOTTOM\n";
                     break;
                 case CollisionType::Left:
-                    if(DC->key_state[ALLEGRO_KEY_K]){
+                    if(platform.can_hold && DC->key_state[ALLEGRO_KEY_K]){
                         dir=HeroDir::LEFT;
                         x_speed=-InTheAir::MAX_SPEED;
                         y_speed=climb_speed;
@@ -296,7 +296,6 @@ void Hero::update(){
                         x_speed=-x_speed/10;
                         rect->update_center_x(platform.x1-(rect->x2-rect->x1)/2);
                     }
-                    
                     
                     std::cout<<"LEFT\n";
                     break;
