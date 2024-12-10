@@ -31,7 +31,9 @@ void Platform::loadmap(const std::string& map, int window_width, int window_heig
                 double y1 = row * block_height;
                 double x2 = x1 + block_width;
                 double y2 = y1 + block_height;
-                if(type == 9) rectangles.emplace_back(x1, y1, x2, y2, type, true, 1.0, 0.0,DC->window_width*3/10,0.0);
+                double move_range = block_width*6;
+                if(type == 9) rectangles.emplace_back(x1, y1, x2, y2, type, true, 1.0, 0.0, move_range, 0.0);
+                else if(type == 8) rectangles.emplace_back(x1, y1, x2, y2, type, true, 1.0, 0.0, 0.0, 0.0, DC->window_width/20*10, DC->window_width/20*16);
                 else rectangles.emplace_back(x1, y1, x2, y2, type);
             }
         }
@@ -51,11 +53,18 @@ void Platform::update() {
             rect.x1 += rect.vx;
             rect.x2 += rect.vx;
             rect.y1 += rect.vy;
-            rect.y2 += rect.vy;                
-            if (rect.x1 < rect.start_x || rect.x2 > rect.end_x)
-                rect.vx = -rect.vx; 
-            if (rect.y1 < rect.start_y || rect.y2 > rect.end_y)
-                rect.vy = -rect.vy;
+            rect.y2 += rect.vy;      
+            if(rect.type == 9){          
+                if (rect.x1 < rect.start_x || rect.x2 > rect.end_x)
+                    rect.vx = -rect.vx; 
+                if (rect.y1 < rect.start_y || rect.y2 > rect.end_y)
+                    rect.vy = -rect.vy;
+            }
+            else if (rect.type == 8) {
+                if (rect.x1 < rect.left_boundary  || rect.x2 > rect.right_boundary) {
+                    rect.vx = -rect.vx; 
+                }
+            }
         }
     }
 }

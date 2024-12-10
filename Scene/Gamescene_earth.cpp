@@ -30,6 +30,7 @@ void Gamescene_earth::init() {
 	DC->platforms->textures[1] = earth_land;
 	DC->platforms->textures[2] = earth_mud;
 	DC->platforms->textures[3] = earth_wall;
+	DC->platforms->textures[8] = earth_mud;
 	DC->platforms->textures[9] = earth_mud;
 	DC->hero->init();
 	hero_init();
