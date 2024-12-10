@@ -1,0 +1,218 @@
+/*
+#include "Gamescene_moon.h"
+
+ALLEGRO_SAMPLE_INSTANCE *Gamescene_moon::background_music = nullptr;
+
+Gamescene_moon::Gamescene_moon(){
+    init();
+}
+
+Gamescene_moon::~Gamescene_moon() {
+    destroy();
+}
+
+void Gamescene_moon::init() {
+    DataCenter *DC = DataCenter::get_instance();
+    SoundCenter *SC = SoundCenter::get_instance();
+    ImageCenter *IC = ImageCenter::get_instance();
+	FontCenter *FC = FontCenter::get_instance();
+
+	Platform *PLT=DC->platforms;
+
+	SC->init();
+	FC->init();
+
+    //Load the background
+    background_img = IC->get(Resource::earth_background_music);
+	moon_wall = IC->get(Resource::moon_wall);
+	moon_land = IC->get(Resource::moon_land);
+	moon_ice = IC->get(Resource::moon_ice);
+	DC->platforms->loadmap(Resource::map_moon, DC->window_width, DC->window_height);
+	DC->platforms->textures[3] = moon_ice;
+	DC->platforms->textures[4] = moon_land;
+	DC->platforms->textures[7] = moon_land;	  // moving block x
+ 	DC->platforms->textures[5] = moon_wall;   // invisible block
+	DC->platforms->textures[6] = moon_wall;   // invisible moving block y
+	DC->hero->init();
+	hero_init();
+
+	// Initialize other elements
+    DC->platforms->init();
+
+	button_width = 200;
+	button_height = 100;
+	pause_menu_button_x = pause_tryagain_button_x = (DC->window_width - button_width) / 2;
+	pause_tryagain_button_y = DC->window_height / 2;
+	pause_menu_button_y = pause_tryagain_button_y + 150;
+	button_color = al_map_rgb(100, 200, 100);
+	button_hover_color = al_map_rgb(150, 250, 150);  
+
+	state = STATE::PLAYING;
+
+	Gamescene_moon::BGM_played = true;
+}
+
+
+bool Gamescene_moon::update() {
+	DataCenter *DC = DataCenter::get_instance();
+	OperationCenter *OC = OperationCenter::get_instance();
+	SoundCenter *SC = SoundCenter::get_instance();
+
+	if(BGM_played){
+		background_music = SC->play(Resource::earth_background_music, ALLEGRO_PLAYMODE_LOOP);
+		BGM_played = false;
+	}
+
+	if (DC->key_state[ALLEGRO_KEY_ESCAPE] && !DC->prev_key_state[ALLEGRO_KEY_ESCAPE]) {
+        if (state == STATE::PLAYING) {
+			SC->toggle_playing(background_music);
+            state = STATE::PAUSE; 
+			BGM_played = false;
+        } else if (state == STATE::PAUSE) {
+            state = STATE::PLAYING; 
+			BGM_played = true;
+        }
+    }
+
+	if(state == STATE::PLAYING){
+		DC->hero->update();
+
+		DC->platforms->update();
+
+		OC->update();
+		// game_update is finished. The states of current frame will be previous states of the next frame.
+		if(DC->hero->hero_injured){
+			DC->hero->init();
+			hero_init();
+			DC->hero->died_count++;
+			DC->hero->hp = 3-DC->hero->died_count;
+		}
+		else if(DC->hero->hero_died){
+			DC->hero->died_count = 0;
+			std::cout << "Fail" << std::endl;
+			SC->stop_playing(background_music);
+			window = Scenetype::Fail;
+			return false;
+		}
+	}
+
+	if(state == STATE::PAUSE){
+		if (DC->mouse_state[1] &&
+			DC->mouse.x >= pause_menu_button_x && DC->mouse.x <= pause_menu_button_x + button_width &&
+			DC->mouse.y >= pause_menu_button_y && DC->mouse.y <= pause_menu_button_y + button_height) {
+			std::cout << "switch to menu" << std::endl;
+			SC->stop_playing(background_music);
+			window = Scenetype::Menu;  
+			DC->hero->died_count = 0;
+			return false;
+		}
+
+		if (DC->mouse_state[1] &&
+			DC->mouse.x >= pause_tryagain_button_x && DC->mouse.x <= pause_tryagain_button_x + button_width &&
+			DC->mouse.y >= pause_tryagain_button_y && DC->mouse.y <= pause_tryagain_button_y + button_height) {
+			std::cout << "Try Again" << std::endl;
+			DC->hero->init();
+            hero_init();
+            state = STATE::PLAYING;
+			BGM_played = true;
+			DC->hero->died_count = 0;
+            return true;
+		}
+	}
+
+	memcpy(DC->prev_key_state, DC->key_state, sizeof(DC->key_state));
+	memcpy(DC->prev_mouse_state, DC->mouse_state, sizeof(DC->mouse_state));
+
+	return true;
+}
+
+void Gamescene_earth::draw(){
+	DataCenter *DC = DataCenter::get_instance();
+	OperationCenter *OC = OperationCenter::get_instance();
+	FontCenter *FC = FontCenter::get_instance();
+	//Flush the screen first.
+	al_clear_to_color(al_map_rgb(100, 100, 100));
+	// background
+	al_draw_bitmap(background_img, 0, 0, 0);
+
+	DC->hero->draw();
+	OC->draw();
+	DC->platforms->draw();
+	switch(state) {
+		case STATE::PLAYING:{
+			break;
+		}
+		case STATE::PAUSE: {
+
+			al_draw_filled_rectangle(0, 0, DC->window_width, DC->window_height, al_map_rgba(50, 50, 50, 64));
+			al_draw_text(
+				FC->caviar_dreams[FontSize::LARGE], al_map_rgb(255, 255, 255),
+				DC->window_width / 2., DC->window_height / 2. - 150,
+				ALLEGRO_ALIGN_CENTRE, "GAME PAUSED");
+
+			ALLEGRO_COLOR menu_color = button_color;
+			if (DC->mouse.x >= pause_menu_button_x && DC->mouse.x <= pause_menu_button_x + button_width &&
+				DC->mouse.y >= pause_menu_button_y && DC->mouse.y <= pause_menu_button_y + button_height) {
+				menu_color = button_hover_color; 
+			}
+			al_draw_filled_rectangle(
+				pause_menu_button_x, pause_menu_button_y,
+				pause_menu_button_x + button_width, pause_menu_button_y + button_height,
+				menu_color);
+			al_draw_rectangle(
+				pause_menu_button_x, pause_menu_button_y,
+				pause_menu_button_x + button_width, pause_menu_button_y + button_height,
+				al_map_rgb(0, 0, 0), 2.0); 
+			al_draw_text(
+				FC->caviar_dreams[FontSize::MEDIUM], al_map_rgb(0, 0, 0),
+				pause_menu_button_x + button_width / 2,
+				pause_menu_button_y + (button_height - al_get_font_line_height(FC->caviar_dreams[FontSize::MEDIUM])) / 2,
+				ALLEGRO_ALIGN_CENTRE, "MENU");
+
+			ALLEGRO_COLOR tryagain_color = button_color;
+			if (DC->mouse.x >= pause_tryagain_button_x && DC->mouse.x <= pause_tryagain_button_x + button_width &&
+				DC->mouse.y >= pause_tryagain_button_y && DC->mouse.y <= pause_tryagain_button_y + button_height) {
+				tryagain_color = button_hover_color; 
+			}
+			al_draw_filled_rectangle(
+				pause_tryagain_button_x, pause_tryagain_button_y,
+				pause_tryagain_button_x + button_width, pause_tryagain_button_y + button_height,
+				tryagain_color);
+			al_draw_rectangle(
+				pause_tryagain_button_x, pause_tryagain_button_y,
+				pause_tryagain_button_x + button_width, pause_tryagain_button_y + button_height,
+				al_map_rgb(0, 0, 0), 2.0);
+			al_draw_text(
+				FC->caviar_dreams[FontSize::MEDIUM], al_map_rgb(0, 0, 0),
+				pause_tryagain_button_x + button_width / 2,
+				pause_tryagain_button_y + (button_height - al_get_font_line_height(FC->caviar_dreams[FontSize::MEDIUM])) / 2,
+				ALLEGRO_ALIGN_CENTRE, "TRY AGAIN");
+			break;
+		}
+		case STATE::END:{
+			break;
+		}
+	}
+}
+
+
+void Gamescene_earth::destroy() {
+
+	if(background_img) background_img = nullptr;
+	if(background_music) background_music = nullptr;
+	
+    std::cout << "gamescene_earth destroy" << std::endl;
+}
+
+void Gamescene_earth::hero_init(){
+	DataCenter *DC = DataCenter::get_instance();
+	Platform *PLT=DC->platforms;
+
+	DC->hero->hero_died = false;
+	DC->hero->dash_length = 2*PLT->get_block_height();
+	DC->hero->dash_duration = 0.1*DC->FPS;
+	DC->hero->max_jump_height = 1.5*PLT->get_block_height()*3;
+	DC->hero->max_jump_speed = -std::sqrt(1.5*DC->hero->up_gravity * DC->hero->max_jump_height);
+	DC->hero->climb_speed = 1.5*DC->hero->max_jump_speed/1.82;
+}
+*/

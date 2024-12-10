@@ -12,6 +12,7 @@ enum class Scenetype{
     Introduction,
     Game_earth, 
     Game_earth_2,
+    Game_moon,
     Fail,
     Ending,
     Leave,

@@ -23,8 +23,8 @@ public:
 	const ShapeType getType() const { return ShapeType::RECTANGLE; }
 public:
 	Rectangle() : type(0) {}
-	Rectangle(double x1, double y1, double x2, double y2, int type, bool can_move = false, double dx = 0, double dy = 0) 
-		: x1{x1}, y1{y1}, x2{x2}, y2{y2}, type{type}, can_move{can_move}, dx(dx), dy{dy} {}
+	Rectangle(double x1, double y1, double x2, double y2, int type, bool can_move = false, double vx = 0, double vy = 0,double x_length=0, double y_length=0) 
+		: x1{x1}, y1{y1}, x2{x2}, y2{y2}, type{type}, can_move{can_move}, vx(vx), vy{vy},start_x(x1),end_x(x2+x_length),start_y(y1),end_y(y2+y_length){}
 	Rectangle(int x1, int y1, int x2, int y2, int type) :
 		x1{static_cast<double>(x1)},
 		y1{static_cast<double>(y1)},
@@ -34,7 +34,9 @@ public:
 	double x1, y1, x2, y2;
 	int type;
 	bool can_move;
-	double dx, dy;
+	double vx, vy;
+	double start_x, start_y;
+	double end_x,end_y;
 };
 
 #endif

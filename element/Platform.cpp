@@ -9,10 +9,10 @@ Platform::Platform(){
 }
 void Platform::loadmap(const std::string& map, int window_width, int window_height){
     rectangles.clear();
-    
+    textures.clear();
     block_width = window_width / 20.0;
     block_height = window_height / 12.0;    
-    
+    DataCenter *DC = DataCenter::get_instance();
     std::ifstream file(map);
 
     if (!file.is_open()) {
@@ -31,7 +31,7 @@ void Platform::loadmap(const std::string& map, int window_width, int window_heig
                 double y1 = row * block_height;
                 double x2 = x1 + block_width;
                 double y2 = y1 + block_height;
-                if(type == 9) rectangles.emplace_back(x1, y1, x2, y2, type, true, 1.0, 0.0);
+                if(type == 9) rectangles.emplace_back(x1, y1, x2, y2, type, true, 1.0, 0.0,DC->window_width*3/10,0.0);
                 else rectangles.emplace_back(x1, y1, x2, y2, type);
             }
         }
@@ -46,19 +46,16 @@ void Platform::init(){
 }
 
 void Platform::update() {
-    DataCenter *DC = DataCenter::get_instance();
     for (auto& rect : rectangles) {
         if (rect.can_move) {
-
-            rect.x1 += rect.dx;
-            rect.x2 += rect.dx;
-            rect.y1 += rect.dy;
-            rect.y2 += rect.dy;
-
-
-            if (rect.x1 < DC->window_width / 20 * 10  || rect.x2 > DC->window_width / 20 * 16) {
-                rect.dx = -rect.dx; 
-            }
+            rect.x1 += rect.vx;
+            rect.x2 += rect.vx;
+            rect.y1 += rect.vy;
+            rect.y2 += rect.vy;                
+            if (rect.x1 < rect.start_x || rect.x2 > rect.end_x)
+                rect.vx = -rect.vx; 
+            if (rect.y1 < rect.start_y || rect.y2 > rect.end_y)
+                rect.vy = -rect.vy;
         }
     }
 }
@@ -68,6 +65,7 @@ void Platform::draw() {
     for (const auto& rect : rectangles) {
         ALLEGRO_BITMAP* texture = textures[rect.type];
         if(texture){
+            
             al_draw_scaled_bitmap(
                 texture,
                 0, 0, al_get_bitmap_width(texture), al_get_bitmap_height(texture), 

@@ -4,7 +4,7 @@
 #include "../data/DataCenter.h"
 #include "Platform.h"
 #include "../Scene/Gamescene_earth.h"
-
+#include "../Scene/Gamescene_moon.h"
 enum class HeroState{
     RUN,STOP,JUMP,HOLD,MAX_STATE
 };
@@ -41,6 +41,7 @@ public:
     CollisionType detectCollision(const Rectangle& platform,double collistion_buffer);
     friend class Gamescene_earth;
     friend class Gamescene_earth2;
+    friend class Gamescene_moon;
 private:
     int hp;
     bool hero_injured;

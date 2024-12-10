@@ -118,7 +118,7 @@ CollisionType Hero::detectCollision(const Rectangle& platform,double collision_b
     Rectangle rect = *dynamic_cast<Rectangle*>(shape.get());
     // Top collision (Hero's feet touching platform top)
     if (rect.y2 + collision_buffer >= platform.y1 && rect.y1 < platform.y1 &&
-        rect.x2 > platform.x1 && rect.x1 < platform.x2 && y_speed >= 0) {
+        rect.x2 > platform.x1+5&& rect.x1 < platform.x2-5&& y_speed >= 0) {
         return CollisionType::Top;
     }
 
@@ -368,7 +368,11 @@ void Hero::update(){
         rect->update_center_y(DC->mouse.y);
     }
 
-    if (current_platform) rect->update_center_x(rect->center_x() + current_platform->dx);
+    if (current_platform){
+        rect->update_center_x(rect->center_x() + current_platform->vx);
+        rect->update_center_y(rect->center_y() + current_platform->vy);
+    }
+
 }
 void Hero::draw(){
     GIFCenter *GIFC = GIFCenter::get_instance();
