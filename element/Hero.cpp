@@ -98,6 +98,7 @@ void Hero::init(){
 
     double x_offset =0;
     double y_offset =0;
+    RectangleParams hero={false, true, true, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     shape.reset(
         new Rectangle(
             DC->window_width / 20 - gif->width / 2 + x_offset,
@@ -105,13 +106,7 @@ void Hero::init(){
             DC->window_width / 20 + gif->width / 2 + x_offset,
             (DC->window_height / 10)*9 + gif->height / 2 + y_offset,
             0,
-            false,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+            hero
         )
     );
     hero_died = false;

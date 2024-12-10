@@ -2,7 +2,7 @@
 #define RECTANGLE_H_INCLUDED
 
 #include "Shape.h"
-
+#include "../Global.h"
 /**
  * @see Shape.cpp
  */
@@ -23,8 +23,13 @@ public:
 	const ShapeType getType() const { return ShapeType::RECTANGLE; }
 public:
 	Rectangle() : type(0), left_boundary(0), right_boundary(0){}
-	Rectangle(double x1, double y1, double x2, double y2, int type, bool can_move = false, double vx = 0, double vy = 0, double x_length=0, double y_length=0, double left_boundary = 0, double right_boundary = 0) 
-		: x1{x1}, y1{y1}, x2{x2}, y2{y2}, type{type}, can_move{can_move}, vx(vx), vy{vy},start_x(x1),end_x(x2+x_length),start_y(y1),end_y(y2+y_length) ,left_boundary(left_boundary), right_boundary(right_boundary){}
+	Rectangle(double x1, double y1, double x2, double y2, int type, const RectangleParams& params)
+    : x1{x1}, y1{y1}, x2{x2}, y2{y2}, type{type}, 
+      can_move{params.can_move}, visible{params.visible}, can_hold{params.can_hold}, 
+      vx{params.vx}, vy{params.vy}, 
+      start_x{x1}, end_x{x2 + params.x_length}, 
+      start_y{y1}, end_y{y2 + params.y_length}, 
+      left_boundary{params.left_boundary}, right_boundary{params.right_boundary} {}
 	Rectangle(int x1, int y1, int x2, int y2, int type) :
 		x1{static_cast<double>(x1)},
 		y1{static_cast<double>(y1)},
@@ -34,6 +39,8 @@ public:
 	double x1, y1, x2, y2;
 	int type;
 	bool can_move;
+	bool visible;
+	bool can_hold;
 	double vx, vy;
 	double start_x, start_y;
 	double end_x,end_y;

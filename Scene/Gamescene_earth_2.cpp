@@ -22,7 +22,7 @@ void Gamescene_earth2::init() {
 	earth_land = IC->get(Resource::earth_land);
 	earth_mud = IC->get(Resource::earth_mud);
 
-	DC->platforms->loadmap(Resource::map_earth_2, DC->window_width, DC->window_height);
+	DC->platforms->loadmap(Resource::map_earth_2,mode,DC->window_width, DC->window_height);
 	DC->platforms->textures[1] = earth_land;
 	DC->platforms->textures[2] = earth_mud;
 	DC->platforms->textures[3] = earth_wall;

@@ -7,7 +7,7 @@
 Platform::Platform(){
 
 }
-void Platform::loadmap(const std::string& map, int window_width, int window_height){
+void Platform::loadmap(const std::string& map, std::map<int,RectangleParams>mode, int window_width, int window_height){
     rectangles.clear();
     textures.clear();
     block_width = window_width / 20.0;
@@ -31,15 +31,13 @@ void Platform::loadmap(const std::string& map, int window_width, int window_heig
                 double y1 = row * block_height;
                 double x2 = x1 + block_width;
                 double y2 = y1 + block_height;
-                double move_range = block_width*6;
-                if(type == 9) rectangles.emplace_back(x1, y1, x2, y2, type, true, 1.0, 0.0, move_range, 0.0);
-                else if(type == 8) rectangles.emplace_back(x1, y1, x2, y2, type, true, 1.0, 0.0, 0.0, 0.0, DC->window_width/20*10, DC->window_width/20*16);
-                else rectangles.emplace_back(x1, y1, x2, y2, type);
+                if(mode.find(type)!=mode.end())
+                    rectangles.emplace_back(x1,y1,x2,y2,type,mode[type]);
+                }
             }
+            ++row; 
         }
-        ++row; 
-    }
-
+       
     file.close();
 }
 
@@ -50,6 +48,7 @@ void Platform::init(){
 void Platform::update() {
     for (auto& rect : rectangles) {
         if (rect.can_move) {
+            std::cout<<"11111111111\n";
             rect.x1 += rect.vx;
             rect.x2 += rect.vx;
             rect.y1 += rect.vy;
@@ -74,7 +73,7 @@ void Platform::draw() {
     for (const auto& rect : rectangles) {
         ALLEGRO_BITMAP* texture = textures[rect.type];
         if(texture){
-            
+            std::cout<<rect.type<<std::endl;
             al_draw_scaled_bitmap(
                 texture,
                 0, 0, al_get_bitmap_width(texture), al_get_bitmap_height(texture), 

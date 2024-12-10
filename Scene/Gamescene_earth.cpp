@@ -20,18 +20,28 @@ void Gamescene_earth::init() {
 
 	SC->init();
 	FC->init();
+	RectangleParams normal_block = {false, true, true, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+	RectangleParams move_block_1 = {true,true,true,1.0, 0.0, 0.0, 0.0, DC->window_width/20*10, DC->window_width/20*16};
 
     //Load the background
     background_img = IC->get(Resource::earth_background_img_path);
 	earth_wall = IC->get(Resource::earth_wall);
 	earth_land = IC->get(Resource::earth_land);
 	earth_mud = IC->get(Resource::earth_mud);
-	DC->platforms->loadmap(Resource::map_earth, DC->window_width, DC->window_height);
+	mode[1]=normal_block;
+	mode[2]=normal_block;
+	mode[3]=normal_block;
+	mode[8]=move_block_1;
+	mode[9]=normal_block;
+	DC->platforms->loadmap(Resource::map_earth,mode,DC->window_width, DC->window_height);
+	
 	DC->platforms->textures[1] = earth_land;
 	DC->platforms->textures[2] = earth_mud;
 	DC->platforms->textures[3] = earth_wall;
 	DC->platforms->textures[8] = earth_mud;
 	DC->platforms->textures[9] = earth_mud;
+	
+	
 	DC->hero->init();
 	hero_init();
 

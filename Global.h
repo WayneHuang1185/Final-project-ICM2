@@ -17,6 +17,17 @@ enum class Scenetype{
     Ending,
     Leave,
 };
+struct RectangleParams {
+    bool can_move = false;
+    bool visible = true;
+    bool can_hold = true;
+    double vx = 0;
+    double vy = 0;
+    double x_length = 0;
+    double y_length = 0;
+    double left_boundary = 0;
+    double right_boundary = 0;
+};
 extern Scenetype window;
 extern bool key_state[ALLEGRO_KEY_MAX];
 extern bool mouse_state[ALLEGRO_MOUSE_MAX_EXTRA_AXES];

@@ -58,6 +58,7 @@ class Gamescene_earth2 : public Scene{
         ALLEGRO_BITMAP *earth_wall;
         ALLEGRO_BITMAP *earth_land;
         ALLEGRO_BITMAP *earth_mud;
+        std::map<int,RectangleParams>mode;
         static ALLEGRO_SAMPLE_INSTANCE *background_music;
 
         bool BGM_played;

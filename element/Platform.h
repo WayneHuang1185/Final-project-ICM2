@@ -22,7 +22,7 @@ class Platform : public Object{
     public:
         Platform();
 
-        void loadmap(const std::string& map, int window_width, int window_height);
+        void loadmap(const std::string& map,std::map<int,RectangleParams>mode, int window_width, int window_height);
         void init() ;
         void update() ;
         void draw() override;
