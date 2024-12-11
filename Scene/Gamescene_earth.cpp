@@ -20,9 +20,9 @@ void Gamescene_earth::init() {
 
 	SC->init();
 	FC->init();
-	RectangleParams normal_block = {false, true, true, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-	RectangleParams move_block_1 = {true,true,true,1.0, 0.0, 0.0, 0.0, DC->window_width/20*10, DC->window_width/20*16};
-	RectangleParams ice_block = {false,true,false, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+	RectangleParams normal_block = {-1,false, true, true, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+	RectangleParams move_block_1 = {2,true,true,true,1.0, 0.0, 0.0, 0.0, DC->window_width/20*10, DC->window_width/20*16};
+	RectangleParams ice_block = {-1,false,true,false, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     //Load the background
     background_img = IC->get(Resource::earth_background_img_path);
 	earth_wall = IC->get(Resource::earth_wall);
@@ -30,7 +30,7 @@ void Gamescene_earth::init() {
 	earth_mud = IC->get(Resource::earth_mud);
 	mode[1]=normal_block;
 	mode[2]=normal_block;
-	mode[3]=ice_block;
+	mode[3]=normal_block;
 	mode[8]=move_block_1;
 	mode[9]=normal_block;
 	DC->platforms->loadmap(Resource::map_earth,mode,DC->window_width, DC->window_height);
@@ -101,6 +101,11 @@ bool Gamescene_earth::update() {
 			std::cout << "Fail" << std::endl;
 			SC->stop_playing(background_music);
 			window = Scenetype::Fail;
+			return false;
+		}
+		else if(DC->key_state[ALLEGRO_KEY_1]){
+			SC->stop_playing(background_music);
+			window = Scenetype::Game_moon;
 			return false;
 		}
 	}

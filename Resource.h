@@ -6,7 +6,7 @@ namespace Resource {
     constexpr char sound_path[] = "assets/sound/growl.wav";
 
     constexpr char earth_background_img_path[] = "assets/image/earth_background.jpg";
-    constexpr char moon_background_img_path[] = "assets/image/moon_background.jpg";
+    constexpr char moon_background_img_path[] = "assets/image/moon_background.png";
     constexpr char earth_background_music[] = "assets/sound/BackgroundMusic.ogg";
     constexpr char map_earth[] = "assets/map_earth.txt";
     constexpr char map_earth_2[] = "assets/map_earth_2.txt";

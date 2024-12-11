@@ -21,16 +21,16 @@ void Gamescene_moon::init() {
 
 	SC->init();
 	FC->init();
-	RectangleParams normal_block = {false, true, true, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-	RectangleParams ice_block = {false,true, false, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-	RectangleParams invisible_block = {false, false, true, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-	RectangleParams move_block_x1={true, true, true, 1.0, 0.0, PLT->get_block_width()*5, 0.0, 0.0, 0.0};
-	RectangleParams invisible_move_block_y1={true, false, true, 0.0, 1.0, 0.0, PLT->get_block_height()*3, 0.0, 0.0};
+	RectangleParams normal_block = {-1,false, true, true, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+	RectangleParams ice_block = {-1,false,true, false, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+	RectangleParams invisible_block = {-1,false, false, true, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+	RectangleParams move_block_x1={1,true, true, true, 1.0, 0.0, PLT->get_block_width()*5, 0.0, 0.0, 0.0};
+	RectangleParams invisible_move_block_y1={1,true, false, true, 0.0, 1.0, 0.0, PLT->get_block_height()*3, 0.0, 0.0};
     //Load the background
-    background_img = IC->get(Resource::earth_background_music);
+    background_img = IC->get(Resource::moon_background_img_path);
 	moon_wall = IC->get(Resource::moon_wall);
 	moon_land = IC->get(Resource::moon_land);
-	moon_ice = IC->get(Resource::moon_ice);\
+	moon_ice = IC->get(Resource::moon_ice);
 	mode[3]=ice_block;
 	mode[4]=normal_block;
 	mode[5]=invisible_block;

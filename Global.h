@@ -18,6 +18,7 @@ enum class Scenetype{
     Leave,
 };
 struct RectangleParams {
+    int move_type=-1;
     bool can_move = false;
     bool visible = true;
     bool can_hold = true;

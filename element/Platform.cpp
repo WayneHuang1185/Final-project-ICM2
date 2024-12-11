@@ -53,13 +53,13 @@ void Platform::update() {
             rect.x2 += rect.vx;
             rect.y1 += rect.vy;
             rect.y2 += rect.vy;      
-            if(rect.type == 9){          
+            if(rect.move_type == 1){          
                 if (rect.x1 < rect.start_x || rect.x2 > rect.end_x)
                     rect.vx = -rect.vx; 
                 if (rect.y1 < rect.start_y || rect.y2 > rect.end_y)
                     rect.vy = -rect.vy;
             }
-            else if (rect.type == 8) {
+            else if (rect.move_type == 2) {
                 if (rect.x1 < rect.left_boundary  || rect.x2 > rect.right_boundary) {
                     rect.vx = -rect.vx; 
                 }
@@ -71,9 +71,8 @@ void Platform::update() {
 
 void Platform::draw() {
     for (const auto& rect : rectangles) {
-        ALLEGRO_BITMAP* texture = textures[rect.type];
+        ALLEGRO_BITMAP* texture = textures[rect.texture_type];
         if(rect.visible && texture){
-            std::cout<<rect.type<<std::endl;
             al_draw_scaled_bitmap(
                 texture,
                 0, 0, al_get_bitmap_width(texture), al_get_bitmap_height(texture), 

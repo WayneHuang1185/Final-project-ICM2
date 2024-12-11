@@ -22,22 +22,23 @@ public:
 	}
 	const ShapeType getType() const { return ShapeType::RECTANGLE; }
 public:
-	Rectangle() : type(0), left_boundary(0), right_boundary(0){}
-	Rectangle(double x1, double y1, double x2, double y2, int type, const RectangleParams& params)
-    : x1{x1}, y1{y1}, x2{x2}, y2{y2}, type{type}, 
+	Rectangle() : texture_type(0), left_boundary(0), right_boundary(0){}
+	Rectangle(double x1, double y1, double x2, double y2, int texture_type,const RectangleParams& params)
+    : x1{x1}, y1{y1}, x2{x2}, y2{y2}, texture_type{texture_type},move_type{params.move_type}, 
       can_move{params.can_move}, visible{params.visible}, can_hold{params.can_hold}, 
       vx{params.vx}, vy{params.vy}, 
       start_x{x1}, end_x{x2 + params.x_length}, 
       start_y{y1}, end_y{y2 + params.y_length}, 
       left_boundary{params.left_boundary}, right_boundary{params.right_boundary} {}
-	Rectangle(int x1, int y1, int x2, int y2, int type) :
+	Rectangle(int x1, int y1, int x2, int y2, int texture_type) :
 		x1{static_cast<double>(x1)},
 		y1{static_cast<double>(y1)},
 		x2{static_cast<double>(x2)},
 		y2{static_cast<double>(y2)}, 
-		type{type} {}
+		texture_type{texture_type} {}
 	double x1, y1, x2, y2;
-	int type;
+	int texture_type;
+	int move_type;
 	bool can_move;
 	bool visible;
 	bool can_hold;

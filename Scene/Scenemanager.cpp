@@ -5,7 +5,7 @@
 #include "Setting.h"
 #include "Introduction.h"
 #include "Fail.h"
-
+#include "Gamescene_moon.h"
 Scenemanager::Scenemanager() : currentScene(nullptr) {}
 
 Scenemanager::~Scenemanager() {}
@@ -36,6 +36,10 @@ void Scenemanager::Create_Scene(Scenetype &type) {
         case Scenetype::Game_earth_2: // 4
             currentScene = new Gamescene_earth2();
             std::cout << "Create_Scene gamescene_earth_2" << std::endl;
+            break;
+        case Scenetype::Game_moon:
+            currentScene = new Gamescene_moon();
+            std::cout << "Create_Scene gamescene_moon" << std::endl;
             break;
         case Scenetype::Fail: // 5
             currentScene = new Fail();
