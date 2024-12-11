@@ -48,20 +48,22 @@ void Platform::init(){
 void Platform::update() {
     for (auto& rect : rectangles) {
         if (rect.can_move) {
-            std::cout<<"11111111111\n";
             rect.x1 += rect.vx;
             rect.x2 += rect.vx;
             rect.y1 += rect.vy;
             rect.y2 += rect.vy;      
             if(rect.move_type == 1){          
-                if (rect.x1 < rect.start_x || rect.x2 > rect.end_x)
+                if (rect.x1 < rect.start_x|| rect.x2 > rect.end_x)
                     rect.vx = -rect.vx; 
-                if (rect.y1 < rect.start_y || rect.y2 > rect.end_y)
+                if (rect.y1 < rect.start_y|| rect.y2 > rect.end_y)
                     rect.vy = -rect.vy;
             }
             else if (rect.move_type == 2) {
-                if (rect.x1 < rect.left_boundary  || rect.x2 > rect.right_boundary) {
+                if (rect.x1 <rect.left_boundary || rect.x2 >rect.right_boundary) {
                     rect.vx = -rect.vx; 
+                }
+                if (rect.y1 <rect.up_boundary || rect.y2 >rect.down_boundary) {
+                    rect.vy = -rect.vy; 
                 }
             }
         }

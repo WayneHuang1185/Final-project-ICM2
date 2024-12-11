@@ -94,11 +94,9 @@ void Hero::init(){
     dash_duration=0.15*DataSetting::FPS;
     dash_speed=dash_length/dash_duration;
     dash_timer=0;
-
-
     double x_offset =0;
     double y_offset =0;
-    RectangleParams hero={false, true, true, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    RectangleParams hero={-1,false, true, true, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0,0.0};
     shape.reset(
         new Rectangle(
             DC->window_width / 20 - gif->width / 2 + x_offset,
@@ -260,7 +258,10 @@ void Hero::update(){
     double y_buffer=platforms->get_block_height()/10;
     for (const auto& platform : platforms->get_platforms()) {
             CollisionType col=detectCollision(platform,platforms->get_block_width()/5);
-          
+            if(col!=CollisionType::None && platform.can_burn){
+                (hp>1)?hero_injured = true:hero_died = true;
+                return;
+            }
             //std::cout<<"collip\n";
             switch(col){
                 case CollisionType::Top:
@@ -283,7 +284,7 @@ void Hero::update(){
                         x_speed=-InTheAir::MAX_SPEED;
                         y_speed=climb_speed;
                     }
-                    else if(DC->key_state[ALLEGRO_KEY_D]){
+                    else if(platform.can_hold && DC->key_state[ALLEGRO_KEY_D]){
                         if(!DC->prev_key_state[ALLEGRO_KEY_D])
                             y_speed=0;
                         state=HeroState::HOLD;
@@ -300,12 +301,12 @@ void Hero::update(){
                     std::cout<<"LEFT\n";
                     break;
                 case CollisionType::Right:
-                    if(DC->key_state[ALLEGRO_KEY_K]){
+                    if(platform.can_hold && DC->key_state[ALLEGRO_KEY_K]){
                         dir=HeroDir::RIGHT;
                         x_speed=InTheAir::MAX_SPEED;
                         y_speed=climb_speed;
                     }
-                    else if(DC->key_state[ALLEGRO_KEY_A]){
+                    else if(platform.can_hold && DC->key_state[ALLEGRO_KEY_A]){
                         if(!DC->prev_key_state[ALLEGRO_KEY_A])
                             y_speed=0;
                         state=HeroState::HOLD;
@@ -337,20 +338,10 @@ void Hero::update(){
             y_speed+=down_gravity;
         std::cout<<y_speed<<std::endl;
     }
-    if (!hold && !on_platform && rect->y2 < DC->window_height) {
+    if (!hold && !on_platform && rect->y2 < DC->window_height)
         state=HeroState::JUMP; 
-    } else if (!on_platform && rect->y1 >= DC->window_height) {
-        if(hp>1){
-            hero_injured = true;
-        }
-        else hero_died = true;
-            /*這邊需要你幫我寫死亡切到的視窗*/
-        /*
-        rect->update_center_y(DC->window_height - (rect->y2 - rect->y1) / 2);
-        y_speed = 0;
-        jump_count = 0;
-        */
-    }
+    else if (!on_platform && rect->y1 >= DC->window_height)
+        (hp>1)?hero_injured = true:hero_died = true;
     if(on_platform){
         if(std::abs(x_speed) <= 0.5){
             if(DC->key_state[ALLEGRO_KEY_W]) dir=HeroDir::UP;

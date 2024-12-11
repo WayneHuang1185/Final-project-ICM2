@@ -1,6 +1,6 @@
 
 #include "Gamescene_moon.h"
-
+ 
 ALLEGRO_SAMPLE_INSTANCE *Gamescene_moon::background_music = nullptr;
 
 Gamescene_moon::Gamescene_moon(){
@@ -21,27 +21,32 @@ void Gamescene_moon::init() {
 
 	SC->init();
 	FC->init();
-	RectangleParams normal_block = {-1,false, true, true, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-	RectangleParams ice_block = {-1,false,true, false, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-	RectangleParams invisible_block = {-1,false, false, true, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-	RectangleParams move_block_x1={1,true, true, true, 1.0, 0.0, PLT->get_block_width()*5, 0.0, 0.0, 0.0};
-	RectangleParams invisible_move_block_y1={1,true, false, true, 0.0, 1.0, 0.0, PLT->get_block_height()*3, 0.0, 0.0};
+	RectangleParams fire_move_block_x1 = {2,true, true, true, true, 5.0, 0.0, 0.0, 0.0,72.0,DC->window_width,0.0,0.0};
+	RectangleParams fire_move_block_y1 = {2,true, true, true, true, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0,600.0,825.0};
+	RectangleParams fire_move_block_x2 = {2,true, true, true, true, 3.0, 0.0, 0.0, 0.0,144.0,792.0,0.0,0.0};
+	RectangleParams move_block_x1={1,true, false, true,false, 1.0, 0.0, PLT->get_block_width()*5, 0.0, 0.0, 0.0};
+	RectangleParams invisible_move_block_y1={1,true, false, true,false, 0.0, 1.0, 0.0, PLT->get_block_height()*3, 0.0, 0.0};
     //Load the background
     background_img = IC->get(Resource::moon_background_img_path);
 	moon_wall = IC->get(Resource::moon_wall);
 	moon_land = IC->get(Resource::moon_land);
 	moon_ice = IC->get(Resource::moon_ice);
+	moon_fire = IC->get(Resource::fire_block);
+	mode[1]=fire_move_block_y1;
+	mode[2]=fire_block;
 	mode[3]=ice_block;
 	mode[4]=normal_block;
 	mode[5]=invisible_block;
-	mode[6]=invisible_move_block_y1;
-	mode[7]=move_block_x1;
+	mode[6]=fire_move_block_x1;
+	mode[8]=fire_move_block_x2;
 	DC->platforms->loadmap(Resource::map_moon, mode,DC->window_width, DC->window_height);
+	DC->platforms->textures[1] = moon_fire;
+	DC->platforms->textures[2] = moon_fire;
 	DC->platforms->textures[3] = moon_ice;
 	DC->platforms->textures[4] = moon_land;
  	DC->platforms->textures[5] = moon_wall;   // invisible block
-	DC->platforms->textures[6] = moon_wall;   // invisible moving block y
-	DC->platforms->textures[7] = moon_land;	  // moving block x
+	DC->platforms->textures[6] = moon_fire;
+	DC->platforms->textures[8] = moon_fire;
 	DC->hero->init();
 	hero_init();
 
@@ -217,9 +222,9 @@ void Gamescene_moon::hero_init(){
 	DataCenter *DC = DataCenter::get_instance();
 	Platform *PLT=DC->platforms;
 	DC->hero->hero_died = false;
-	DC->hero->dash_length = 2*PLT->get_block_height();
+	DC->hero->dash_length = PLT->get_block_height();
 	DC->hero->dash_duration = 0.1*DC->FPS;
-	DC->hero->max_jump_height = 1.5*PLT->get_block_height()*3;
+	DC->hero->max_jump_height = PLT->get_block_height()*3;
 	DC->hero->max_jump_speed = -std::sqrt(1.5*DC->hero->up_gravity * DC->hero->max_jump_height);
-	DC->hero->climb_speed = 1.5*DC->hero->max_jump_speed/1.82;
+	DC->hero->climb_speed = DC->hero->max_jump_speed/1.82;
 }

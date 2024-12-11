@@ -20,9 +20,8 @@ void Gamescene_earth::init() {
 
 	SC->init();
 	FC->init();
-	RectangleParams normal_block = {-1,false, true, true, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-	RectangleParams move_block_1 = {2,true,true,true,1.0, 0.0, 0.0, 0.0, DC->window_width/20*10, DC->window_width/20*16};
-	RectangleParams ice_block = {-1,false,true,false, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+	RectangleParams move_block_1 = {2,true,true,true,false,1.0, 0.0, 0.0, 0.0, DC->window_width/20*10, DC->window_width/20*16,0.0,0.0};
+	
     //Load the background
     background_img = IC->get(Resource::earth_background_img_path);
 	earth_wall = IC->get(Resource::earth_wall);

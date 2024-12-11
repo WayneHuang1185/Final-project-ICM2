@@ -56,6 +56,7 @@ class Gamescene_moon : public Scene{
         ALLEGRO_BITMAP *moon_wall;
         ALLEGRO_BITMAP *moon_land;
         ALLEGRO_BITMAP *moon_ice;
+        ALLEGRO_BITMAP *moon_fire;
         static ALLEGRO_SAMPLE_INSTANCE *background_music;
         ALLEGRO_COLOR button_color;
         ALLEGRO_COLOR button_hover_color;

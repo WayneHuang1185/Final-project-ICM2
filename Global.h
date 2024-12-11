@@ -22,12 +22,15 @@ struct RectangleParams {
     bool can_move = false;
     bool visible = true;
     bool can_hold = true;
+    bool can_burn =false;
     double vx = 0;
     double vy = 0;
     double x_length = 0;
     double y_length = 0;
-    double left_boundary = 0;
+    double left_boundary= 0;
     double right_boundary = 0;
+    double up_boundary=0;
+    double down_boundary=0;
 };
 extern Scenetype window;
 extern bool key_state[ALLEGRO_KEY_MAX];
@@ -37,6 +40,8 @@ extern ALLEGRO_EVENT_QUEUE *event_queue;
 extern ALLEGRO_EVENT event;
 extern ALLEGRO_TIMER *fps;
 extern bool debug_mode;
-
-
+extern RectangleParams normal_block;
+extern RectangleParams ice_block;
+extern RectangleParams fire_block;
+extern RectangleParams invisible_block;
 #endif

@@ -39,6 +39,8 @@ class Platform : public Object{
         std::vector<Rectangle> rectangles;
         double block_height;
         double block_width;
+        double x_buffer=5;
+        double y_buffer=5;
         bool debug=false;
 };
 

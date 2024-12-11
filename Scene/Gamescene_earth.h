@@ -9,7 +9,6 @@
 #include "Scene.h"
 #include "../UI.h"
 #include "../Resource.h"
-
 #include "../data/DataCenter.h"
 #include "../data/OperationCenter.h"
 #include "../data/SoundCenter.h"
