@@ -182,6 +182,7 @@ void Gamescene_earth2::draw(){
 	DataCenter *DC = DataCenter::get_instance();
 	OperationCenter *OC = OperationCenter::get_instance();
 	FontCenter *FC = FontCenter::get_instance();
+	Rocket *rocket = DC->rocket;
 	//Flush the screen first.
 	al_clear_to_color(al_map_rgb(100, 100, 100));
 	// background
@@ -189,7 +190,7 @@ void Gamescene_earth2::draw(){
 
 	OC->draw();
 	DC->rocket->draw();
-	DC->hero->draw();
+	if(!rocket->isgoing_up) DC->hero->draw();
 	DC->platforms->draw();
 	DC->glasses->draw();
 
