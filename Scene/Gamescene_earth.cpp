@@ -1,6 +1,9 @@
 #include "Gamescene_earth.h"
 
+DataCenter *DC = DataCenter::get_instance();
 ALLEGRO_SAMPLE_INSTANCE *Gamescene_earth::background_music = nullptr;
+double Gamescene_earth::die_x_start = DC->window_width/20;
+double Gamescene_earth::die_x_end = DC->window_width/20*16;
 
 Gamescene_earth::Gamescene_earth(){
     init();
@@ -27,9 +30,13 @@ void Gamescene_earth::init() {
 	earth_wall = IC->get(Resource::earth_wall);
 	earth_land = IC->get(Resource::earth_land);
 	earth_mud = IC->get(Resource::earth_mud);
+	earth_ice = IC->get(Resource::moon_ice);
+	earth_cloud = IC->get(Resource::earth_cloud);
+	earth_bird = IC->get(Resource::earth_bird);
 	mode[1]=normal_block;
 	mode[2]=normal_block;
 	mode[3]=normal_block;
+	mode[4]=ice_block;
 	mode[8]=move_block_1;
 	mode[9]=normal_block;
 	DC->platforms->loadmap(Resource::map_earth,mode,DC->window_width, DC->window_height);
@@ -37,15 +44,14 @@ void Gamescene_earth::init() {
 	DC->platforms->textures[1] = earth_land;
 	DC->platforms->textures[2] = earth_mud;
 	DC->platforms->textures[3] = earth_wall;
-	DC->platforms->textures[8] = earth_mud;
+	DC->platforms->textures[4] = earth_ice;
+	DC->platforms->textures[8] = earth_bird;
 	DC->platforms->textures[9] = earth_mud;
-	
-	
-	DC->hero->init();
-	hero_init();
 
 	// Initialize other elements
     DC->platforms->init();
+	DC->hero->init();
+	hero_init();
 
 	button_width = 200;
 	button_height = 100;
@@ -54,6 +60,9 @@ void Gamescene_earth::init() {
 	pause_menu_button_y = pause_tryagain_button_y + 150;
 	button_color = al_map_rgb(100, 200, 100);
 	button_hover_color = al_map_rgb(150, 250, 150);  
+
+	DC->hero->die_x_start = die_x_start;
+	DC->hero->die_x_end = die_x_end;
 
 	state = STATE::PLAYING;
 
@@ -132,6 +141,15 @@ bool Gamescene_earth::update() {
             return true;
 		}
 	}
+
+	if(DC->hero->teleport_to_earth2){
+		DC->hero->died_count = 0;
+		SC->stop_playing(background_music);
+		window = Scenetype::earth1_to_earth2;
+		DC->hero->teleport_to_earth2 = false;
+		return false;
+	}
+
 
 	memcpy(DC->prev_key_state, DC->key_state, sizeof(DC->key_state));
 	memcpy(DC->prev_mouse_state, DC->mouse_state, sizeof(DC->mouse_state));

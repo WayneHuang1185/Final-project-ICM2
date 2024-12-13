@@ -41,6 +41,7 @@ class Gamescene_earth : public Scene{
         void destroy() override;
 
         void hero_init();
+        friend class Hero;
     private:
         /**
          * @brief States of the game process in game_update.
@@ -58,6 +59,9 @@ class Gamescene_earth : public Scene{
         ALLEGRO_BITMAP *earth_wall;
         ALLEGRO_BITMAP *earth_land;
         ALLEGRO_BITMAP *earth_mud;
+        ALLEGRO_BITMAP *earth_ice;
+        ALLEGRO_BITMAP *earth_cloud;
+        ALLEGRO_BITMAP *earth_bird;
         static ALLEGRO_SAMPLE_INSTANCE *background_music;
         ALLEGRO_COLOR button_color;
         ALLEGRO_COLOR button_hover_color;
@@ -67,6 +71,8 @@ class Gamescene_earth : public Scene{
         double button_width, button_height;
 
         bool BGM_played;
+
+        static double die_x_start, die_x_end;
 };
 
 #endif

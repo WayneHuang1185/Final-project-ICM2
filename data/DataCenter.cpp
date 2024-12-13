@@ -26,6 +26,8 @@ DataCenter::DataCenter() {
 
 	hero = new Hero();
 	platforms = new Platform();
+	glasses = new Glasses();
+	rocket = new Rocket();
 }
 
 DataCenter::~DataCenter() {
@@ -42,4 +44,6 @@ DataCenter::~DataCenter() {
 	// }
 	delete hero;
 	delete platforms;
+	delete glasses;
+	delete rocket;
 }

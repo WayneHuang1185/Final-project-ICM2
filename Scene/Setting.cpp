@@ -45,11 +45,16 @@ bool Setting::update(){
         DC->mouse.y >= back_button_y && DC->mouse.y <= back_button_y + back_button_height) {
             back_button_current_color = button_hover_color; 
             if (DC->mouse_state[1]) { 
-                std::cout << "Button clicked! Switching to Gamescene_earth." << std::endl;
+                std::cout << "Button clicked! Switching to Menu." << std::endl;
                 window = Scenetype::Menu;  
                 return false;  
             }
         }
+    else if(DC->key_state[ALLEGRO_KEY_ESCAPE]){
+        std::cout << "Button clicked! Switching to Menu." << std::endl;
+        window = Scenetype::Menu;  
+        return false; 
+    }
     else back_button_current_color = button_color;
 
     return true;

@@ -1,7 +1,6 @@
 #include "Hero.h"
 #include "../data/DataCenter.h"
 #include "../data/GIFCenter.h"
-#include "../algif5/algif.h"
 #include "../shapes/Rectangle.h"
 #include <allegro5/allegro_primitives.h>
 #include <iostream>
@@ -76,7 +75,7 @@ void Hero::init(){
     x_speed=0;
     y_speed=0;
     GIFCenter *GIFC = GIFCenter::get_instance();
-    ALGIF_ANIMATION *gif = GIFC->get(gifpath[{state,dir}]);
+    gif = GIFC->get(gifpath[{state,dir}]);
     DataCenter *DC = DataCenter::get_instance();
     Platform *PLT=DC->platforms;
     jump_redy=true;
@@ -99,10 +98,10 @@ void Hero::init(){
     RectangleParams hero={-1,false, true, true, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0,0.0};
     shape.reset(
         new Rectangle(
-            DC->window_width / 20 - gif->width / 2 + x_offset,
-            (DC->window_height / 10)*9 - gif->height / 2 + y_offset,
-            DC->window_width / 20 + gif->width / 2 + x_offset,
-            (DC->window_height / 10)*9 + gif->height / 2 + y_offset,
+            DC->window_width / 20 - DC->hero->gif->width / 2 + x_offset,
+            (DC->window_height / 10) * 9 - DC->hero->gif->height / 2 + y_offset,
+            DC->window_width / 20 + DC->hero->gif->width / 2 + x_offset,
+            (DC->window_height / 10) * 9 + DC->hero->gif->height / 2 + y_offset,
             0,
             hero
         )
@@ -145,6 +144,8 @@ CollisionType Hero::detectCollision(const Rectangle& platform,double collision_b
 void Hero::update(){
     DataCenter* DC = DataCenter::get_instance();
     Platform* platforms = DC->platforms;
+    Rocket *rocket = DC->rocket;
+    Rectangle* rocket_rect = dynamic_cast<Rectangle*>(rocket->shape.get());
     Rectangle* rect = dynamic_cast<Rectangle*>(shape.get());
     GIFCenter *GIFC = GIFCenter::get_instance();
     ALGIF_ANIMATION *gif = GIFC->get(gifpath[{state,dir}]);
@@ -246,12 +247,12 @@ void Hero::update(){
         rect->update_center_x((rect->x2 - rect->x1)/2);
     else
         rect->update_center_x(rect->center_x() + x_speed);
-    if(rect->y1+y_speed<0){
-        rect->update_center_y((rect->y2 - rect->y1)/2);
-        y_speed=0;
-    }
-    else
-        rect->update_center_y(rect->center_y() + y_speed);
+    // if(rect->y1+y_speed<0){
+    //     rect->update_center_y((rect->y2 - rect->y1)/2);
+    //     y_speed=0;
+    // }
+    // else
+    rect->update_center_y(rect->center_y() + y_speed);
     on_platform = false;
     hold=false;
     double x_buffer=platforms->get_block_width()/10;
@@ -340,8 +341,15 @@ void Hero::update(){
     }
     if (!hold && !on_platform && rect->y2 < DC->window_height)
         state=HeroState::JUMP; 
-    else if (!on_platform && rect->y1 >= DC->window_height)
+    else if (!on_platform && rect->y1 >= DC->window_height && rect->center_x() >= die_x_start && rect->center_x() <= die_x_end){
         (hp>1)?hero_injured = true:hero_died = true;
+    }
+    else if(!on_platform && rect->y1 >= DC->window_height && rect->center_x() >= die_x_end){
+        teleport_to_earth2 = true;
+    }
+    else if(rocket_rect && rocket_rect->y2 < 0){
+        teleport_to_moon = true;
+    }
     if(on_platform){
         if(std::abs(x_speed) <= 0.5){
             if(DC->key_state[ALLEGRO_KEY_W]) dir=HeroDir::UP;

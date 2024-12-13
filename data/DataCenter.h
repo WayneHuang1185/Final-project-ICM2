@@ -6,21 +6,28 @@
 #include <allegro5/keycodes.h>
 #include <allegro5/mouse.h>
 #include "../shapes/Point.h"
-#include "../element/Platform.h"
+
 namespace DataSetting {
 	constexpr double FPS = 60;
 	constexpr int window_width = 1440;
 	constexpr int window_height = 900;
 	constexpr int game_field_length = 1000;
 }
+#include "../element/Platform.h"
 #include "../element/Hero.h"
+#include "../element/Glasses.h"
+#include "../element/Earth_to_moon_rocket.h"
+
 class Player;
 class Level;
 class Monster;
 class Tower;
 class Bullet;
+
 class Hero;
 class Platform;
+class Glasses;
+class Rocket;
 
 /**
  * @brief Stores generic global data and relatively small data structures.
@@ -105,6 +112,10 @@ public:
 	Hero *hero;
 
 	Platform *platforms;
+
+	Glasses *glasses;
+
+	Rocket *rocket;
 	
 private:
 	DataCenter();

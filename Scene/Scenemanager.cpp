@@ -6,6 +6,8 @@
 #include "Introduction.h"
 #include "Fail.h"
 #include "Gamescene_moon.h"
+#include "earth1_to_earth2.h"
+#include "earth2_to_moon.h"
 Scenemanager::Scenemanager() : currentScene(nullptr) {}
 
 Scenemanager::~Scenemanager() {}
@@ -33,9 +35,17 @@ void Scenemanager::Create_Scene(Scenetype &type) {
             currentScene = new Gamescene_earth();
             std::cout << "Create_Scene gamescene_earth" << std::endl;
             break;
+        case Scenetype::earth1_to_earth2:
+            currentScene = new e1toe2();
+            std::cout << "transfer to earth2" << std::endl;
+            break;
         case Scenetype::Game_earth_2: // 4
             currentScene = new Gamescene_earth2();
             std::cout << "Create_Scene gamescene_earth_2" << std::endl;
+            break;
+        case Scenetype::earth2_to_moon:
+            currentScene = new e2tomoon();
+            std::cout << "transfer to moon" << std::endl;
             break;
         case Scenetype::Game_moon:
             currentScene = new Gamescene_moon();

@@ -1,7 +1,7 @@
 #include "Global.h"
 #include "shapes/Shape.h"
 
-Scenetype window=Scenetype::Menu;
+Scenetype window = Scenetype::Menu;
 ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 ALLEGRO_EVENT event;
 ALLEGRO_TIMER *fps = NULL;

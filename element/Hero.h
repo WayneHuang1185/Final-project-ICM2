@@ -1,9 +1,11 @@
 #ifndef Hero_H_INCLUDED
 #define Hero_H_INCLUDED
+#include "../algif5/algif.h"
 #include "Object.h"
 #include "../data/DataCenter.h"
 #include "Platform.h"
 #include "../Scene/Gamescene_earth.h"
+#include "../Scene/Gamescene_earth_2.h"
 #include "../Scene/Gamescene_moon.h"
 enum class HeroState{
     RUN,STOP,JUMP,HOLD,MAX_STATE
@@ -43,6 +45,10 @@ public:
     friend class Gamescene_earth2;
     friend class Gamescene_moon;
 private:
+    bool teleport_to_earth2 = false;
+    bool teleport_to_moon = false;
+    double die_x_start, die_x_end;
+    double born_x1, born_y1, born_x2, born_y2;
     int hp;
     bool hero_injured;
     bool hero_died;
@@ -79,6 +85,7 @@ private:
     std::map<std::pair<HeroState,HeroDir>,std::string>gif_dashpath;
     std::map<std::pair<HeroDir,std::string>,std::string>gif_dashjump; // jump
     std::string heart_path="./assets/gif/Hero/hero_heart.gif";
+    ALGIF_ANIMATION *gif;
 };
 
 #endif
