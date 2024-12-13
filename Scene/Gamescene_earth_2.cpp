@@ -20,9 +20,9 @@ void Gamescene_earth2::init() {
 
 	SC->init();
 	FC->init();
-	RectangleParams move_block_1 = {2,true,true,true,false,2.0, 0.0, 0.0, 0.0, 0, DC->window_width/20*7,0.0,0.0};
-	RectangleParams move_block_2 = {2,true,true,true,false,2.0, 0.0, 0.0, 0.0, DC->window_width/20*8, DC->window_width/20*15,0.0,0.0};
-	RectangleParams move_block_3 = {2,true,true,true,false,4.0, 0.0, 0.0, 0.0, 0, DC->window_width/20*15,0.0,0.0};
+	RectangleParams move_block_1 = {1,true,true,true,false,2.0, 0.0, 0.0, DC->window_width/20*7};
+	RectangleParams move_block_2 = {1,true,true,true,false,2.0, 0.0, DC->window_width/20*8, DC->window_width/20*15};
+	RectangleParams move_block_3 = {1,true,true,true,false,4.0, 0.0, 0.0, DC->window_width/20*15};
 	
     //Load the background
     background_img = IC->get(Resource::earth_background_img_path);
@@ -48,8 +48,8 @@ void Gamescene_earth2::init() {
 	
 	DC->platforms->textures[1] = earth_land;
 	DC->platforms->textures[2] = earth_bird;
-	DC->platforms->textures[3] = earth_wall;
-	DC->platforms->textures[4] = earth_ice;
+	DC->platforms->textures[3] = earth_ice;
+	DC->platforms->textures[4] = earth_wall;
 	DC->platforms->textures[5] = earth_ladder;
 	DC->platforms->textures[6] = earth_wall;
 	DC->platforms->textures[8] = earth_bird;

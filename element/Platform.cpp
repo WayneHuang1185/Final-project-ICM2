@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <allegro5/allegro_primitives.h>
-
+#include"Hero.h"
 Platform::Platform(){
 
 }
@@ -46,25 +46,77 @@ void Platform::init(){
 }
 
 void Platform::update() {
+    DataCenter *DC = DataCenter::get_instance();
+    Hero *hero=DC->hero;
+    Rectangle h_rect=*dynamic_cast<Rectangle*>(hero->shape.get());
     for (auto& rect : rectangles) {
         if (rect.can_move) {
-            rect.x1 += rect.vx;
-            rect.x2 += rect.vx;
-            rect.y1 += rect.vy;
-            rect.y2 += rect.vy;      
-            if(rect.move_type == 1){          
-                if (rect.x1 < rect.start_x|| rect.x2 > rect.end_x)
-                    rect.vx = -rect.vx; 
-                if (rect.y1 < rect.start_y|| rect.y2 > rect.end_y)
-                    rect.vy = -rect.vy;
-            }
-            else if (rect.move_type == 2) {
-                if (rect.x1 <rect.left_boundary || rect.x2 >rect.right_boundary) {
-                    rect.vx = -rect.vx; 
-                }
-                if (rect.y1 <rect.up_boundary || rect.y2 >rect.down_boundary) {
-                    rect.vy = -rect.vy; 
-                }
+            switch(rect.move_type){
+                case 1:
+                    rect.x1 += rect.vx;
+                    rect.x2 += rect.vx;    
+                    if (rect.x1 <rect.boundary_1 || rect.x2 >rect.boundary_2)                
+                        rect.vx = -rect.vx;
+                    break; 
+                case 2:
+                    rect.y1 += rect.vy;
+                    rect.y2 += rect.vy;
+                    if (rect.y1 <rect.boundary_1 || rect.y2 >rect.boundary_2) 
+                        rect.vy = -rect.vy; 
+                    break;
+                case 3:
+                    if((h_rect.x2>(rect.x1+block_width/5) && h_rect.x1<rect.x1)||((h_rect.x1+block_width/5)>rect.x2 && h_rect.x2<rect.x2))
+                        rect.move_type=5;
+                    break;
+                case 4:
+                    if((h_rect.y2>(rect.y1+block_height/5) && h_rect.y1<rect.y1) || ((h_rect.y1+block_height/5)>rect.y2 && h_rect.y2<rect.y2))
+                        rect.move_type=6;
+                    break;
+                case 5:
+                    rect.y1 += rect.vy;
+                    rect.y2 += rect.vy;
+                    if(!rect.dir && ((rect.vy>0 && rect.y2>rect.boundary_2) || (rect.vy<0 && rect.y1<rect.boundary_2))){
+                        rect.vy = -rect.vy; 
+                        rect.dir=true;
+                    }
+                    else if(rect.dir){
+                        if(rect.vy<0 && rect.y1<rect.boundary_1){
+                            rect.update_center_y(rect.boundary_1+block_height/2);
+                            rect.vy = -rect.vy; 
+                            rect.dir=false;
+                            rect.move_type=3;
+                        }
+                        else if(rect.vy>0 && rect.y2>rect.boundary_1){
+                            std::cout<<"test3:"<<rect.y1<<std::endl;
+                            rect.update_center_y(rect.boundary_1-block_height/2);
+                            rect.vy = -rect.vy; 
+                            rect.dir=false;
+                            rect.move_type=3;
+                        }
+                    }
+                    break;
+                case 6:
+                    rect.x1 += rect.vx;
+                    rect.x2 += rect.vx;
+                    if(!rect.dir && ((rect.vx>0 && rect.x2>rect.boundary_2) || (rect.vx<0 && rect.x1<rect.boundary_2))){
+                        rect.vx = -rect.vx; 
+                        rect.dir=true;
+                    }
+                    else if(rect.dir){
+                        if(rect.vx<0 && rect.x1<rect.boundary_1){
+                            rect.update_center_x(rect.boundary_1+block_width/2);
+                            rect.vx=-rect.vx;
+                            rect.dir=false;
+                            rect.move_type=4;
+                        }
+                        else if(rect.vx>0 && rect.x2>rect.boundary_1){
+                            rect.update_center_x(rect.boundary_1-block_width/2);
+                            rect.vx=-rect.vx;
+                            rect.dir=false;
+                            rect.move_type=4;
+                        }
+                    }
+                    break;
             }
         }
     }

@@ -37,13 +37,17 @@ namespace InTheAir{
 class Hero : public Object
 {
 public:
+    Hero()=default;
+    ~Hero()=default;
     void init();
     void update();
     void draw();
     CollisionType detectCollision(const Rectangle& platform,double collistion_buffer);
+    const Hero& Get_Hero()const{return *this;}
     friend class Gamescene_earth;
     friend class Gamescene_earth2;
     friend class Gamescene_moon;
+    friend class Platform;
 private:
     bool teleport_to_earth2 = false;
     bool teleport_to_moon = false;

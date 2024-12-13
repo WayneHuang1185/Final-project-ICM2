@@ -23,7 +23,7 @@ void Gamescene_earth::init() {
 
 	SC->init();
 	FC->init();
-	RectangleParams move_block_1 = {2,true,true,true,false,1.0, 0.0, 0.0, 0.0, DC->window_width/20*10, DC->window_width/20*16,0.0,0.0};
+	RectangleParams move_block_1 = {1,true,true,true,false,1.0, 0.0, DC->window_width/20*10, DC->window_width/20*16};
 	
     //Load the background
     background_img = IC->get(Resource::earth_background_img_path);
@@ -238,7 +238,6 @@ void Gamescene_earth::destroy() {
 void Gamescene_earth::hero_init(){
 	DataCenter *DC = DataCenter::get_instance();
 	Platform *PLT=DC->platforms;
-
 	DC->hero->hero_died = false;
 	DC->hero->dash_length = PLT->get_block_height();
 	DC->hero->dash_duration = 0.1*DC->FPS;

@@ -15,7 +15,7 @@ void Rocket::init(){
     img_width = al_get_bitmap_width(Rocket);
     img_height = al_get_bitmap_height(Rocket);
 
-    RectangleParams Rocket = {-1,false, true, true, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0,0.0};
+    RectangleParams Rocket = normal_block;
 
 
     shape.reset(

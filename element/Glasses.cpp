@@ -15,7 +15,7 @@ void Glasses::init(){
     img_width = al_get_bitmap_width(glasses);
     img_height = al_get_bitmap_height(glasses);
 
-    RectangleParams glasses = {-1,false, true, true, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0,0.0};
+    RectangleParams glasses =normal_block;
 
 
     shape.reset(

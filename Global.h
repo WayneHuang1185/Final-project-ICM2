@@ -27,12 +27,9 @@ struct RectangleParams {
     bool can_burn =false;
     double vx = 0;
     double vy = 0;
-    double x_length = 0;
-    double y_length = 0;
-    double left_boundary= 0;
-    double right_boundary = 0;
-    double up_boundary=0;
-    double down_boundary=0;
+    double boundary_1=0;
+    double boundary_2=0;
+    bool dir=false;
 };
 extern Scenetype window;
 extern bool key_state[ALLEGRO_KEY_MAX];

@@ -21,11 +21,9 @@ void Gamescene_moon::init() {
 
 	SC->init();
 	FC->init();
-	RectangleParams fire_move_block_x1 = {2,true, true, true, true, 5.0, 0.0, 0.0, 0.0,72.0,DC->window_width,0.0,0.0};
-	RectangleParams fire_move_block_y1 = {2,true, true, true, true, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0,600.0,825.0};
-	RectangleParams fire_move_block_x2 = {2,true, true, true, true, 3.0, 0.0, 0.0, 0.0,144.0,792.0,0.0,0.0};
-	RectangleParams move_block_x1={1,true, false, true,false, 1.0, 0.0, PLT->get_block_width()*5, 0.0, 0.0, 0.0};
-	RectangleParams invisible_move_block_y1={1,true, false, true,false, 0.0, 1.0, 0.0, PLT->get_block_height()*3, 0.0, 0.0};
+	RectangleParams fire_move_block_x1 = {1,true, true, true, true, 5.0, 0.0,72.0,DC->window_width};
+	RectangleParams fire_move_block_y1 = {3,true, true, true, true, 0.0, 5.0,600.0,825.0};
+	RectangleParams fire_move_block_x2 = {1,true, true, true, true, 3.0, 0.0,144.0,792.0};
     //Load the background
     background_img = IC->get(Resource::moon_background_img_path);
 	moon_wall = IC->get(Resource::moon_wall);

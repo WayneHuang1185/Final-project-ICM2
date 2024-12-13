@@ -22,15 +22,12 @@ public:
 	}
 	const ShapeType getType() const { return ShapeType::RECTANGLE; }
 public:
-	Rectangle() : texture_type(0), left_boundary(0), right_boundary(0){}
+	Rectangle() : texture_type(0){}
 	Rectangle(double x1, double y1, double x2, double y2, int texture_type,const RectangleParams& params)
     : x1{x1}, y1{y1}, x2{x2}, y2{y2}, texture_type{texture_type},move_type{params.move_type}, 
       can_move{params.can_move}, visible{params.visible}, can_hold{params.can_hold},can_burn(params.can_burn),
       vx{params.vx}, vy{params.vy}, 
-      start_x{x1}, end_x{x2 + params.x_length}, 
-      start_y{y1}, end_y{y2 + params.y_length}, 
-      left_boundary{params.left_boundary}, right_boundary{params.right_boundary},
-	  up_boundary{params.up_boundary},down_boundary{params.down_boundary}{}
+      boundary_1(params.boundary_1),boundary_2(params.boundary_2),dir(params.dir){}
 	Rectangle(int x1, int y1, int x2, int y2, int texture_type) :
 		x1{static_cast<double>(x1)},
 		y1{static_cast<double>(y1)},
@@ -45,10 +42,9 @@ public:
 	bool can_hold;
 	bool can_burn;
 	double vx, vy;
-	double start_x, start_y;
-	double end_x,end_y;
-	double left_boundary, right_boundary;
-	double up_boundary, down_boundary;
+	double boundary_1;
+	double boundary_2;
+	bool dir;
 };
 
 #endif

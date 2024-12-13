@@ -95,7 +95,7 @@ void Hero::init(){
     dash_timer=0;
     double x_offset =0;
     double y_offset =0;
-    RectangleParams hero={-1,false, true, true, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0,0.0};
+    RectangleParams hero=normal_block;
     shape.reset(
         new Rectangle(
             DC->window_width / 20 - DC->hero->gif->width / 2 + x_offset,
