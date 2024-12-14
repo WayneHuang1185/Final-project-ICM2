@@ -4,6 +4,7 @@
 #include <iostream>
 #include <allegro5/allegro_primitives.h>
 #include"Hero.h"
+#include"Glasses.h"
 Platform::Platform(){
 
 }
@@ -64,14 +65,27 @@ void Platform::update() {
                     if (rect.y1 <rect.boundary_1 || rect.y2 >rect.boundary_2) 
                         rect.vy = -rect.vy; 
                     break;
-                case 3:
-                    if((h_rect.x2>(rect.x1+block_width/5) && h_rect.x1<rect.x1)||((h_rect.x1+block_width/5)>rect.x2 && h_rect.x2<rect.x2))
+                case 3:{
+                    bool verticalCheck3 = rect.triger_dir_flip 
+                     ? ((rect.vy > 0 && h_rect.y1 < rect.y2) || (rect.vy < 0 && h_rect.y2 > rect.y1))
+                     : ((rect.vy > 0 && h_rect.y1 > rect.y2) || (rect.vy < 0 && h_rect.y2 < rect.y1));
+
+                    bool horizontalCheck3 = ((h_rect.x2 > (rect.x1 + block_width / 5) && h_rect.x1 < rect.x1) || 
+                        ((h_rect.x1 + block_width / 5) > rect.x2 && h_rect.x2 < rect.x2));
+                    if (verticalCheck3 && horizontalCheck3)
                         rect.move_type=5;
                     break;
-                case 4:
-                    if((h_rect.y2>(rect.y1+block_height/5) && h_rect.y1<rect.y1) || ((h_rect.y1+block_height/5)>rect.y2 && h_rect.y2<rect.y2))
+                }
+                case 4:{
+                    bool verticalCheck4 = rect.triger_dir_flip 
+                     ? ((rect.vx > 0 && h_rect.x1 < rect.x2) || (rect.vx < 0 && h_rect.x2 > rect.x1))
+                     : ((rect.vx > 0 && h_rect.x1 > rect.x2) || (rect.vx < 0 && h_rect.x2 < rect.x1));
+                    bool horizontalCheck4 = ((h_rect.y2 > (rect.y1 + block_height / 5) && h_rect.y1 < rect.y1) || 
+                        ((h_rect.y1 + block_height / 5) > rect.y2 && h_rect.y2 < rect.y2));
+                    if (verticalCheck4 && horizontalCheck4)
                         rect.move_type=6;
                     break;
+                }
                 case 5:
                     rect.y1 += rect.vy;
                     rect.y2 += rect.vy;
@@ -87,7 +101,6 @@ void Platform::update() {
                             rect.move_type=3;
                         }
                         else if(rect.vy>0 && rect.y2>rect.boundary_1){
-                            std::cout<<"test3:"<<rect.y1<<std::endl;
                             rect.update_center_y(rect.boundary_1-block_height/2);
                             rect.vy = -rect.vy; 
                             rect.dir=false;
@@ -124,9 +137,11 @@ void Platform::update() {
 
 
 void Platform::draw() {
+    DataCenter *DC = DataCenter::get_instance();
+    Glasses *glasses=DC->glasses;
     for (const auto& rect : rectangles) {
         ALLEGRO_BITMAP* texture = textures[rect.texture_type];
-        if(rect.visible && texture){
+        if((glasses->glasses_collected ||rect.visible) && texture){
             al_draw_scaled_bitmap(
                 texture,
                 0, 0, al_get_bitmap_width(texture), al_get_bitmap_height(texture), 

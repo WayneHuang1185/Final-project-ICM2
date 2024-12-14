@@ -29,7 +29,9 @@ struct RectangleParams {
     double vy = 0;
     double boundary_1=0;
     double boundary_2=0;
+    bool triger_dir_flip=false;
     bool dir=false;
+    
 };
 extern Scenetype window;
 extern bool key_state[ALLEGRO_KEY_MAX];

@@ -21,20 +21,19 @@
 #include "../Scene/Gamescene_earth_2.h"
 
 #include "Hero.h"
-
+#include "Platform.h"
 class Glasses : public Object{
     public:
         void init();
         void update();
         void draw() override;
+        friend class Platform;
         friend class Gamescene_earth2;
     private:
         ALLEGRO_BITMAP *glasses;
-        
         int img_width;
         int img_height;
-
-        bool collected = false;
+        bool glasses_collected = false;
 };
 
 #endif

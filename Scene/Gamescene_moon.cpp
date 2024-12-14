@@ -21,8 +21,11 @@ void Gamescene_moon::init() {
 
 	SC->init();
 	FC->init();
-	RectangleParams fire_move_block_x1 = {1,true, true, true, true, 5.0, 0.0,72.0,DC->window_width};
-	RectangleParams fire_move_block_y1 = {3,true, true, true, true, 0.0, 5.0,600.0,825.0};
+	RectangleParams move_block_x1 = {4,true, false, true, false, -1.0, 0.0,1440,1008};
+	RectangleParams fire_move_block_y1 = {3,true, true, true, true, 0.0, 10.0,600.0,825.0};
+	RectangleParams move_block_y1 = {3,true,true,true,false,0.0,2.0,450.0,825.0,true};
+	RectangleParams move_block_y2 = {3,true,false,true,false,0.0,3.0,75.0,825.0};
+	RectangleParams move_block_y3 = {2,true,false,true,false,0.0,2.0,75.0,300.0};
 	RectangleParams fire_move_block_x2 = {1,true, true, true, true, 3.0, 0.0,144.0,792.0};
     //Load the background
     background_img = IC->get(Resource::moon_background_img_path);
@@ -32,19 +35,23 @@ void Gamescene_moon::init() {
 	moon_fire = IC->get(Resource::fire_block);
 	mode[1]=fire_move_block_y1;
 	mode[2]=fire_block;
-	mode[3]=ice_block;
+	mode[3]=move_block_y1;
 	mode[4]=normal_block;
 	mode[5]=invisible_block;
-	mode[6]=fire_move_block_x1;
-	mode[8]=fire_move_block_x2;
+	mode[6]=move_block_y2;
+	mode[7]=ice_block;
+	mode[8]=move_block_x1;
+	mode[9]=move_block_y3;
 	DC->platforms->loadmap(Resource::map_moon, mode,DC->window_width, DC->window_height);
 	DC->platforms->textures[1] = moon_fire;
 	DC->platforms->textures[2] = moon_fire;
-	DC->platforms->textures[3] = moon_ice;
+	DC->platforms->textures[3] = moon_land;
 	DC->platforms->textures[4] = moon_land;
  	DC->platforms->textures[5] = moon_wall;   // invisible block
-	DC->platforms->textures[6] = moon_fire;
-	DC->platforms->textures[8] = moon_fire;
+	DC->platforms->textures[6] = moon_wall;
+	DC->platforms->textures[7] = moon_ice;
+	DC->platforms->textures[8] = moon_wall;
+	DC->platforms->textures[9] = moon_land;
 	DC->hero->init();
 	hero_init();
 

@@ -27,7 +27,7 @@ public:
     : x1{x1}, y1{y1}, x2{x2}, y2{y2}, texture_type{texture_type},move_type{params.move_type}, 
       can_move{params.can_move}, visible{params.visible}, can_hold{params.can_hold},can_burn(params.can_burn),
       vx{params.vx}, vy{params.vy}, 
-      boundary_1(params.boundary_1),boundary_2(params.boundary_2),dir(params.dir){}
+      boundary_1(params.boundary_1),boundary_2(params.boundary_2),dir(params.dir),triger_dir_flip{params.triger_dir_flip}{}
 	Rectangle(int x1, int y1, int x2, int y2, int texture_type) :
 		x1{static_cast<double>(x1)},
 		y1{static_cast<double>(y1)},
@@ -45,6 +45,7 @@ public:
 	double boundary_1;
 	double boundary_2;
 	bool dir;
+	bool triger_dir_flip;
 };
 
 #endif

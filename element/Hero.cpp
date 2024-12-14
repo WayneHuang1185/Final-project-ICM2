@@ -365,7 +365,7 @@ void Hero::update(){
         rect->update_center_y(DC->mouse.y);
     }
 
-    if (current_platform){
+    if (current_platform && (current_platform->move_type!=3 || current_platform->move_type!=4)){
         rect->update_center_x(rect->center_x() + current_platform->vx);
         rect->update_center_y(rect->center_y() + current_platform->vy);
     }

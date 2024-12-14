@@ -29,11 +29,11 @@ void Glasses::init(){
         )
     );
 
-    collected = false;
+    glasses_collected = false;
 }
 
 void Glasses::update(){
-    if(collected) return;
+    if(glasses_collected) return;
 
     DataCenter *DC = DataCenter::get_instance();
     SoundCenter *SC = SoundCenter::get_instance();
@@ -48,12 +48,12 @@ void Glasses::update(){
     }
 
     if(shape->overlap(*hero->shape)){
-        collected = true;
+        glasses_collected = true;
     }
 }
 
 void Glasses::draw(){
-    if(collected) return;
+    if(glasses_collected) return;
 
     DataCenter *DC = DataCenter::get_instance();
     SoundCenter *SC = SoundCenter::get_instance();
