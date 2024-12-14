@@ -21,7 +21,7 @@ void Gamescene_moon::init() {
 
 	SC->init();
 	FC->init();
-	RectangleParams move_block_x1 = {4,true, false, true, false, -1.0, 0.0,1440,1008};
+	RectangleParams move_block_x1 = {1,true, false, true, false, 2.0, 0.0,72.0,792.0};
 	RectangleParams fire_move_block_y1 = {3,true, true, true, true, 0.0, 10.0,600.0,825.0};
 	RectangleParams move_block_y1 = {3,true,true,true,false,0.0,2.0,450.0,825.0,true};
 	RectangleParams move_block_y2 = {3,true,false,true,false,0.0,3.0,75.0,825.0};
