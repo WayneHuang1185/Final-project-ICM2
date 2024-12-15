@@ -15,61 +15,76 @@ namespace HeroSetting {
     };
 }
 void Hero::init(){
-    char buffer[60];
-    for(size_t s_type=0;s_type < static_cast<size_t>(HeroState::MAX_STATE);s_type++){
-        for(size_t d_type=0;d_type<static_cast<size_t>(HeroDir::MAX_DIR);d_type++){
-                sprintf(buffer,"%s_%s_%s.gif",
-                        HeroSetting::gif_root_path,
-                        HeroSetting::gif_state[static_cast<int>(s_type)],
-                        HeroSetting::gif_dir[static_cast<int>(d_type)]
-                );
-                gifpath[{static_cast<HeroState>(s_type),static_cast<HeroDir>(d_type)}]=std::string{buffer};
-                sprintf(buffer,"%s_dash_%s_%s.gif",
-                        HeroSetting::gif_root_path,
-                        HeroSetting::gif_state[static_cast<int>(s_type)],
-                        HeroSetting::gif_dir[static_cast<int>(d_type)]
-                );
-                gif_dashpath[{static_cast<HeroState>(s_type),static_cast<HeroDir>(d_type)}]=std::string{buffer};
-            if(std::strcmp(HeroSetting::gif_state[static_cast<int>(s_type)], "jump") == 0){
-                sprintf(buffer,"%s_%s_%s_up.gif",
-                        HeroSetting::gif_root_path,
-                        HeroSetting::gif_state[static_cast<int>(s_type)],
-                        HeroSetting::gif_dir[static_cast<int>(d_type)]
-                );
-                gifjump[{static_cast<HeroDir>(d_type),"up"}]=std::string{buffer};
-                sprintf(buffer,"%s_%s_%s_down.gif",
-                        HeroSetting::gif_root_path,
-                        HeroSetting::gif_state[static_cast<int>(s_type)],
-                        HeroSetting::gif_dir[static_cast<int>(d_type)]
+    if(gif_path_load){
+        char buffer[60];
+        for(size_t s_type=0;s_type < static_cast<size_t>(HeroState::MAX_STATE);s_type++){
+            for(size_t d_type=0;d_type<static_cast<size_t>(HeroDir::MAX_DIR);d_type++){
+                    sprintf(buffer,"%s_%s_%s.gif",
+                            HeroSetting::gif_root_path,
+                            HeroSetting::gif_state[static_cast<int>(s_type)],
+                            HeroSetting::gif_dir[static_cast<int>(d_type)]
                     );
-                gifjump[{static_cast<HeroDir>(d_type),"down"}]=std::string{buffer};
-                sprintf(buffer,"%s_dash_%s_%s_down.gif",
-                        HeroSetting::gif_root_path,
-                        HeroSetting::gif_state[static_cast<int>(s_type)],
-                        HeroSetting::gif_dir[static_cast<int>(d_type)]
+                    gifpath[{static_cast<HeroState>(s_type),static_cast<HeroDir>(d_type)}]=std::string{buffer};
+                    sprintf(buffer,"%s_dash_%s_%s.gif",
+                            HeroSetting::gif_root_path,
+                            HeroSetting::gif_state[static_cast<int>(s_type)],
+                            HeroSetting::gif_dir[static_cast<int>(d_type)]
                     );
-                gif_dashjump[{static_cast<HeroDir>(d_type),"down"}]=std::string{buffer};
-                sprintf(buffer,"%s_dash_%s_%s_up.gif",
-                        HeroSetting::gif_root_path,
-                        HeroSetting::gif_state[static_cast<int>(s_type)],
-                        HeroSetting::gif_dir[static_cast<int>(d_type)]
+                    gif_dashpath[{static_cast<HeroState>(s_type),static_cast<HeroDir>(d_type)}]=std::string{buffer};
+                if(std::strcmp(HeroSetting::gif_state[static_cast<int>(s_type)], "jump") == 0){
+                    sprintf(buffer,"%s_%s_%s_up.gif",
+                            HeroSetting::gif_root_path,
+                            HeroSetting::gif_state[static_cast<int>(s_type)],
+                            HeroSetting::gif_dir[static_cast<int>(d_type)]
                     );
-                gif_dashjump[{static_cast<HeroDir>(d_type),"up"}]=std::string{buffer};
+                    gifjump[{static_cast<HeroDir>(d_type),"up"}]=std::string{buffer};
+                    sprintf(buffer,"%s_%s_%s_down.gif",
+                            HeroSetting::gif_root_path,
+                            HeroSetting::gif_state[static_cast<int>(s_type)],
+                            HeroSetting::gif_dir[static_cast<int>(d_type)]
+                        );
+                    gifjump[{static_cast<HeroDir>(d_type),"down"}]=std::string{buffer};
+                    sprintf(buffer,"%s_dash_%s_%s_down.gif",
+                            HeroSetting::gif_root_path,
+                            HeroSetting::gif_state[static_cast<int>(s_type)],
+                            HeroSetting::gif_dir[static_cast<int>(d_type)]
+                        );
+                    gif_dashjump[{static_cast<HeroDir>(d_type),"down"}]=std::string{buffer};
+                    sprintf(buffer,"%s_dash_%s_%s_up.gif",
+                            HeroSetting::gif_root_path,
+                            HeroSetting::gif_state[static_cast<int>(s_type)],
+                            HeroSetting::gif_dir[static_cast<int>(d_type)]
+                        );
+                    gif_dashjump[{static_cast<HeroDir>(d_type),"up"}]=std::string{buffer};
+                }
             }
-        }
-    }  
-    sprintf(buffer,"%s_%s_%s.gif",
-            HeroSetting::gif_root_path,
-            "stop",
-            "up"
-            );
-    gifpath[{HeroState::STOP,HeroDir::UP}]=std::string{buffer};
-    sprintf(buffer,"%s_dash_%s_%s.gif",
-            HeroSetting::gif_root_path,
-            "stop",
-            "up"
-            );
-    gif_dashpath[{HeroState::STOP,HeroDir::UP}]=std::string{buffer};
+        }  
+        sprintf(buffer,"%s_%s_%s.gif",
+                HeroSetting::gif_root_path,
+                "stop",
+                "up"
+                );
+        gifpath[{HeroState::STOP,HeroDir::UP}]=std::string{buffer};
+        sprintf(buffer,"%s_dash_%s_%s.gif",
+                HeroSetting::gif_root_path,
+                "stop",
+                "up"
+                );
+        gif_dashpath[{HeroState::STOP,HeroDir::UP}]=std::string{buffer};
+        sprintf(buffer,"%s_%s_%s.gif",
+                HeroSetting::gif_root_path,
+                "stop",
+                "down"
+                );
+        gifpath[{HeroState::STOP,HeroDir::DOWN}]=std::string{buffer};
+        sprintf(buffer,"%s_dash_%s_%s.gif",
+                HeroSetting::gif_root_path,
+                "stop",
+                "down"
+                );
+        gif_dashpath[{HeroState::STOP,HeroDir::DOWN}]=std::string{buffer};
+        gif_path_load=true;
+    }
     dir=HeroDir::RIGHT;
     state=HeroState::STOP;
     x_speed=0;
@@ -156,10 +171,16 @@ void Hero::update(){
     if(dash_redy && DC->key_state[ALLEGRO_KEY_SPACE]){
         if(DC->key_state[ALLEGRO_KEY_W])
             dir=HeroDir::UP;
+        else if(DC->key_state[ALLEGRO_KEY_S])
+            dir=HeroDir::DOWN;
         dash_timer=0;
         switch(dir){
             case HeroDir::UP:
                 y_speed=-dash_speed;
+                dir=HeroDir::RIGHT;
+                break;
+            case HeroDir::DOWN:
+                y_speed=dash_speed;
                 dir=HeroDir::RIGHT;
                 break;
             case HeroDir::LEFT:
@@ -181,14 +202,14 @@ void Hero::update(){
             x_speed =0;
             y_speed =0;
         }
-        if(dash_timer>=dash_duration*4){
+        if(dash_timer>=dash_duration*20){
             dash_redy=true;
         }
     }
     if(!dash_control){
         double jump_speed=std::max(max_jump_speed,max_jump_speed/2+abs(x_speed)*max_jump_speed/2/InTheAir::MAX_SPEED);
         if (jump_redy && DC->key_state[ALLEGRO_KEY_J] && !DC->prev_key_state[ALLEGRO_KEY_J] && jump_count < max_jump_limit) {
-            if(dir == HeroDir::UP)
+            if(dir == HeroDir::UP || dir == HeroDir::DOWN)
                 dir=HeroDir::RIGHT;
             y_speed=jump_speed;
             jump_redy=false;
@@ -339,6 +360,9 @@ void Hero::update(){
             y_speed+=down_gravity;
         std::cout<<y_speed<<std::endl;
     }
+    if(rect->center_y()<=0){
+        rect->update_center_y((rect->y2-rect->y1)/2);
+    }
     if (!hold && !on_platform && rect->y2 < DC->window_height)
         state=HeroState::JUMP; 
     else if (!on_platform && rect->y1 >= DC->window_height && rect->center_x() >= die_x_start && rect->center_x() <= die_x_end){
@@ -353,6 +377,7 @@ void Hero::update(){
     if(on_platform){
         if(std::abs(x_speed) <= 0.5){
             if(DC->key_state[ALLEGRO_KEY_W]) dir=HeroDir::UP;
+            else if(DC->key_state[ALLEGRO_KEY_S]) dir=HeroDir::DOWN;
             state=HeroState::STOP; 
         }
         else{

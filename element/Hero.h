@@ -8,10 +8,10 @@
 #include "../Scene/Gamescene_earth_2.h"
 #include "../Scene/Gamescene_moon.h"
 enum class HeroState{
-    RUN,STOP,JUMP,HOLD,MAX_STATE
+    RUN,STOP,JUMP,HOLD,MAX_STATE,HOLD_UP
 };
 enum class HeroDir{
-    LEFT,RIGHT,MAX_DIR,UP
+    LEFT,RIGHT,MAX_DIR,UP,DOWN
 };
 enum class CollisionType{ 
     None, Top, Bottom, Left, Right 
@@ -83,6 +83,7 @@ private:
     int max_dash_limit=1;
     double climb_speed;
     bool debug=true;
+    bool gif_path_load=false;
     const Rectangle *current_platform = nullptr;
     std::map<std::pair<HeroState,HeroDir>,std::string>gifpath; //exclude jump
     std::map<std::pair<HeroDir,std::string>,std::string>gifjump; // jump
@@ -90,6 +91,7 @@ private:
     std::map<std::pair<HeroDir,std::string>,std::string>gif_dashjump; // jump
     std::string heart_path="./assets/gif/Hero/hero_heart.gif";
     ALGIF_ANIMATION *gif;
+    CollisionType pre_col=CollisionType::Top;
 };
 
 #endif

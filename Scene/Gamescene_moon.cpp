@@ -22,10 +22,10 @@ void Gamescene_moon::init() {
 	SC->init();
 	FC->init();
 	RectangleParams move_block_x1 = {1,true, false, true, false, 2.0, 0.0,72.0,792.0};
-	RectangleParams fire_move_block_y1 = {3,true, true, true, true, 0.0, 10.0,600.0,825.0};
-	RectangleParams move_block_y1 = {3,true,true,true,false,0.0,2.0,450.0,825.0,true};
+	RectangleParams fire_move_block_y1 = {3,true, true, true, true, 0.0, 8.0,600.0,825.0};
+	RectangleParams move_block_y1 = {3,true,true,true,false,0.0,2.0,450.0,900.0,true};
 	RectangleParams move_block_y2 = {3,true,false,true,false,0.0,3.0,75.0,825.0};
-	RectangleParams move_block_y3 = {2,true,false,true,false,0.0,2.0,75.0,300.0};
+	RectangleParams move_block_y3 = {2,true,false,true,true,0,2.0,0.0,300.0};
 	RectangleParams fire_move_block_x2 = {1,true, true, true, true, 3.0, 0.0,144.0,792.0};
     //Load the background
     background_img = IC->get(Resource::moon_background_img_path);
@@ -51,7 +51,7 @@ void Gamescene_moon::init() {
 	DC->platforms->textures[6] = moon_wall;
 	DC->platforms->textures[7] = moon_ice;
 	DC->platforms->textures[8] = moon_wall;
-	DC->platforms->textures[9] = moon_land;
+	DC->platforms->textures[9] = moon_fire;
 	DC->hero->init();
 	hero_init();
 
@@ -65,12 +65,9 @@ void Gamescene_moon::init() {
 	pause_menu_button_y = pause_tryagain_button_y + 150;
 	button_color = al_map_rgb(100, 200, 100);
 	button_hover_color = al_map_rgb(150, 250, 150);  
-
 	state = STATE::PLAYING;
-
 	Gamescene_moon::BGM_played = true;
 }
-
 
 bool Gamescene_moon::update() {
 	DataCenter *DC = DataCenter::get_instance();
@@ -138,10 +135,8 @@ bool Gamescene_moon::update() {
             return true;
 		}
 	}
-
 	memcpy(DC->prev_key_state, DC->key_state, sizeof(DC->key_state));
 	memcpy(DC->prev_mouse_state, DC->mouse_state, sizeof(DC->mouse_state));
-
 	return true;
 }
 
@@ -153,7 +148,6 @@ void Gamescene_moon::draw(){
 	al_clear_to_color(al_map_rgb(100, 100, 100));
 	// background
 	al_draw_bitmap(background_img, 0, 0, 0);
-
 	DC->hero->draw();
 	OC->draw();
 	DC->platforms->draw();
@@ -216,10 +210,8 @@ void Gamescene_moon::draw(){
 
 
 void Gamescene_moon::destroy() {
-
 	if(background_img) background_img = nullptr;
 	if(background_music) background_music = nullptr;
-	
     std::cout << "gamescene_earth destroy" << std::endl;
 }
 

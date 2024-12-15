@@ -71,7 +71,7 @@ void Platform::update() {
                      : ((rect.vy > 0 && h_rect.y1 > rect.y2) || (rect.vy < 0 && h_rect.y2 < rect.y1));
 
                     bool horizontalCheck3 = ((h_rect.x2 > (rect.x1 + block_width / 5) && h_rect.x1 < rect.x1) || 
-                        ((h_rect.x1 + block_width / 5) > rect.x2 && h_rect.x2 < rect.x2));
+                        ((h_rect.x1+block_width/5)<(rect.x2)&& h_rect.x2>rect.x1));
                     if (verticalCheck3 && horizontalCheck3)
                         rect.move_type=5;
                     break;
@@ -81,7 +81,7 @@ void Platform::update() {
                      ? ((rect.vx > 0 && h_rect.x1 < rect.x2) || (rect.vx < 0 && h_rect.x2 > rect.x1))
                      : ((rect.vx > 0 && h_rect.x1 > rect.x2) || (rect.vx < 0 && h_rect.x2 < rect.x1));
                     bool horizontalCheck4 = ((h_rect.y2 > (rect.y1 + block_height / 5) && h_rect.y1 < rect.y1) || 
-                        ((h_rect.y1 + block_height / 5) > rect.y2 && h_rect.y2 < rect.y2));
+                        ((h_rect.y1 + block_height / 5) < rect.y2 && h_rect.y2 > rect.y1));
                     if (verticalCheck4 && horizontalCheck4)
                         rect.move_type=6;
                     break;
