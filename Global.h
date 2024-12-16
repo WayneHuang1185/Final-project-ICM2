@@ -19,6 +19,25 @@ enum class Scenetype{
     Ending,
     Leave,
 };
+enum class Detect_side{
+    L,
+    R,
+    U,
+    D,
+    LAR,
+    LAU,
+    LAD,
+    RAU,
+    RAD,
+    LOR,
+    LOU,
+    LOD,
+    ROU,
+    ROD,
+    UOD,
+    UODAR,
+    LORAD
+};
 struct RectangleParams {
     int move_type=-1;
     bool can_move = false;
@@ -29,9 +48,9 @@ struct RectangleParams {
     double vy = 0;
     double boundary_1=0;
     double boundary_2=0;
-    bool triger_dir_flip=false;
+    double detect_range=0;
+    Detect_side detect_side=Detect_side::L;
     bool dir=false;
-    
 };
 extern Scenetype window;
 extern bool key_state[ALLEGRO_KEY_MAX];

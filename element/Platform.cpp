@@ -52,6 +52,10 @@ void Platform::update() {
     Rectangle h_rect=*dynamic_cast<Rectangle*>(hero->shape.get());
     for (auto& rect : rectangles) {
         if (rect.can_move) {
+            bool Left=(h_rect.x2+rect.detect_range)>rect.x1 && h_rect.x1 <=rect.x1;
+            bool Right=h_rect.x1<(rect.x2+rect.detect_range) && h_rect.x2>=rect.x1;
+            bool Up=(h_rect.y2+rect.detect_range)>rect.y1 && h_rect.y1 <= rect.y1;
+            bool Down=h_rect.y1<(rect.y2+rect.detect_range) && h_rect.y2>=rect.y1;
             switch(rect.move_type){
                 case 1:
                     rect.x1 += rect.vx;
@@ -66,24 +70,141 @@ void Platform::update() {
                         rect.vy = -rect.vy; 
                     break;
                 case 3:{
-                    bool verticalCheck3 = rect.triger_dir_flip 
-                     ? ((rect.vy > 0 && h_rect.y1 < rect.y2) || (rect.vy < 0 && h_rect.y2 > rect.y1))
-                     : ((rect.vy > 0 && h_rect.y1 > rect.y2) || (rect.vy < 0 && h_rect.y2 < rect.y1));
-
-                    bool horizontalCheck3 = ((h_rect.x2 > (rect.x1 + block_width / 5) && h_rect.x1 < rect.x1) || 
-                        ((h_rect.x1+block_width/5)<(rect.x2)&& h_rect.x2>rect.x1));
-                    if (verticalCheck3 && horizontalCheck3)
-                        rect.move_type=5;
+                    switch(rect.detect_side){
+                        case Detect_side::L:
+                            if(Left)
+                                rect.move_type=5;
+                            break;
+                        case Detect_side::R:
+                            if(Right)
+                                rect.move_type=5;
+                            break;
+                        case Detect_side::U:
+                            if(Up)
+                                rect.move_type=5;
+                            break;
+                        case Detect_side::D:
+                            if(Down)
+                                rect.move_type=5;
+                            break;
+                        case Detect_side::LAR:
+                            if(Left && Right)
+                                rect.move_type=5;
+                            break;
+                        case Detect_side::LAU:
+                            if(Left && Up)
+                                rect.move_type=5;
+                            break;
+                        case Detect_side::LAD:
+                            if(Left && Down)
+                                rect.move_type=5;
+                            break;
+                        case Detect_side::RAU:
+                            if(Right && Up)
+                                rect.move_type=5;
+                            break;
+                        case Detect_side::RAD:
+                            if(Right && Down)
+                                rect.move_type=5;
+                            break;
+                        case Detect_side::LOR:
+                            if(Left || Right)
+                                rect.move_type=5;
+                            break;
+                        case Detect_side::LOU:
+                            if(Left || Up)
+                                rect.move_type=5;
+                            break;
+                        case Detect_side::LOD:
+                            if(Left || Down)
+                                rect.move_type=5;
+                            break;
+                        case Detect_side::ROU:
+                            if(Right || Up)
+                                rect.move_type=5;
+                            break;
+                        case Detect_side::ROD:
+                            if(Right || Down)
+                                rect.move_type=5;
+                            break;
+                        case Detect_side::UOD:
+                            if(Up || Down)
+                                rect.move_type=5;
+                            break;
+                        case Detect_side::LORAD:
+                            if(h_rect.y1>rect.y2 &&(Left||Right))
+                                rect.move_type=5;
+                            break;
+                    }
                     break;
                 }
                 case 4:{
-                    bool verticalCheck4 = rect.triger_dir_flip 
-                     ? ((rect.vx > 0 && h_rect.x1 < rect.x2) || (rect.vx < 0 && h_rect.x2 > rect.x1))
-                     : ((rect.vx > 0 && h_rect.x1 > rect.x2) || (rect.vx < 0 && h_rect.x2 < rect.x1));
-                    bool horizontalCheck4 = ((h_rect.y2 > (rect.y1 + block_height / 5) && h_rect.y1 < rect.y1) || 
-                        ((h_rect.y1 + block_height / 5) < rect.y2 && h_rect.y2 > rect.y1));
-                    if (verticalCheck4 && horizontalCheck4)
-                        rect.move_type=6;
+                     switch(rect.detect_side){
+                        case Detect_side::L:
+                            if(Left)
+                                rect.move_type=6;
+                            break;
+                        case Detect_side::R:
+                            if(Right)
+                                rect.move_type=6;
+                            break;
+                        case Detect_side::U:
+                            if(Up)
+                                rect.move_type=6;
+                            break;
+                        case Detect_side::D:
+                            if(Down)
+                                rect.move_type=6;
+                            break;
+                        case Detect_side::LAR:
+                            if(Left && Right)
+                                rect.move_type=6;
+                            break;
+                        case Detect_side::LAU:
+                            if(Left && Up)
+                                rect.move_type=6;
+                            break;
+                        case Detect_side::LAD:
+                            if(Left && Down)
+                                rect.move_type=6;
+                            break;
+                        case Detect_side::RAU:
+                            if(Right && Up)
+                                rect.move_type=6;
+                            break;
+                        case Detect_side::RAD:
+                            if(Right && Down)
+                                rect.move_type=6;
+                            break;
+                        case Detect_side::LOR:
+                            if(Left || Right)
+                                rect.move_type=5;
+                            break;
+                        case Detect_side::LOU:
+                            if(Left || Up)
+                                rect.move_type=6;
+                            break;
+                        case Detect_side::LOD:
+                            if(Left || Down)
+                                rect.move_type=6;
+                            break;
+                        case Detect_side::ROU:
+                            if(Right || Up)
+                                rect.move_type=6;
+                            break;
+                        case Detect_side::ROD:
+                            if(Right || Down)
+                                rect.move_type=6;
+                            break;
+                        case Detect_side::UOD:
+                            if(Up || Down)
+                                rect.move_type=6;
+                            break;
+                        case Detect_side::UODAR:
+                            if(h_rect.x1>rect.x2 &&(Up || Down))
+                                rect.move_type=6;
+                            break;
+                    }
                     break;
                 }
                 case 5:

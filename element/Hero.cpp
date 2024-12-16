@@ -15,7 +15,7 @@ namespace HeroSetting {
     };
 }
 void Hero::init(){
-    if(gif_path_load){
+    if(!gif_path_load){
         char buffer[60];
         for(size_t s_type=0;s_type < static_cast<size_t>(HeroState::MAX_STATE);s_type++){
             for(size_t d_type=0;d_type<static_cast<size_t>(HeroDir::MAX_DIR);d_type++){
