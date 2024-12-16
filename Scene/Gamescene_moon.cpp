@@ -59,12 +59,12 @@ void Gamescene_moon::init() {
     DC->platforms->init();
 
 	button_width = 200;
-	button_height = 100;
+	button_height = 90;
 	pause_menu_button_x = pause_tryagain_button_x = (DC->window_width - button_width) / 2;
 	pause_tryagain_button_y = DC->window_height / 2;
 	pause_menu_button_y = pause_tryagain_button_y + 150;
-	button_color = al_map_rgb(100, 200, 100);
-	button_hover_color = al_map_rgb(150, 250, 150);  
+	button_color = al_map_rgb(255, 180, 100);
+	button_hover_color = al_map_rgb(255, 230, 150);  
 	state = STATE::PLAYING;
 	Gamescene_moon::BGM_played = true;
 }

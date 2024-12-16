@@ -2,6 +2,11 @@
 #define MENU_H_INCLUDED
 
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_acodec.h>
 #include "../UI.h"
 #include "scene.h"
 #include "../Global.h"
@@ -24,6 +29,11 @@ class Menu : public Scene{
         ALLEGRO_COLOR button_color;
         ALLEGRO_COLOR button_hover_color;
         ALLEGRO_COLOR play_button_current_color, setting_button_current_color, introduction_button_current_color, exit_button_current_color;
-};
+
+        ALLEGRO_BITMAP *background_img;
+        ALLEGRO_SAMPLE_INSTANCE *background_music;
+
+        bool BGM_played;
+};      
 
 #endif

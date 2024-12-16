@@ -4,6 +4,9 @@
 namespace Resource {
     constexpr char game_icon[] = "assets/image/game_icon.png";
     constexpr char sound_path[] = "assets/sound/growl.wav";
+    
+    constexpr char menu_backgorund_img_path[] = "assets/image/menu_background.png";
+    constexpr char menu_bgm[] = "assets/sound/menu_bgm.mp3";
 
     constexpr char earth_background_img_path[] = "assets/image/earth_background.jpg";
     constexpr char moon_background_img_path[] = "assets/image/moon_background.png";
