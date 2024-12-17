@@ -62,6 +62,8 @@ class Gamescene_mars : public Scene{
         ALLEGRO_BITMAP *mars_ice;
         ALLEGRO_BITMAP *mars_cloud;
         ALLEGRO_BITMAP *mars_bird;
+        ALLEGRO_BITMAP *mars_bounding_block;
+        ALLEGRO_BITMAP *mars_fire;
         static ALLEGRO_SAMPLE_INSTANCE *background_music;
         ALLEGRO_COLOR button_color;
         ALLEGRO_COLOR button_hover_color;

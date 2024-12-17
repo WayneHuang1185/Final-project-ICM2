@@ -21,29 +21,39 @@ void Gamescene_mars::init() {
 	SC->init();
 	FC->init();
 	RectangleParams move_block_1 = {1,true,true,true,false,1.0, 0.0, DC->window_width/20*10, DC->window_width/20*16};
-	
+	RectangleParams bounding_block={7,false,true,true,false};
+	RectangleParams gravity_block_up1={8,true,true,true,false,0.0,-0.8,0.0,0.0,216.0,Detect_side::GD};
+	RectangleParams gravity_block_right1={8,true,true,true,false,3.0,0.0,0.0,0.0,576.0,Detect_side::GL};
+	RectangleParams gravity_block_right2={8,true,true,true,false,-3.0,0.0,0.0,0.0,576.0,Detect_side::GR};
+    //Load the background
     //Load the background
     background_img = IC->get(Resource::mars_background_img_path);
-	mars_wall = IC->get(Resource::earth_wall);
+	mars_wall = IC->get(Resource::moon_wall);
 	mars_land = IC->get(Resource::earth_land);
 	mars_mud = IC->get(Resource::earth_mud);
 	mars_ice = IC->get(Resource::moon_ice);
 	mars_cloud = IC->get(Resource::earth_cloud);
 	mars_bird = IC->get(Resource::earth_bird);
-	mode[1]=normal_block;
-	mode[2]=normal_block;
-	mode[3]=normal_block;
-	mode[4]=ice_block;
+	mars_fire = IC->get(Resource::fire_block);
+	mars_bounding_block=IC->get(Resource::bounding_block);
+	mode[1]=ice_block;
+	mode[2]=fire_block;
+	mode[3]=bounding_block;
+	mode[4]=gravity_block_up1;
+	mode[5]=gravity_block_right1;
+	mode[6]=gravity_block_right2;
 	mode[8]=move_block_1;
 	mode[9]=normal_block;
 	DC->platforms->loadmap(Resource::map_mars,mode,DC->window_width, DC->window_height);
 	
-	DC->platforms->textures[1] = mars_land;
-	DC->platforms->textures[2] = mars_mud;
-	DC->platforms->textures[3] = mars_wall;
-	DC->platforms->textures[4] = mars_ice;
+	DC->platforms->textures[1] = mars_mud;
+	DC->platforms->textures[2] = mars_fire;
+	DC->platforms->textures[3] = mars_bounding_block;
+	DC->platforms->textures[4] = mars_land;
+	DC->platforms->textures[5] = mars_wall;
+	DC->platforms->textures[6] = mars_wall;
 	DC->platforms->textures[8] = mars_bird;
-	DC->platforms->textures[9] = mars_mud;
+	DC->platforms->textures[9] = mars_land;
 
 	// Initialize other elements
     DC->platforms->init();
@@ -136,16 +146,7 @@ bool Gamescene_mars::update() {
             return true;
 		}
 	}
-
-	if(DC->hero->teleport_to_earth2){
-		DC->hero->died_count = 0;
-		SC->stop_playing(background_music);
-		window = Scenetype::earth1_to_earth2;
-		DC->hero->teleport_to_earth2 = false;
-		return false;
-	}
-
-
+	
 	memcpy(DC->prev_key_state, DC->key_state, sizeof(DC->key_state));
 	memcpy(DC->prev_mouse_state, DC->mouse_state, sizeof(DC->mouse_state));
 
@@ -235,6 +236,13 @@ void Gamescene_mars::hero_init(){
 	Platform *PLT=DC->platforms;
 	DC->hero->hero_died = false;
 	DC->hero->dash_length = PLT->get_block_height();
+	double spawn_x =36;
+	double spawn_y =675;
+	Rectangle* rect = dynamic_cast<Rectangle*>(DC->hero->shape.get());
+    if (rect) {
+        rect->update_center_x(spawn_x);
+        rect->update_center_y(spawn_y);
+    }
 	DC->hero->dash_duration = 0.1*DC->FPS;
 	DC->hero->max_jump_height = PLT->get_block_height()*3;
 	DC->hero->max_jump_speed = -std::sqrt(1.5*DC->hero->up_gravity * DC->hero->max_jump_height);

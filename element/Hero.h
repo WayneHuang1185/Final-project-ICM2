@@ -46,6 +46,12 @@ public:
     void draw();
     CollisionType detectCollision(const Rectangle& platform,double collistion_buffer);
     const Hero& Get_Hero()const{return *this;}
+    double &get_x_speed(){
+        return x_speed;
+    }
+    double &get_y_speed(){
+        return y_speed;
+    }
     friend class Gamescene_earth;
     friend class Gamescene_earth2;
     friend class Gamescene_moon;
@@ -87,6 +93,10 @@ private:
     int max_hold_limit=1;
     int max_dash_limit=1;
     double climb_speed;
+    double max_bvx;
+    double max_bvy;
+    double bounding=0;
+    double bounding_factor=1.2;
     bool debug=true;
     bool gif_path_load=false;
     const Rectangle *current_platform = nullptr;

@@ -38,7 +38,12 @@ enum class Detect_side{
     ROD,
     UOD,
     UODAR,
-    LORAD
+    LORAD,
+    LORAU,
+    GU,
+    GD,
+    GL,
+    GR
 };
 struct RectangleParams {
     int move_type=-1;

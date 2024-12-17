@@ -32,7 +32,7 @@ namespace Resource {
     constexpr char fire_block[] = "assets/image/fire_block.png";
     constexpr char tool_glass[]="assets/image/tool_glasses.png";
     constexpr char tool_treasure[]="assets/image/tool_treasure.png";
-
+    constexpr char bounding_block[]="assets/image/bounding_ball.png";
     constexpr char map_introduction[] = "assets/map_introduction.txt";
 
     constexpr char map_earth[] = "assets/map_earth.txt";

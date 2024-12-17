@@ -102,8 +102,8 @@ void Hero::init(){
     max_jump_height=PLT->get_block_height()*4;//static_cast<double>(gif->height*3);
     max_jump_speed=-std::sqrt(2 * up_gravity * max_jump_height);
     jump_cooldown=0; //static_cast<int>(DC->FPS/(max_jump_limit+1));
-
-
+    double max_bvx=2*OnTheGround::MAX_SPEED;
+    double max_bvy=-2*max_jump_speed;
     dash_length=PLT->get_block_height()*4;
     dash_duration=0.15*DataSetting::FPS;
     dash_speed=dash_length/dash_duration;
@@ -154,7 +154,12 @@ CollisionType Hero::detectCollision(const Rectangle& platform,double collision_b
     return CollisionType::None;
 }
 
-
+double limitValue(double input, double maxAbsValue) {
+    if (std::abs(input) > maxAbsValue) { 
+        return (input > 0) ? maxAbsValue : -maxAbsValue;
+    }
+    return input;
+}
 
 void Hero::update(){
     DataCenter* DC = DataCenter::get_instance();
@@ -178,10 +183,12 @@ void Hero::update(){
         dash_timer=0;
         switch(dir){
             case HeroDir::UP:
+                x_speed=0;
                 y_speed=-dash_speed;
                 dir=HeroDir::RIGHT;
                 break;
             case HeroDir::DOWN:
+                x_speed=0;
                 y_speed=dash_speed;
                 dir=HeroDir::RIGHT;
                 break;
@@ -289,7 +296,10 @@ void Hero::update(){
             switch(col){
                 case CollisionType::Top:
                     rect->update_center_y(platform.y1 - (rect->y2 - rect->y1) / 2); 
-                    y_speed = 0;    
+                    if(platform.move_type == 7) 
+                        y_speed=-bounding_factor*y_speed;
+                    else 
+                        y_speed = 0;    
                     on_platform = true;
                     jump_count = 0;
                     if(platform.can_move) current_platform = &platform;
@@ -298,7 +308,10 @@ void Hero::update(){
                     break;
                 case CollisionType::Bottom:
                     rect->update_center_y(platform.y2 + (rect->y2 - rect->y1) / 2); 
-                    y_speed =-max_jump_speed/10;    
+                    if(platform.move_type == 7) 
+                        y_speed=-bounding_factor*y_speed;
+                    else 
+                        y_speed = 0;      
                     //std::cout<<"BOTTOM\n";
                     break;
                 case CollisionType::Left:
@@ -316,6 +329,8 @@ void Hero::update(){
                         hold=true;
                         jump_count=std::min(jump_count+1,max_jump_limit);
                     }
+                    if(platform.move_type == 7) 
+                        x_speed=-bounding_factor*x_speed;
                     else{
                         x_speed=-x_speed/10;
                         rect->update_center_x(platform.x1-(rect->x2-rect->x1)/2);
@@ -338,6 +353,8 @@ void Hero::update(){
                         hold=true;
                         jump_count=std::min(jump_count+1,max_jump_limit);
                     }
+                    if(platform.move_type == 7) 
+                        x_speed=-bounding_factor*x_speed;
                     else{
                         x_speed=-x_speed/10;
                         rect->update_center_x(platform.x2+(rect->x2-rect->x1)/2);
@@ -407,6 +424,8 @@ void Hero::draw(){
     for(int i=0;i<hp;i++){
         algif_draw_gif(gif,i*gif->width+gif->width/2,gif->height/2,0);
     }
+    if((dir == HeroDir::UP||dir == HeroDir::DOWN) && state!=HeroState::STOP)
+        dir == HeroDir::RIGHT;
     if(dash_redy){
         if(state == HeroState::RUN || state == HeroState::STOP || state == HeroState::HOLD){
             gif = GIFC->get(gifpath[{state,dir}]);
@@ -457,7 +476,7 @@ void Hero::draw(){
                 break;
         }
         //std::cout<<"dash_redy:"<<(dash_redy)?1:0<<'\n';
-        //std::cout<< "x_speed = " <<x_speed<<" "<< "y_speed = " << y_speed<<" "<< "on_platform = " <<on_platform<<std::endl;
+        std::cout<< "x_speed = " <<x_speed<<" "<< "y_speed = " << y_speed<<" "<< "on_platform = " <<on_platform<<std::endl;
     }
 
 
