@@ -4,7 +4,13 @@
 #include <iostream>
 #include <allegro5/allegro_primitives.h>
 Energy::Energy(){
+
 }
+
+Energy::~Energy(){
+
+}
+
 void Energy::init(){
     DataCenter *DC = DataCenter::get_instance();
     SoundCenter *SC = SoundCenter::get_instance();

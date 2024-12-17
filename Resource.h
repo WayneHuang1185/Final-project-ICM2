@@ -13,6 +13,10 @@ namespace Resource {
 
     constexpr char introduction_background_img_path[] = "assets/image/introduction_background.png";
 
+    constexpr char fail_backgrodun_img_path[] = "assets/image/fail_background.jpg";
+
+    constexpr char ending_background_img_path[] = "assets/image/ending_background.jpg";
+
     constexpr char earth_background_img_path[] = "assets/image/earth_background.jpg";
     constexpr char moon_background_img_path[] = "assets/image/moon_background.png";
     constexpr char earth_background_music[] = "assets/sound/BackgroundMusic.ogg";
@@ -39,6 +43,8 @@ namespace Resource {
     constexpr char map_earth_2[] = "assets/map_earth_2.txt";
     constexpr char map_moon[] = "assets/map_moon.txt";
     constexpr char map_mars[] = "assets/map_mars.txt";
+
+    constexpr char elon_happy[] = "assets/gif/elon_happy.gif";
 }
 
 #endif
