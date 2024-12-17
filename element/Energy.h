@@ -1,5 +1,5 @@
-#ifndef GLASSES_H
-#define GLASSES_H
+#ifndef Energy_H
+#define Energy_H
 
 #include "Object.h"
 #include "../shapes/Rectangle.h"

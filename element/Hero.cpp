@@ -175,12 +175,13 @@ void Hero::update(){
     
     //std::cout<<"ok:"<<gifjump[{HeroDir::LEFT,"up"}]<<'\n';
     if (!rect) return;
+    if(dash_redy)
+        dash_timer=0;
     if(dash_redy && DC->key_state[ALLEGRO_KEY_SPACE]){
         if(DC->key_state[ALLEGRO_KEY_W])
             dir=HeroDir::UP;
         else if(DC->key_state[ALLEGRO_KEY_S])
             dir=HeroDir::DOWN;
-        dash_timer=0;
         switch(dir){
             case HeroDir::UP:
                 x_speed=0;

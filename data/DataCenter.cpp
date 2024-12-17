@@ -48,4 +48,5 @@ DataCenter::~DataCenter() {
 	delete glasses;
 	delete rocket;
 	delete rocket2;
+	delete energy;
 }

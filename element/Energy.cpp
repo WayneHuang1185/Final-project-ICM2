@@ -5,6 +5,8 @@
 #include <allegro5/allegro_primitives.h>
 Energy::Energy(){
 }
+Energy::~Energy(){
+}
 void Energy::init(){
     DataCenter *DC = DataCenter::get_instance();
     SoundCenter *SC = SoundCenter::get_instance();
@@ -19,9 +21,9 @@ void Energy::init(){
     RectangleParams energy_box=normal_block;
     shape.reset(
         new Rectangle(
-            DC->window_width/20*12,
+            DC->window_width/20*5,
             DC->window_height/12*10,
-            DC->window_width/20*12 + img_width,
+            DC->window_width/20*5 + img_width,
             DC->window_height/12*10 + img_height,
             0,
             energy_box
@@ -50,7 +52,6 @@ void Energy::update(){
             std::cerr << "Hero or Hero shape is not initialized." << std::endl;
             return;
         }
-
         if(shape->overlap(*hero->shape)){
            collected=true;
            hero->up_dash()=true;

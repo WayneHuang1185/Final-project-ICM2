@@ -24,7 +24,7 @@ void Gamescene_mars::init() {
 	RectangleParams bounding_block={7,false,true,true,false};
 	RectangleParams gravity_block_up1={8,true,true,true,false,0.0,-0.8,0.0,0.0,125.0,Detect_side::GU};
 	RectangleParams gravity_block_down1={8,true,true,true,false,0.0,0.1,0.0,0.0,125.0,Detect_side::GD};
-	RectangleParams gravity_block_left1={8,true,true,true,false,-3.0,0.0,0.0,0.0,360.0,Detect_side::GR};
+	RectangleParams gravity_block_left1={8,true,true,true,false,-5.0,0.0,0.0,0.0,360.0,Detect_side::GR};
 	RectangleParams gravity_block_right2={8,true,true,true,false,-3.0,0.0,0.0,0.0,576.0,Detect_side::GR};
     //Load the background
     //Load the background

@@ -24,6 +24,7 @@ class Level;
 class Monster;
 class Tower;
 class Bullet;
+
 class Energy;
 class Hero;
 class Platform;
