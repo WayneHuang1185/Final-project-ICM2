@@ -24,6 +24,8 @@
 #include "Platform.h"
 class Energy : public Object{
     public:
+        Energy();
+        ~Energy();
         void init();
         void update();
         void draw() override;
@@ -34,6 +36,8 @@ class Energy : public Object{
         int img_width;
         int img_height;
         int timer;
+        bool collected;
+        int restore_time=100;
 };
 
 #endif

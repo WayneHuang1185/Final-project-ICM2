@@ -18,13 +18,13 @@ namespace DataSetting {
 #include "../element/Glasses.h"
 #include "../element/Earth_to_moon_rocket.h"
 #include "../element/Moon_to_mars_rocket.h"
-
+#include "../element/Energy.h"
 class Player;
 class Level;
 class Monster;
 class Tower;
 class Bullet;
-
+class Energy;
 class Hero;
 class Platform;
 class Glasses;
@@ -112,15 +112,11 @@ public:
 	// std::vector<Bullet*> towerBullets;
 
 	Hero *hero;
-
 	Platform *platforms;
-
 	Glasses *glasses;
-
 	Rocket *rocket;
-
 	Rocket2 *rocket2;
-	
+	Energy *energy;
 private:
 	DataCenter();
 };

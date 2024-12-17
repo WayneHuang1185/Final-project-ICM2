@@ -52,6 +52,9 @@ public:
     double &get_y_speed(){
         return y_speed;
     }
+    bool &up_dash(){
+        return dash_redy;
+    }
     friend class Gamescene_earth;
     friend class Gamescene_earth2;
     friend class Gamescene_moon;

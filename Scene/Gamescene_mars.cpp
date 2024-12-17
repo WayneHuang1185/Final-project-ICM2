@@ -60,7 +60,7 @@ void Gamescene_mars::init() {
     DC->platforms->init();
 	DC->hero->init();
 	hero_init();
-
+	DC->energy->init();
 	button_width = 200;
 	button_height = 90;
 	pause_menu_button_x = pause_tryagain_button_x = (DC->window_width - button_width) / 2;
@@ -100,7 +100,7 @@ bool Gamescene_mars::update() {
 		DC->hero->update();
 
 		DC->platforms->update();
-
+		DC->energy->update();
 		OC->update();
 
 		// game_update is finished. The states of current frame will be previous states of the next frame.
@@ -166,6 +166,7 @@ void Gamescene_mars::draw(){
 	DC->hero->draw();
 	OC->draw();
 	DC->platforms->draw();
+	DC->energy->draw();
 	switch(state) {
 		case STATE::PLAYING:{
 			break;

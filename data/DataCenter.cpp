@@ -7,7 +7,6 @@
 #include "../monsters/Monster.h"
 #include "../towers/Tower.h"
 #include "../towers/Bullet.h"
-
 // fixed settings
 
 
@@ -23,12 +22,13 @@ DataCenter::DataCenter() {
 	memset(prev_mouse_state, false, sizeof(prev_mouse_state));
 	// player = new Player();
 	// level = new Level();
-
+	
 	hero = new Hero();
 	platforms = new Platform();
 	glasses = new Glasses();
 	rocket = new Rocket();
 	rocket2 = new Rocket2();
+	energy = new Energy();	
 }
 
 DataCenter::~DataCenter() {
