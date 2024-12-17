@@ -13,6 +13,8 @@ namespace Resource {
 
     constexpr char introduction_background_img_path[] = "assets/image/introduction_background.png";
 
+    constexpr char setting_background_img_path[] = "assets/image/setting_background.jpg";
+
     constexpr char fail_backgrodun_img_path[] = "assets/image/fail_background.jpg";
 
     constexpr char ending_background_img_path[] = "assets/image/ending_background.jpg";

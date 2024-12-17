@@ -20,6 +20,8 @@ class Setting : public Scene{
         ALLEGRO_COLOR button_color;
         ALLEGRO_COLOR button_hover_color;
         ALLEGRO_COLOR back_button_current_color;
+
+        ALLEGRO_BITMAP *background_img;
 };
 
 #endif

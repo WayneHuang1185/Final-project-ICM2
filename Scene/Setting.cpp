@@ -23,6 +23,8 @@ void Setting::init(){
     ImageCenter *IC = ImageCenter::get_instance();
 	FontCenter *FC = FontCenter::get_instance();
 
+    background_img = IC->get(Resource::setting_background_img_path);
+
     back_button_width = 200;
     back_button_height = 90;
 
@@ -65,6 +67,7 @@ void Setting::draw(){
     FontCenter* FC = FontCenter::get_instance();
 
     al_clear_to_color(al_map_rgb(100, 100, 100));
+    al_draw_bitmap(background_img, 0, 0, 0);
 
     al_draw_filled_rectangle(back_button_x, back_button_y, back_button_x + back_button_width, back_button_y + back_button_height, back_button_current_color);
 
