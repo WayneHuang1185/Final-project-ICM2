@@ -55,13 +55,23 @@ bool Ending::update(){
         DC->mouse.y >= menu_button_y && DC->mouse.y <= menu_button_y + button_height) {
             menu_button_current_color = button_hover_color; 
             if (DC->mouse_state[1]) { 
-                std::cout << "Button clicked! Switching to Gamescene_earth." << std::endl;
+                std::cout << "Button clicked! Switching to Menu." << std::endl;
                 window = Scenetype::Menu;  
                 return false;  
             }
         }
     else menu_button_current_color = button_color;
 
+    if(DC->mouse.x >= tryagain_button_x && DC->mouse.x <= tryagain_button_x + button_width &&
+       DC->mouse.y >= tryagain_button_y && DC->mouse.y <= tryagain_button_y + button_height){
+            tryagain_button_current_color = button_hover_color;
+            if (DC->mouse_state[1]) { 
+                std::cout << "Button clicked! Switching to Gamescene_earth." << std::endl;
+                window = Scenetype::Game_earth;  
+                return false;  
+            }
+    }
+    else tryagain_button_current_color = button_color;
     return true;
 }
 

@@ -28,6 +28,7 @@ class Cybertruck : public Object{
         void update();
         void draw() override;
         friend class Gamescene_earth2;
+        friend class Gamescene_mars;
         friend class Hero;
     private:
         ALLEGRO_BITMAP *Cybertruck;

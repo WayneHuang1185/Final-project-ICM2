@@ -30,6 +30,7 @@
 
 #include "../element/Hero.h"
 #include "../element/Platform.h"
+#include "../element/Cybertruck.h"
 class Gamescene_mars : public Scene{
     public:
         Gamescene_mars();

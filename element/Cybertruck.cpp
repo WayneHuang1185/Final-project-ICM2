@@ -20,10 +20,10 @@ void Cybertruck::init(){
 
     shape.reset(
         new Rectangle(
-            DC->window_width/20 * 16,
-            DC->window_height/12 * 8.5,
-            DC->window_width/20 * 16 + img_width,
-            DC->window_height/12 * 8.5 + img_height,
+            DC->window_width/20 * 1,
+            DC->window_height/12 * 5.5,
+            DC->window_width/20 * 1 + img_width,
+            DC->window_height/12 * 5.5 + img_height,
             0,
             Cybertruck
         )

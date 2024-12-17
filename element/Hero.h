@@ -65,6 +65,7 @@ private:
     bool teleport_to_earth2 = false;
     bool teleport_to_moon = false;
     bool teleport_to_mars = false;
+    bool teleport_to_ending = false;
     double die_x_start, die_x_end;
     double born_x1, born_y1, born_x2, born_y2;
     int hp;

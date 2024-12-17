@@ -24,7 +24,7 @@ void Gamescene_mars::init() {
 	RectangleParams bounding_block={7,false,true,true,false};
 	RectangleParams gravity_block_up1={8,true,true,true,false,0.0,-0.8,0.0,0.0,125.0,Detect_side::GU};
 	RectangleParams gravity_block_down1={8,true,true,true,false,0.0,0.1,0.0,0.0,125.0,Detect_side::GD};
-	RectangleParams gravity_block_left1={8,true,true,true,false,-5.0,0.0,0.0,0.0,360.0,Detect_side::GR};
+	RectangleParams gravity_block_left1={8,true,true,true,false,-9.0,0.0,0.0,0.0,360.0,Detect_side::GR};
 	RectangleParams gravity_block_right2={8,true,true,true,false,-3.0,0.0,0.0,0.0,576.0,Detect_side::GR};
     //Load the background
     //Load the background
@@ -61,6 +61,8 @@ void Gamescene_mars::init() {
 	DC->hero->init();
 	hero_init();
 	DC->energy->init();
+    DC->cybertruck->init();
+
 	button_width = 200;
 	button_height = 90;
 	pause_menu_button_x = pause_tryagain_button_x = (DC->window_width - button_width) / 2;
@@ -68,6 +70,8 @@ void Gamescene_mars::init() {
 	pause_menu_button_y = pause_tryagain_button_y + 150;
 	button_color = al_map_rgb(255, 180, 100);
 	button_hover_color = al_map_rgb(255, 230, 150);  
+
+    DC->hero->teleport_to_ending = false;
 
 	state = STATE::PLAYING;
 
@@ -101,6 +105,7 @@ bool Gamescene_mars::update() {
 
 		DC->platforms->update();
 		DC->energy->update();
+        DC->cybertruck->update();
 		OC->update();
 
 		// game_update is finished. The states of current frame will be previous states of the next frame.
@@ -147,6 +152,14 @@ bool Gamescene_mars::update() {
             return true;
 		}
 	}
+
+    if(DC->hero->teleport_to_ending){
+		DC->hero->died_count = 0;
+		SC->stop_playing(background_music);
+		window = Scenetype::Ending;
+		DC->hero->teleport_to_ending = false;
+		return false;
+	}
 	
 	memcpy(DC->prev_key_state, DC->key_state, sizeof(DC->key_state));
 	memcpy(DC->prev_mouse_state, DC->mouse_state, sizeof(DC->mouse_state));
@@ -158,16 +171,18 @@ void Gamescene_mars::draw(){
 	DataCenter *DC = DataCenter::get_instance();
 	OperationCenter *OC = OperationCenter::get_instance();
 	FontCenter *FC = FontCenter::get_instance();
+    Cybertruck *cybertruck = DC->cybertruck;
 	//Flush the screen first.
 	al_clear_to_color(al_map_rgb(100, 100, 100));
 	// background
 	al_draw_bitmap(background_img, 0, 0, 0);
 
-	DC->hero->draw();
 	OC->draw();
 	DC->platforms->draw();
 	DC->energy->draw();
-	switch(state) {
+    DC->cybertruck->draw();
+	if(!cybertruck->isgoing_up) DC->hero->draw();
+    switch(state) {
 		case STATE::PLAYING:{
 			break;
 		}

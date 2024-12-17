@@ -166,8 +166,10 @@ void Hero::update(){
     Platform* platforms = DC->platforms;
     Rocket *rocket = DC->rocket;
     Rocket2 *rocket2 = DC->rocket2;
+    Cybertruck *cybertruck = DC->cybertruck;
     Rectangle* rocket_rect = dynamic_cast<Rectangle*>(rocket->shape.get());
     Rectangle* rocket2_rect = dynamic_cast<Rectangle*>(rocket2->shape.get());
+    Rectangle* cybertruck_rect = dynamic_cast<Rectangle*>(cybertruck->shape.get());
     Rectangle* rect = dynamic_cast<Rectangle*>(shape.get());
     GIFCenter *GIFC = GIFCenter::get_instance();
     ALGIF_ANIMATION *gif = GIFC->get(gifpath[{state,dir}]);
@@ -395,6 +397,9 @@ void Hero::update(){
     }
     if(rocket2_rect && rocket2_rect->y2 < 0){
         teleport_to_mars = true;
+    }
+    if(cybertruck_rect && cybertruck_rect->x2 < 0){
+        teleport_to_ending = true;
     }
     if(on_platform){
         if(std::abs(x_speed) <= 0.5){
