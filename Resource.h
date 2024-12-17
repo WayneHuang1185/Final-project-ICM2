@@ -7,6 +7,7 @@ namespace Resource {
     
     constexpr char menu_backgorund_img_path[] = "assets/image/menu_background.png";
     constexpr char menu_bgm[] = "assets/sound/menu_bgm.mp3";
+    constexpr char moon_bgm[] = "assets/sound/moon_bgm.mp3";
 
     constexpr char introduction_background_img_path[] = "assets/image/introduction_background.png";
 

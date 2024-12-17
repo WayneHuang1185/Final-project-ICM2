@@ -75,7 +75,7 @@ bool Gamescene_moon::update() {
 	SoundCenter *SC = SoundCenter::get_instance();
 
 	if(BGM_played){
-		background_music = SC->play(Resource::earth_background_music, ALLEGRO_PLAYMODE_LOOP);
+		background_music = SC->play(Resource::moon_bgm, ALLEGRO_PLAYMODE_LOOP);
 		BGM_played = false;
 	}
 
