@@ -7,6 +7,8 @@
 #include "../Scene/Gamescene_earth.h"
 #include "../Scene/Gamescene_earth_2.h"
 #include "../Scene/Gamescene_moon.h"
+#include "../Scene/Introduction.h"
+
 enum class HeroState{
     RUN,STOP,JUMP,HOLD,MAX_STATE,HOLD_UP
 };
@@ -48,6 +50,7 @@ public:
     friend class Gamescene_earth2;
     friend class Gamescene_moon;
     friend class Platform;
+    friend class Introduction;
 private:
     bool teleport_to_earth2 = false;
     bool teleport_to_moon = false;

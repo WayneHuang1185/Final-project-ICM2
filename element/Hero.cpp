@@ -268,12 +268,11 @@ void Hero::update(){
         rect->update_center_x((rect->x2 - rect->x1)/2);
     else
         rect->update_center_x(rect->center_x() + x_speed);
-    // if(rect->y1+y_speed<0){
-    //     rect->update_center_y((rect->y2 - rect->y1)/2);
-    //     y_speed=0;
-    // }
-    // else
-    rect->update_center_y(rect->center_y() + y_speed);
+    if(rect->y1+y_speed<0){
+        rect->update_center_y((rect->y2 - rect->y1)/2);
+        y_speed=0;
+    }
+    else rect->update_center_y(rect->center_y() + y_speed);
     on_platform = false;
     hold=false;
     double x_buffer=platforms->get_block_width()/10;

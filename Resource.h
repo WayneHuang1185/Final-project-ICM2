@@ -8,6 +8,8 @@ namespace Resource {
     constexpr char menu_backgorund_img_path[] = "assets/image/menu_background.png";
     constexpr char menu_bgm[] = "assets/sound/menu_bgm.mp3";
 
+    constexpr char introduction_background_img_path[] = "assets/image/introduction_background.png";
+
     constexpr char earth_background_img_path[] = "assets/image/earth_background.jpg";
     constexpr char moon_background_img_path[] = "assets/image/moon_background.png";
     constexpr char earth_background_music[] = "assets/sound/BackgroundMusic.ogg";
@@ -26,6 +28,8 @@ namespace Resource {
     constexpr char fire_block[] = "assets/image/fire_block.png";
     constexpr char tool_glass[]="assets/image/tool_glasses.png";
     constexpr char tool_treasure[]="assets/image/tool_treasure.png";
+
+    constexpr char map_introduction[] = "assets/map_introduction.txt";
 
     constexpr char map_earth[] = "assets/map_earth.txt";
     constexpr char map_earth_2[] = "assets/map_earth_2.txt";
