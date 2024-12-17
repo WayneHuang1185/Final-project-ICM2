@@ -23,7 +23,7 @@ void Gamescene_mars::init() {
 	RectangleParams move_block_1 = {1,true,true,true,false,1.0, 0.0, DC->window_width/20*10, DC->window_width/20*16};
 	
     //Load the background
-    background_img = IC->get(Resource::earth_background_img_path);
+    background_img = IC->get(Resource::mars_background_img_path);
 	mars_wall = IC->get(Resource::earth_wall);
 	mars_land = IC->get(Resource::earth_land);
 	mars_mud = IC->get(Resource::earth_mud);
