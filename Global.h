@@ -15,6 +15,7 @@ enum class Scenetype{
     Game_earth_2,
     earth2_to_moon,
     Game_moon,
+    Game_mars,
     Fail,
     Ending,
     Leave,

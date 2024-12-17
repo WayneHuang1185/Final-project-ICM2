@@ -49,6 +49,7 @@ public:
     friend class Gamescene_earth;
     friend class Gamescene_earth2;
     friend class Gamescene_moon;
+    friend class Gamescene_mars;
     friend class Platform;
     friend class Introduction;
 private:
