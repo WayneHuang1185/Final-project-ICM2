@@ -29,6 +29,7 @@ DataCenter::DataCenter() {
 	rocket = new Rocket();
 	rocket2 = new Rocket2();
 	energy = new Energy();	
+	cybertruck = new Cybertruck();
 }
 
 DataCenter::~DataCenter() {
@@ -49,4 +50,5 @@ DataCenter::~DataCenter() {
 	delete rocket;
 	delete rocket2;
 	delete energy;
+	delete cybertruck;
 }

@@ -19,6 +19,7 @@ namespace DataSetting {
 #include "../element/Earth_to_moon_rocket.h"
 #include "../element/Moon_to_mars_rocket.h"
 #include "../element/Energy.h"
+#include "../element/Cybertruck.h"
 class Player;
 class Level;
 class Monster;
@@ -31,6 +32,7 @@ class Platform;
 class Glasses;
 class Rocket;
 class Rocket2;
+class Cybertruck;
 
 /**
  * @brief Stores generic global data and relatively small data structures.
@@ -118,6 +120,7 @@ public:
 	Rocket *rocket;
 	Rocket2 *rocket2;
 	Energy *energy;
+	Cybertruck *cybertruck;
 private:
 	DataCenter();
 };

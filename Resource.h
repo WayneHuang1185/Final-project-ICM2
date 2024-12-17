@@ -45,6 +45,8 @@ namespace Resource {
     constexpr char map_mars[] = "assets/map_mars.txt";
 
     constexpr char elon_happy[] = "assets/gif/elon_happy.gif";
+
+    constexpr char cybertruck[] = "assets/image/cybertruck.png";
 }
 
 #endif

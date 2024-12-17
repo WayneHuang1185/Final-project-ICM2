@@ -26,7 +26,7 @@ void Ending::init(){
     GIFCenter *GIFC = GIFCenter::get_instance();
 
     background_img = IC->get(Resource::ending_background_img_path);
-    gif = GIFC->get(Resource::elon_happy);
+    // gif = GIFC->get(Resource::elon_happy);
 
     button_width = 200;
     button_height = 100;
