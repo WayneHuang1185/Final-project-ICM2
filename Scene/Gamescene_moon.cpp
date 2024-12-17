@@ -57,6 +57,7 @@ void Gamescene_moon::init() {
 
 	// Initialize other elements
     DC->platforms->init();
+	DC->rocket2->init();
 
 	button_width = 200;
 	button_height = 90;
@@ -65,6 +66,8 @@ void Gamescene_moon::init() {
 	pause_menu_button_y = pause_tryagain_button_y + 150;
 	button_color = al_map_rgb(255, 180, 100);
 	button_hover_color = al_map_rgb(255, 230, 150);  
+
+	DC->hero->teleport_to_mars = false;
 	state = STATE::PLAYING;
 	Gamescene_moon::BGM_played = true;
 }
@@ -94,6 +97,8 @@ bool Gamescene_moon::update() {
 		DC->hero->update();
 
 		DC->platforms->update();
+
+		DC->rocket2->update();
 
 		OC->update();
 		// game_update is finished. The states of current frame will be previous states of the next frame.
@@ -135,6 +140,18 @@ bool Gamescene_moon::update() {
             return true;
 		}
 	}
+	
+	if(DC->hero->teleport_to_mars){
+		DC->hero->died_count = 0;
+		SC->stop_playing(background_music);
+		window = Scenetype::moon_to_mars;
+		DC->hero->teleport_to_mars = false;
+		std::cout << "Switching to Gamescene_mars" << std::endl;
+		return false;
+	}
+
+	// std::cout << " teleport_to_mars: " << DC->hero->teleport_to_mars << std::endl;
+
 	memcpy(DC->prev_key_state, DC->key_state, sizeof(DC->key_state));
 	memcpy(DC->prev_mouse_state, DC->mouse_state, sizeof(DC->mouse_state));
 	return true;
@@ -144,12 +161,14 @@ void Gamescene_moon::draw(){
 	DataCenter *DC = DataCenter::get_instance();
 	OperationCenter *OC = OperationCenter::get_instance();
 	FontCenter *FC = FontCenter::get_instance();
+	Rocket2* rocket2 = DC->rocket2;
 	//Flush the screen first.
 	al_clear_to_color(al_map_rgb(100, 100, 100));
 	// background
 	al_draw_bitmap(background_img, 0, 0, 0);
-	DC->hero->draw();
 	OC->draw();
+	DC->rocket2->draw();
+	if(!rocket2->isgoing_up) DC->hero->draw();
 	DC->platforms->draw();
 	switch(state) {
 		case STATE::PLAYING:{

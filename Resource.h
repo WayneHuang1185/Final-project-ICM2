@@ -28,6 +28,7 @@ namespace Resource {
     constexpr char moon_wall[] = "assets/image/moon_wall.png";
     constexpr char moon_ice[] = "assets/image/moon_ice.png";
     constexpr char moon_land[] = "assets/image/moon_land.png";
+    constexpr char moon_to_mars_rocket[] = "assets/image/spacex_rocket.png";
     constexpr char fire_block[] = "assets/image/fire_block.png";
     constexpr char tool_glass[]="assets/image/tool_glasses.png";
     constexpr char tool_treasure[]="assets/image/tool_treasure.png";

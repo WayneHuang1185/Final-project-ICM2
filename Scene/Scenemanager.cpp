@@ -8,6 +8,7 @@
 #include "Gamescene_moon.h"
 #include "earth1_to_earth2.h"
 #include "earth2_to_moon.h"
+#include "moon_to_mars.h"
 #include "Gamescene_mars.h"
 #include "Ending.h"
 
@@ -53,6 +54,10 @@ void Scenemanager::Create_Scene(Scenetype &type) {
         case Scenetype::Game_moon:
             currentScene = new Gamescene_moon();
             std::cout << "Create_Scene gamescene_moon" << std::endl;
+            break;
+        case Scenetype::moon_to_mars:
+            currentScene = new moon2mars();
+            std::cout << "transfer to mars" << std::endl;
             break;
         case Scenetype::Game_mars:
             currentScene = new Gamescene_mars();

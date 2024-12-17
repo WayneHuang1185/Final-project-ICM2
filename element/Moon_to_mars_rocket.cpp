@@ -10,22 +10,22 @@ void Rocket2::init(){
     ImageCenter *IC = ImageCenter::get_instance();
 	FontCenter *FC = FontCenter::get_instance();
 
-    Rocket = IC->get(Resource::earth_to_moon_rocket);
+    Rocket2 = IC->get(Resource::moon_to_mars_rocket);
 
-    img_width = al_get_bitmap_width(Rocket);
-    img_height = al_get_bitmap_height(Rocket);
+    img_width = al_get_bitmap_width(Rocket2);
+    img_height = al_get_bitmap_height(Rocket2);
 
-    RectangleParams Rocket = normal_block;
+    RectangleParams Rocket2 = normal_block;
 
 
     shape.reset(
         new Rectangle(
-            DC->window_width/20 * 16,
-            DC->window_height/12 * 8.5,
-            DC->window_width/20 * 16 + img_width,
-            DC->window_height/12 * 8.5 + img_height,
+            DC->window_width/20 * 4.5,
+            DC->window_height/12 - 90,
+            DC->window_width/20 * 4.5 + img_width,
+            DC->window_height/12 - 90 + img_height,
             0,
-            Rocket
+            Rocket2
         )
     );
 
@@ -45,16 +45,16 @@ void Rocket2::update(){
     if(shape->overlap(*hero->shape)){
         if(DC->key_state[ALLEGRO_KEY_T]){
             isgoing_up = true;
-            move_up_frames_left = 200;
+            move_up_frames_left = 50;
         }
     }
 
     if(isgoing_up && move_up_frames_left > 0){
-        rocket_rect = dynamic_cast<Rectangle*>(shape.get());
+        rocket2_rect = dynamic_cast<Rectangle*>(shape.get());
         hero_rect = dynamic_cast<Rectangle*>(hero->shape.get());
 
-        rocket_rect->y1 -= move_up_speed;
-        rocket_rect->y2 -= move_up_speed;
+        rocket2_rect->y1 -= move_up_speed;
+        rocket2_rect->y2 -= move_up_speed;
 
         hero_rect->update_center_y(hero_rect->center_y() - move_up_speed);
 
@@ -73,7 +73,7 @@ void Rocket2::draw(){
 
     Rectangle *rect = dynamic_cast<Rectangle*>(shape.get());
     al_draw_bitmap(
-        Rocket,
+        Rocket2,
         rect->center_x() - img_width / 2.0,
         rect->center_y() - img_height / 2.0,
         0

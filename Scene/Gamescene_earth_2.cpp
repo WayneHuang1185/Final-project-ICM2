@@ -170,7 +170,7 @@ bool Gamescene_earth2::update() {
 	}
 
 	
-	std::cout << " teleport_to_moon:  " << DC->hero->teleport_to_moon << std::endl;
+	// std::cout << " teleport_to_moon:  " << DC->hero->teleport_to_moon << std::endl;
 
 	memcpy(DC->prev_key_state, DC->key_state, sizeof(DC->key_state));
 	memcpy(DC->prev_mouse_state, DC->mouse_state, sizeof(DC->mouse_state));

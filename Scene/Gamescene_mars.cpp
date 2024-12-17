@@ -91,6 +91,7 @@ bool Gamescene_mars::update() {
 		DC->platforms->update();
 
 		OC->update();
+
 		// game_update is finished. The states of current frame will be previous states of the next frame.
 		if(DC->hero->hero_injured){
 			DC->hero->init();

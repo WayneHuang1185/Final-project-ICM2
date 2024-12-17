@@ -19,6 +19,7 @@
 #include "../data/FontCenter.h"
 
 #include "../Scene/Gamescene_earth_2.h"
+#include "../Scene/Gamescene_mars.h"
 
 #include "Hero.h"
 
@@ -29,11 +30,12 @@ class Rocket2 : public Object{
         void draw() override;
         friend class Gamescene_earth2;
         friend class Gamescene_moon;
+        friend class Gamescene_mars;
         friend class Hero;
     private:
-        ALLEGRO_BITMAP *Rocket;
+        ALLEGRO_BITMAP *Rocket2;
 
-        Rectangle* rocket_rect;
+        Rectangle* rocket2_rect;
         Rectangle* hero_rect;
         
         int img_width;

@@ -160,7 +160,9 @@ void Hero::update(){
     DataCenter* DC = DataCenter::get_instance();
     Platform* platforms = DC->platforms;
     Rocket *rocket = DC->rocket;
+    Rocket2 *rocket2 = DC->rocket2;
     Rectangle* rocket_rect = dynamic_cast<Rectangle*>(rocket->shape.get());
+    Rectangle* rocket2_rect = dynamic_cast<Rectangle*>(rocket2->shape.get());
     Rectangle* rect = dynamic_cast<Rectangle*>(shape.get());
     GIFCenter *GIFC = GIFCenter::get_instance();
     ALGIF_ANIMATION *gif = GIFC->get(gifpath[{state,dir}]);
@@ -292,12 +294,12 @@ void Hero::update(){
                     jump_count = 0;
                     if(platform.can_move) current_platform = &platform;
                     else current_platform = nullptr;
-                    std::cout<<"TOP\n";
+                    //std::cout<<"TOP\n";
                     break;
                 case CollisionType::Bottom:
                     rect->update_center_y(platform.y2 + (rect->y2 - rect->y1) / 2); 
                     y_speed =-max_jump_speed/10;    
-                    std::cout<<"BOTTOM\n";
+                    //std::cout<<"BOTTOM\n";
                     break;
                 case CollisionType::Left:
                     if(platform.can_hold && DC->key_state[ALLEGRO_KEY_K]){
@@ -319,7 +321,7 @@ void Hero::update(){
                         rect->update_center_x(platform.x1-(rect->x2-rect->x1)/2);
                     }
                     
-                    std::cout<<"LEFT\n";
+                    //std::cout<<"LEFT\n";
                     break;
                 case CollisionType::Right:
                     if(platform.can_hold && DC->key_state[ALLEGRO_KEY_K]){
@@ -340,7 +342,7 @@ void Hero::update(){
                         x_speed=-x_speed/10;
                         rect->update_center_x(platform.x2+(rect->x2-rect->x1)/2);
                     }
-                    std::cout<<"RIGHT\n";
+                    //std::cout<<"RIGHT\n";
                     break;
                 default:
                     break;
@@ -357,7 +359,7 @@ void Hero::update(){
             y_speed+=up_gravity;
         else
             y_speed+=down_gravity;
-        std::cout<<y_speed<<std::endl;
+        // std::cout<<y_speed<<std::endl;
     }
     if(rect->center_y()<=0){
         rect->update_center_y((rect->y2-rect->y1)/2);
@@ -367,11 +369,14 @@ void Hero::update(){
     else if (!on_platform && rect->y1 >= DC->window_height && rect->center_x() >= die_x_start && rect->center_x() <= die_x_end){
         (hp>1)?hero_injured = true:hero_died = true;
     }
-    else if(!on_platform && rect->y1 >= DC->window_height && rect->center_x() >= die_x_end){
+    if(!on_platform && rect->y1 >= DC->window_height && rect->center_x() >= die_x_end){
         teleport_to_earth2 = true;
     }
-    else if(rocket_rect && rocket_rect->y2 < 0){
+    if(rocket_rect && rocket_rect->y2 < 0){
         teleport_to_moon = true;
+    }
+    if(rocket2_rect && rocket2_rect->y2 < 0){
+        teleport_to_mars = true;
     }
     if(on_platform){
         if(std::abs(x_speed) <= 0.5){
@@ -431,28 +436,28 @@ void Hero::draw(){
         );
         switch(state){
         case HeroState::JUMP:
-            std::cout<<"JUMP\n";
+            // std::cout<<"JUMP\n";
             break;
         case HeroState::RUN:
-            std::cout<<"RUN\n";
+            // std::cout<<"RUN\n";
             break;
         case HeroState::STOP:
-            std::cout<<"STOP\n";
+            // std::cout<<"STOP\n";
             break;
         }
         switch(dir){
             case HeroDir::LEFT:
-                std::cout<<"LEFT\n";
+                // std::cout<<"LEFT\n";
                 break;
             case HeroDir::RIGHT:
-                std::cout<<"RIGHT\n";
+                //std::cout<<"RIGHT\n";
                 break;
             case HeroDir::UP:
-                std::cout<<"UP\n";
+                //std::cout<<"UP\n";
                 break;
         }
-        std::cout<<"dash_redy:"<<(dash_redy)?1:0<<'\n';
-        std::cout<< "x_speed = " <<x_speed<<" "<< "y_speed = " << y_speed<<" "<< "on_platform = " <<on_platform<<std::endl;
+        //std::cout<<"dash_redy:"<<(dash_redy)?1:0<<'\n';
+        //std::cout<< "x_speed = " <<x_speed<<" "<< "y_speed = " << y_speed<<" "<< "on_platform = " <<on_platform<<std::endl;
     }
 
 
