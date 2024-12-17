@@ -22,8 +22,9 @@ void Gamescene_mars::init() {
 	FC->init();
 	RectangleParams move_block_1 = {1,true,true,true,false,1.0, 0.0, DC->window_width/20*10, DC->window_width/20*16};
 	RectangleParams bounding_block={7,false,true,true,false};
-	RectangleParams gravity_block_up1={8,true,true,true,false,0.0,-0.8,0.0,0.0,216.0,Detect_side::GD};
-	RectangleParams gravity_block_right1={8,true,true,true,false,3.0,0.0,0.0,0.0,576.0,Detect_side::GL};
+	RectangleParams gravity_block_up1={8,true,true,true,false,0.0,-0.8,0.0,0.0,125.0,Detect_side::GU};
+	RectangleParams gravity_block_down1={8,true,true,true,false,0.0,0.1,0.0,0.0,125.0,Detect_side::GD};
+	RectangleParams gravity_block_left1={8,true,true,true,false,-3.0,0.0,0.0,0.0,360.0,Detect_side::GR};
 	RectangleParams gravity_block_right2={8,true,true,true,false,-3.0,0.0,0.0,0.0,576.0,Detect_side::GR};
     //Load the background
     //Load the background
@@ -40,8 +41,8 @@ void Gamescene_mars::init() {
 	mode[2]=fire_block;
 	mode[3]=bounding_block;
 	mode[4]=gravity_block_up1;
-	mode[5]=gravity_block_right1;
-	mode[6]=gravity_block_right2;
+	mode[5]=gravity_block_left1;
+	mode[6]=gravity_block_down1;
 	mode[8]=move_block_1;
 	mode[9]=normal_block;
 	DC->platforms->loadmap(Resource::map_mars,mode,DC->window_width, DC->window_height);
@@ -236,8 +237,8 @@ void Gamescene_mars::hero_init(){
 	Platform *PLT=DC->platforms;
 	DC->hero->hero_died = false;
 	DC->hero->dash_length = PLT->get_block_height();
-	double spawn_x =36;
-	double spawn_y =675;
+	double spawn_x =108;
+	double spawn_y =750;
 	Rectangle* rect = dynamic_cast<Rectangle*>(DC->hero->shape.get());
     if (rect) {
         rect->update_center_x(spawn_x);
