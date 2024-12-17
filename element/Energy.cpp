@@ -7,6 +7,7 @@ Energy::Energy(){
 }
 Energy::~Energy(){
 }
+
 void Energy::init(){
     DataCenter *DC = DataCenter::get_instance();
     SoundCenter *SC = SoundCenter::get_instance();
