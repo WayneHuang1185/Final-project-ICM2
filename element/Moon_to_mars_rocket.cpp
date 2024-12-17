@@ -21,9 +21,9 @@ void Rocket2::init(){
     shape.reset(
         new Rectangle(
             DC->window_width/20 * 4.5,
-            DC->window_height/12 - 90,
+            DC->window_height/12 - 70,
             DC->window_width/20 * 4.5 + img_width,
-            DC->window_height/12 - 90 + img_height,
+            DC->window_height/12 - 70 + img_height,
             0,
             Rocket2
         )
